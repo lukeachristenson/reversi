@@ -1,25 +1,25 @@
-import java.util.List;
+import java.util.Optional;
 
 /**
  * This interface represents a model for a game of Reversi.
  */
-public interface ReversiModel {
+public interface IReversiModel {
+  void startGame(int sideLength);
+
   /**
    * Returns the dimensions of the board which varies depending on the type of board.
    *
    * @return the dimensions of the board as a list of integers.
    */
-  List<Integer> getDimensions();
+  int getDimensions();
 
   /**
    * Returns the cell at the given row and column.
    *
-   * @param row the row of the cell to return
-   * @param col the column of the cell to return
    * @return the cell at the given row and column
    * @throws IllegalArgumentException if the given row or column is out of bounds
    */
-  ICell getCellAt(int row, int col) throws IllegalArgumentException;
+  Optional<PlayerEnum.Player> getCellState(ICell cell) throws IllegalArgumentException;
 
   /**
    * Returns the current score of the given player.
@@ -45,13 +45,12 @@ public interface ReversiModel {
   boolean isGameOver();
 
   /**
-   * Attempts to place a piece of the current player's color at the given row and column.
+   * Attempts to place a piece of the current player's color at the given Cell.
    *
-   * @param row the row at which to place the piece
-   * @param col the column at which to place the piece
+   * @param targetCell the Cell at which to place the piece
    * @throws IllegalArgumentException if the given row or column is out of bounds, or if the
    */
-  void placePiece(int row, int col) throws IllegalArgumentException;
+  void placePiece(ICell targetCell, PlayerEnum.Player player) throws IllegalStateException;
 
 }
 
