@@ -2,35 +2,40 @@ import java.util.Optional;
 
 /**
  * This class represents a game of HexReversi. It implements the IReversiModel interface.
- * HexReversi is a hexagonal version of the game Reversi
+ * HexReversi is a hexagonal version of the game Reversi.
  */
 public class HexagonReversi implements IReversiModel{
   IBoard board;
-  PlayerEnum.Player currentPlayer;
+  Player currentPlayer;
   int passCount;
   boolean gameStarted;
   int sideLength;
 
   /**
-   * Constructs a HexReversi game object.
+   * Constructor for a HexagonReversi model. Takes in a board, current player, pass count, and
+   * whether the game has started or not.
+   * @param board the board to be used.
+   * @param currentPlayer the current player.
+   * @param passCount the number of times a player has passed.
+   * @param gameStarted whether the game has started or not.
+   * @param sideLength the side length of the board.
+   * @throws IllegalArgumentException if the side length is less than 3
    */
-  public HexagonReversi() {
-    this.board = new HexagonBoard(sideLength);
-    this.currentPlayer = PlayerEnum.Player.BLACK;
-    this.passCount = 0;
-  }
-
-  @Override
-  public void startGame(int sideLength) {
-    if (sideLength < 1) {
-      throw new IllegalArgumentException("Side length must be greater than 0");
-    } else {
-      this.sideLength = sideLength;
-    }
+  public HexagonReversi(IBoard board, Player currentPlayer, int passCount, boolean gameStarted
+          , int sideLength) throws IllegalArgumentException{
     if (gameStarted) {
       throw new IllegalStateException("Game is already started");
     }
+    if (sideLength < 3) {
+      throw new IllegalArgumentException("Side length must be greater than 2");
+    } else {
+      this.sideLength = sideLength;
+    }
+    this.board = new HexagonBoard(sideLength);
+    this.currentPlayer = Player.BLACK;
+    this.passCount = 0;
     this.initBoard(sideLength);
+    this.addStartingMoves();
   }
 
   //helper to check if the game is started before running any other command.
@@ -50,15 +55,26 @@ public class HexagonReversi implements IReversiModel{
         }
       }
     }
-    this.addStartingMoves();
   }
 
-  //todo
-  // make this helper add the starting moves to the board
-  private void addStartingMoves(){}
+  //helper to add the starting moves of each player
+  private void addStartingMoves() {
+    Player playerToAdd = currentPlayer;
+    this.board.newCellOwner(new HexagonCell(0, -1, 1), Optional.of(playerToAdd));
+    playerToAdd = playerToAdd.next();
+    this.board.newCellOwner(new HexagonCell(1, -1, 0), Optional.of(playerToAdd));
+    playerToAdd = playerToAdd.next();
+    this.board.newCellOwner(new HexagonCell(1, 0, -1), Optional.of(playerToAdd));
+    playerToAdd = playerToAdd.next();
+    this.board.newCellOwner(new HexagonCell(0, 1, -1), Optional.of(playerToAdd));
+    playerToAdd = playerToAdd.next();
+    this.board.newCellOwner(new HexagonCell(-1, 1, 0), Optional.of(playerToAdd));
+    playerToAdd = playerToAdd.next();
+    this.board.newCellOwner(new HexagonCell(-1, 0, 1), Optional.of(playerToAdd));
+  }
 
   @Override
-  public void placePiece(ICell targetCell, PlayerEnum.Player player) throws IllegalStateException
+  public void placePiece(ICell targetCell, Player player) throws IllegalStateException
           , IllegalArgumentException {
     this.gameStartedChecker();
     if (this.board.validMove(targetCell, this.currentPlayer)) {
@@ -71,27 +87,37 @@ public class HexagonReversi implements IReversiModel{
   }
 
   @Override
+  public void passTurn() throws IllegalStateException {
+    this.gameStartedChecker();
+    this.passCount++;
+    if (this.passCount == Player.values().length) {
+      this.gameStarted = false;
+    }
+    this.currentPlayer = this.currentPlayer.next();
+  }
+
+  @Override
   public int getDimensions() throws IllegalStateException {
     this.gameStartedChecker();
     return this.sideLength;
   }
 
   @Override
-  public Optional<PlayerEnum.Player> getCellState(ICell cell) throws IllegalArgumentException
+  public Optional<Player> getCellState(ICell cell) throws IllegalArgumentException
           , IllegalStateException {
     this.gameStartedChecker();
     return this.board.getCellState(cell);
   }
 
   @Override
-  public int getScore(PlayerEnum.Player player) throws IllegalArgumentException
+  public int getScore(Player player) throws IllegalArgumentException
           , IllegalStateException {
     this.gameStartedChecker();
     int score = 0;
     for (int x = -sideLength; x < sideLength; x++) {
       for (int y = -sideLength; y < sideLength; y++) {
         for (int z = -sideLength; z < sideLength; z++) {
-          Optional<PlayerEnum.Player> cellPlayer = this.board.getCellState(new HexagonCell(x, y, z));
+          Optional<Player> cellPlayer = this.board.getCellState(new HexagonCell(x, y, z));
           if (cellPlayer.isPresent() && cellPlayer.get().equals(player)) {
             score++;
           }
@@ -102,7 +128,7 @@ public class HexagonReversi implements IReversiModel{
   }
 
   @Override
-  public PlayerEnum.Player getCurrentPlayer() throws IllegalStateException{
+  public Player getCurrentPlayer() throws IllegalStateException{
     this.gameStartedChecker();
     return this.currentPlayer;
   }

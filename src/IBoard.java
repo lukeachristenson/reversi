@@ -6,17 +6,17 @@ public interface IBoard {
    * @param cell
    * @param player
    */
-  public void newCellOwner(ICell cell, Optional<PlayerEnum.Player> player);
+  public void newCellOwner(ICell cell, Optional<Player> player);
 
   /**
    * Gets the state of the cell, meaning who owns it currently, or if it is empty.
    *
    * @param cell
    */
-  public Optional<PlayerEnum.Player> getCellState(ICell cell);
+  public Optional<Player> getCellState(ICell cell);
 
   /**
    * Returns whether a move is valid or not.
    */
-  public boolean validMove(ICell cell, PlayerEnum.Player player) throws IllegalArgumentException;
+  public boolean validMove(ICell cell, Player player) throws IllegalArgumentException;
 }

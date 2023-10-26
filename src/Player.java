@@ -1,4 +1,4 @@
-public class PlayerEnum {
+
   public enum Player {
     BLACK, WHITE;
 
@@ -10,5 +10,4 @@ public class PlayerEnum {
       return values()[(this.ordinal() + 1) % values().length];
     }
   }
-}
 
