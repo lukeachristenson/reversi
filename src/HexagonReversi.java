@@ -4,7 +4,7 @@ import java.util.Optional;
  * This class represents a game of HexReversi. It implements the IReversiModel interface.
  * HexReversi is a hexagonal version of the game Reversi
  */
-public class HexReversi implements IReversiModel{
+public class HexagonReversi implements IReversiModel{
   IBoard board;
   PlayerEnum.Player currentPlayer;
   int passCount;
@@ -14,7 +14,7 @@ public class HexReversi implements IReversiModel{
   /**
    * Constructs a HexReversi game object.
    */
-  public HexReversi() {
+  public HexagonReversi() {
     this.board = new HexagonBoard(sideLength);
     this.currentPlayer = PlayerEnum.Player.BLACK;
     this.passCount = 0;
