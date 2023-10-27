@@ -1,9 +1,11 @@
+package model;
 import java.util.Optional;
 
 /**
  * This interface represents a model for a game of Reversi.
  */
-public interface IReversiModel {
+public interface IReversiModel{
+
 
   /**
    * Returns the dimensions of the board which varies depending on the type of board.
@@ -58,5 +60,11 @@ public interface IReversiModel {
    */
   public void passTurn() throws IllegalStateException;
 
+
+  /**
+   * Returns the model's board.
+   * @return  IBoard  The model's board.
+   */
+  public IBoard getBoard();
 }
 

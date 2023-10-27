@@ -1,3 +1,4 @@
+package model;
 import java.util.Optional;
 
 public interface IBoard {
@@ -19,4 +20,11 @@ public interface IBoard {
    * Returns whether a move is valid or not.
    */
   public boolean validMove(ICell cell, Player player) throws IllegalArgumentException;
+
+
+  /**
+   * Renders the board as a string.
+   * @return  Rendered string for the board.
+   */
+  public String toString();
 }

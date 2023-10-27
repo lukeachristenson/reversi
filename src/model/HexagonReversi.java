@@ -1,3 +1,4 @@
+package model;
 import java.util.Optional;
 
 /**
@@ -100,6 +101,11 @@ public class HexagonReversi implements IReversiModel{
       this.gameStarted = false;
     }
     this.currentPlayer = this.currentPlayer.next();
+  }
+
+  @Override
+  public IBoard getBoard() {
+    return this.board;
   }
 
   @Override

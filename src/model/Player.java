@@ -1,4 +1,4 @@
-
+package model;
   public enum Player {
     BLACK, WHITE;
 
@@ -8,6 +8,14 @@
      */
     public Player next() {
       return values()[(this.ordinal() + 1) % values().length];
+    }
+
+    public String toString() {
+      if(this.equals(BLACK)) {
+        return "B";
+      } else {
+        return "W";
+      }
     }
   }
 
