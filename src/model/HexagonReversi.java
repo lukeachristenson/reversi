@@ -1,5 +1,6 @@
 package model;
 import java.util.Optional;
+import java.util.Spliterator;
 
 /**
  * This class represents a game of HexReversi. It implements the IReversiModel interface.
@@ -15,15 +16,10 @@ public class HexagonReversi implements IReversiModel{
   /**
    * Constructor for a HexagonReversi model. Takes in a board, current player, pass count, and
    * whether the game has started or not.
-   * @param board the board to be used.
-   * @param currentPlayer the current player.
-   * @param passCount the number of times a player has passed.
-   * @param gameStarted whether the game has started or not.
    * @param sideLength the side length of the board.
    * @throws IllegalArgumentException if the side length is less than 3
    */
-  public HexagonReversi(IBoard board, Player currentPlayer, int passCount, boolean gameStarted
-          , int sideLength) throws IllegalArgumentException{
+  public HexagonReversi(int sideLength) throws IllegalArgumentException{
     if (gameStarted) {
       throw new IllegalStateException("Game is already started");
     }
@@ -32,10 +28,11 @@ public class HexagonReversi implements IReversiModel{
     } else {
       this.sideLength = sideLength;
     }
-    this.board = new HexagonBoard(sideLength);
+
+    this.gameStarted = true;
     this.currentPlayer = Player.BLACK;
     this.passCount = 0;
-    this.initBoard(sideLength);
+    this.board = this.initBoard(sideLength-1); // rings excluding the center cell = sideLength - 1
     this.addStartingMoves();
   }
 
@@ -47,31 +44,28 @@ public class HexagonReversi implements IReversiModel{
   }
 
   //helper to initialize a board based on sideLength
-  private void initBoard(int sideLength) throws IllegalStateException{
-    this.gameStartedChecker();
-    for (int x = -sideLength; x < sideLength; x++) {
-      for (int y = -sideLength; y < sideLength; y++) {
-        for (int z = -sideLength; z < sideLength; z++) {
-          this.board.newCellOwner(new HexagonCell(x,y,z), Optional.empty());
-        }
+  private IBoard initBoard(int rings) throws IllegalStateException{
+    IBoard hexReturn = new HexagonBoard(rings + 1);
+    for (int q = -rings; q <= rings; q++) {
+      int r1 = Math.max(-rings, -q - rings);
+      int r2 = Math.min(rings, -q + rings);
+
+      for (int r = r1; r <= r2; r++) {
+        HexagonCell hp = new HexagonCell(q, r, -q-r);
+        hexReturn.newCellOwner(hp, Optional.empty());
       }
     }
+    return hexReturn;
   }
 
   //helper to add the starting moves of each player
   private void addStartingMoves() {
-    Player playerToAdd = currentPlayer;
-    this.board.newCellOwner(new HexagonCell(0, -1, 1), Optional.of(playerToAdd));
-    playerToAdd = playerToAdd.next();
-    this.board.newCellOwner(new HexagonCell(1, -1, 0), Optional.of(playerToAdd));
-    playerToAdd = playerToAdd.next();
-    this.board.newCellOwner(new HexagonCell(1, 0, -1), Optional.of(playerToAdd));
-    playerToAdd = playerToAdd.next();
-    this.board.newCellOwner(new HexagonCell(0, 1, -1), Optional.of(playerToAdd));
-    playerToAdd = playerToAdd.next();
-    this.board.newCellOwner(new HexagonCell(-1, 1, 0), Optional.of(playerToAdd));
-    playerToAdd = playerToAdd.next();
-    this.board.newCellOwner(new HexagonCell(-1, 0, 1), Optional.of(playerToAdd));
+    this.board.newCellOwner(new HexagonCell(-1, 1, 0), Optional.of(Player.BLACK));
+    this.board.newCellOwner(new HexagonCell(-1, 0, 1), Optional.of(Player.WHITE));
+    this.board.newCellOwner(new HexagonCell(1, 0, -1), Optional.of(Player.BLACK));
+    this.board.newCellOwner(new HexagonCell(1, -1, 0), Optional.of(Player.WHITE));
+    this.board.newCellOwner(new HexagonCell(0, -1, 1), Optional.of(Player.BLACK));
+    this.board.newCellOwner(new HexagonCell(0, 1, -1), Optional.of(Player.WHITE));
   }
 
   @Override

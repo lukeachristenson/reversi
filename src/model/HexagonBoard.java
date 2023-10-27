@@ -1,14 +1,13 @@
 package model;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 public class HexagonBoard implements IBoard {
   private final HashMap<ICell, Optional<Player>> boardPositions;
   private final int sideLength;
-
   public HexagonBoard(int sideLength) {
     this.boardPositions = new HashMap<>();
     this.sideLength = sideLength;
@@ -16,6 +15,9 @@ public class HexagonBoard implements IBoard {
 
   @Override
   public void newCellOwner(ICell cell, Optional<Player> player) {
+    if(boardPositions.containsKey(cell)) {
+      boardPositions.remove(cell);
+    }
     this.boardPositions.put(cell, player);
   }
 
@@ -43,7 +45,7 @@ public class HexagonBoard implements IBoard {
     // Create a 2D array to represent the board
     String[][] boardArray = new String[rows][columns];
 
-    // Initialize the board with "X" for empty cells
+    // Initialize the array with " " for empty cells
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < columns; j++) {
         boardArray[i][j] = " ";
@@ -54,9 +56,9 @@ public class HexagonBoard implements IBoard {
     for (ICell cell : boardPositions.keySet()) {
       Optional<Player> occupant = boardPositions.get(cell);
       List<Integer> coordinates = cell.getCoordinates();
-      int x = coordinates.get(0) + sideLength;
-      int y = coordinates.get(1) + sideLength;
-      boardArray[y][x] = occupant.map(player -> player.toString()).orElse("X");
+      int x = coordinates.get(0) + sideLength; //q
+      int y = coordinates.get(1) + sideLength; //r
+      boardArray[y][x] = occupant.map(Player::toString).orElse("-");
     }
 
     // Adjusts the spacing for every line in the board
@@ -65,7 +67,6 @@ public class HexagonBoard implements IBoard {
         boardArray[i][0] = boardArray[i][0] + " ";
       }
     }
-
 
     // Build the string representation of the board
     StringBuilder boardString = new StringBuilder();
