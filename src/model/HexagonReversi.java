@@ -1,4 +1,5 @@
 package model;
+import java.util.List;
 import java.util.Optional;
 import java.util.Spliterator;
 
@@ -75,13 +76,15 @@ public class HexagonReversi implements IReversiModel{
     if (this.board.validMove(targetCell, this.currentPlayer)) {
       this.flipEverythingBetweenCells(targetCell, this.currentPlayer);
       //fixme this would handle only the target cell
-//      this.board.newCellOwner(targetCell, Optional.of(this.currentPlayer));
+
+      // this.board.newCellOwner(targetCell, Optional.of(this.currentPlayer));
       this.passCount = 0;
       this.currentPlayer = this.currentPlayer.next();
     } else {
       throw new IllegalStateException("Invalid move");
     }
   }
+
 
   //this helper will use newCellOwner to flip everything new to be flipped over.
   private void flipEverythingBetweenCells(ICell targetCell, Player player) {
@@ -153,4 +156,6 @@ public class HexagonReversi implements IReversiModel{
     }
     return true;
   }
+
+
 }
