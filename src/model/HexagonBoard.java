@@ -27,6 +27,17 @@ public class HexagonBoard implements IBoard {
   @Override
   public boolean validMove(ICell cell, Player playerToAdd) {
 
+    // Throw an exception if the coordinates are out of bounds of the hexagonal grid.
+    if(!(Math.abs(cell.getCoordinates().get(0)) < sideLength)
+            || !(Math.abs(cell.getCoordinates().get(1)) < sideLength)
+            || !(Math.abs(cell.getCoordinates().get(2)) < sideLength)) {
+      throw new IllegalArgumentException("Invalid coordinates for the target cell, " +
+              "coordinates out of bounds");
+    }
+
+    // Throw an exception if the sum of coordinates is not 0.
+    // ************** Note: Handled in the constructor of HexagonCell. **************
+
     // Define direction vectors for the six possible directions when placing a piece
     // (1, -1, 0) -> Up 1, Right 1
     // (-1, 1, 0) -> Down 1, Left 1
@@ -62,24 +73,24 @@ public class HexagonBoard implements IBoard {
               && Math.abs(targetR) < sideLength
               && Math.abs(targetS) < sideLength) {
         ICell targetCell = new HexagonCell(targetQ, targetR, targetS);
-        // If the cell is empty, this whole direction must return false
-        if (!boardPositions.get(targetCell).isPresent()) {
-          foundOppositeColor = false;
+
+        // If the cell is occupied by an empty, return false
+        if (boardPositions.get(targetCell).isEmpty()) {
           break;
         }
 
-        // If the adjacent player's color is the opposite, set foundOppositeColor to true.
-        if (!boardPositions.get(targetCell).equals(playerToAdd)) {
+        // If the cell is occupied by the opposite player, set foundOppositeColor to true.
+        if (!boardPositions.get(targetCell).equals(Optional.of(playerToAdd))) {
           foundOppositeColor = true;
         }
 
-        if (boardPositions.get(targetCell).equals(playerToAdd)) {
-          System.out.println("HERE");
-
-          if (foundOppositeColor) {
+        // If the cell is occupied by the same player, return true if foundOppositeColor is true.
+        if(boardPositions.get(targetCell).equals(Optional.of(playerToAdd))) {
+          if(foundOppositeColor) {
             return true;
           }
         }
+
         targetQ += qChange;
         targetR += rChange;
         targetS += sChange;
@@ -113,12 +124,12 @@ public class HexagonBoard implements IBoard {
       boardArray[y][x] = occupant.map(Player::toString).orElse("-");
     }
 
-//    // Adjusts the spacing for every line in the board
-//    for(int i = 0 ; i < rows ; i++) {
-//      for(int j = i ; j > 0 ; j--){
-//        boardArray[i][0] = boardArray[i][0] + " ";
-//      }
-//    }
+    // Adjusts the spacing for every line in the board
+    for(int i = 0 ; i < rows ; i++) {
+      for(int j = i ; j > 0 ; j--){
+        boardArray[i][0] = boardArray[i][0] + " ";
+      }
+    }
 
     // Build the string representation of the board
     StringBuilder boardString = new StringBuilder();
@@ -131,6 +142,73 @@ public class HexagonBoard implements IBoard {
 
 
     return boardString.toString();
+  }
+
+  @Override
+  public void flipAllInBetween(ICell cell, Player playerToAdd) {
+    // Throw an exception if the sum of coordinates is not 0.
+    // ************** Note: Handled in the constructor of HexagonCell. **************
+
+    // Define direction vectors for the six possible directions when placing a piece
+    // (1, -1, 0) -> Up 1, Right 1
+    // (-1, 1, 0) -> Down 1, Left 1
+    // (0, -1, 1) -> Up 1, Left 1
+    // (0, 1, -1) -> Down 1, Right 1
+    // (-1, 0, 1) -> Left 1
+    // (1, 0, -1) -> Right 1
+    // difference in row direction
+    int[] dq = {1, -1, 0, 0, -1, 1};
+    // difference in column direction
+    int[] dr = {-1, 1, -1, 1, 0, 0};
+    int[] ds = {0, 0, 1, -1, 1, -1};
+
+    int coordinateQ = cell.getCoordinates().get(0);
+    int coordinateR = cell.getCoordinates().get(1);
+    int coordinateS = cell.getCoordinates().get(2);
+
+
+    for (int direction = 0; direction < 6; direction++) {
+      int qChange = dq[direction];
+      int rChange = dr[direction];
+      int sChange = ds[direction];
+
+      int targetQ = coordinateQ;
+      int targetR = coordinateR;
+      int targetS = coordinateS;
+      targetQ += qChange;
+      targetR += rChange;
+      targetS += sChange;
+      boolean foundOppositeColor = false;
+
+      while (Math.abs(targetQ) < sideLength
+              && Math.abs(targetR) < sideLength
+              && Math.abs(targetS) < sideLength) {
+        ICell targetCell = new HexagonCell(targetQ, targetR, targetS);
+
+        // If the cell is occupied by an empty, return false
+        if (boardPositions.get(targetCell).isEmpty()) {
+          break;
+        }
+
+        // If the cell is occupied by the opposite player, set foundOppositeColor to true.
+        if (!boardPositions.get(targetCell).equals(Optional.of(playerToAdd))) {
+          this.newCellOwner(targetCell, Optional.of(playerToAdd));
+          foundOppositeColor = true;
+        }
+
+        // If the cell is occupied by the same player, break out of the while loop.
+        if(boardPositions.get(targetCell).equals(Optional.of(playerToAdd))) {
+          if(foundOppositeColor) {
+            break;
+          }
+        }
+
+        targetQ += qChange;
+        targetR += rChange;
+        targetS += sChange;
+      }
+    }
+
   }
 
 }

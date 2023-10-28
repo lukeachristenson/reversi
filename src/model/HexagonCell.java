@@ -30,6 +30,10 @@ public class HexagonCell implements ICell {
   }
 
   public HexagonCell(int q, int r, int s) {
+    // Throw an exception if the sum of the coordinates is not zero.
+    if(q + r + s != 0) {
+      throw new IllegalArgumentException("Sum of coordinates is not zero.");
+    }
     this.q = q;
     this.r = r;
     this.s = s;

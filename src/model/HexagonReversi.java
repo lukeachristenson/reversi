@@ -74,11 +74,13 @@ public class HexagonReversi implements IReversiModel{
   public void placePiece(ICell targetCell, Player player) throws IllegalStateException
           , IllegalArgumentException {
     this.gameStartedChecker();
+
     if (this.board.validMove(targetCell, this.currentPlayer)) {
-      this.flipEverythingBetweenCells(targetCell, this.currentPlayer);
+//      this.flipEverythingBetweenCells(targetCell, this.currentPlayer);
+      this.board.flipAllInBetween(targetCell, this.currentPlayer);
       //fixme this would handle only the target cell
 
-      // this.board.newCellOwner(targetCell, Optional.of(this.currentPlayer));
+      this.board.newCellOwner(targetCell, Optional.of(this.currentPlayer));
       this.passCount = 0;
       this.currentPlayer = this.currentPlayer.next();
     } else {
@@ -88,7 +90,7 @@ public class HexagonReversi implements IReversiModel{
 
 
   //this helper will use newCellOwner to flip everything new to be flipped over.
-  private void flipEverythingBetweenCells(ICell targetCell, Player player) {
+  private void flipEverythingBetweenCells(ICell cell, Player player) {
   }
 
   @Override

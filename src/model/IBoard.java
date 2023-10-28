@@ -27,4 +27,10 @@ public interface IBoard {
    * @return  Rendered string for the board.
    */
   public String toString();
+
+
+  /**
+   *
+   */
+  public void flipAllInBetween(ICell cell, Player playerToAdd);
 }

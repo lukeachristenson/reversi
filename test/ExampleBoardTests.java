@@ -28,7 +28,7 @@ public class ExampleBoardTests {
     hexagonBoard.newCellOwner(new HexagonCell(0, 1, -1), Optional.empty());
     hexagonBoard.newCellOwner(new HexagonCell(-1, 1, 0), Optional.empty());
     hexagonBoard.newCellOwner(new HexagonCell(-1, 0, 1), Optional.of(Player.BLACK));
-    hexagonBoard.newCellOwner(new HexagonCell(0, -1, 1), Optional.of(Player.BLACK));
+    hexagonBoard.newCellOwner(new HexagonCell(0, -1, 1), Optional.empty());
 
     hexagonBoard.newCellOwner(new HexagonCell(-2, 2, 0), Optional.of(Player.WHITE));
     hexagonBoard.newCellOwner(new HexagonCell(-1, 2, -1), Optional.of(Player.WHITE));
@@ -44,7 +44,9 @@ public class ExampleBoardTests {
     hexagonBoard.newCellOwner(new HexagonCell(1, -2, 1), Optional.of(Player.WHITE));
     hexagonBoard.newCellOwner(new HexagonCell(2, -2, 0), Optional.of(Player.WHITE));
 
+    System.out.println(hexagonBoard.validMove(new HexagonCell(0, 0, 0), Player.BLACK));
     System.out.println(hexagonBoard.validMove(new HexagonCell(0, 0, 0), Player.WHITE));
+    System.out.println(hexagonBoard.validMove(new HexagonCell(0, -1, 1), Player.WHITE));
 
     System.out.println(hexagonBoard.toString());
   }
@@ -53,6 +55,8 @@ public class ExampleBoardTests {
   public void test() {
     IReversiModel model = new HexagonReversi(6);
     TextView t1 = new ReversiTextView(model);
+
+    model.placePiece(new HexagonCell(-1, -1, 2), Player.BLACK);
 
     System.out.println(t1.toString());
   }
