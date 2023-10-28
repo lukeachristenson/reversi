@@ -13,6 +13,8 @@ import java.util.Objects;
 public class HexagonCell implements ICell {
   private final int q;
   private final int r;
+  private final int s;
+
 
   @Override
   public boolean equals(Object o) {
@@ -26,8 +28,6 @@ public class HexagonCell implements ICell {
   public int hashCode() {
     return Objects.hash(q, r, s);
   }
-
-  private final int s;
 
   public HexagonCell(int q, int r, int s) {
     this.q = q;

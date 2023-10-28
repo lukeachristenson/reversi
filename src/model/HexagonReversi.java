@@ -67,6 +67,7 @@ public class HexagonReversi implements IReversiModel{
     this.board.newCellOwner(new HexagonCell(1, -1, 0), Optional.of(Player.WHITE));
     this.board.newCellOwner(new HexagonCell(0, -1, 1), Optional.of(Player.BLACK));
     this.board.newCellOwner(new HexagonCell(0, 1, -1), Optional.of(Player.WHITE));
+
   }
 
   @Override
