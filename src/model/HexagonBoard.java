@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -33,6 +34,11 @@ public class HexagonBoard implements IBoard {
             || !(Math.abs(cell.getCoordinates().get(2)) < sideLength)) {
       throw new IllegalArgumentException("Invalid coordinates for the target cell, " +
               "coordinates out of bounds");
+    }
+
+    // Throw an exception if the specified cell is occupied by a non-empty player already.
+    if(this.boardPositions.get(cell).isPresent()) {
+      throw new IllegalStateException("Cell is already occupied.");
     }
 
     // Throw an exception if the sum of coordinates is not 0.
@@ -209,6 +215,37 @@ public class HexagonBoard implements IBoard {
       }
     }
 
+  }
+
+  @Override
+  public int getScore(Player player) {
+    int score = 0;
+
+    for(ICell cell : this.boardPositions.keySet()) {
+      if(this.boardPositions.get(cell).equals(Optional.of(player))) {
+        score++;
+      }
+    }
+    return score;
+  }
+
+  @Override
+  public List<ICell> validMovesLeft(Player playerToAdd) {
+
+
+    // Check if for each empty cell:
+    // If the move is a valid move, for the playerToAdd, add that cell to the return list
+//
+//    for(ICell cell : this.boardPositions.keySet()) {
+//      if(cell)
+//    }
+
+
+
+    List<ICell> ret = new ArrayList<>();
+
+
+    return null;
   }
 
 }

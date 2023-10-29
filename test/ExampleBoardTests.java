@@ -55,9 +55,14 @@ public class ExampleBoardTests {
   public void test() {
     IReversiModel model = new HexagonReversi(6);
     TextView t1 = new ReversiTextView(model);
+    System.out.println(t1.toString());
+    System.out.println("Black Score: " + model.getScore(Player.BLACK));
+    System.out.println("White Score: " + model.getScore(Player.WHITE));
 
     model.placePiece(new HexagonCell(-1, -1, 2), Player.BLACK);
 
     System.out.println(t1.toString());
+    System.out.println("Black Score: " + model.getScore(Player.BLACK));
+    System.out.println("White Score: " + model.getScore(Player.WHITE));
   }
 }

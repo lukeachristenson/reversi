@@ -125,18 +125,7 @@ public class HexagonReversi implements IReversiModel{
   public int getScore(Player player) throws IllegalArgumentException
           , IllegalStateException {
     this.gameStartedChecker();
-    int score = 0;
-    for (int x = -sideLength; x < sideLength; x++) {
-      for (int y = -sideLength; y < sideLength; y++) {
-        for (int z = -sideLength; z < sideLength; z++) {
-          Optional<Player> cellPlayer = this.board.getCellState(new HexagonCell(x, y, z));
-          if (cellPlayer.isPresent() && cellPlayer.get().equals(player)) {
-            score++;
-          }
-        }
-      }
-    }
-    return score;
+    return this.board.getScore(player);
   }
 
   @Override
@@ -148,15 +137,11 @@ public class HexagonReversi implements IReversiModel{
   @Override
   public boolean isGameOver() throws IllegalStateException{
     this.gameStartedChecker();
-    for (int x = -sideLength; x < sideLength; x++) {
-      for (int y = -sideLength; y < sideLength; y++) {
-        for (int z = -sideLength; z < sideLength; z++) {
-          if (this.board.validMove(new HexagonCell(x,y,z), this.currentPlayer)) {
-            return false;
-          }
-        }
-      }
-    }
+    int whiteScore = this.board.getScore(Player.WHITE);
+    int blackScore = this.board.getScore(Player.BLACK);
+
+
+
     return true;
   }
 
