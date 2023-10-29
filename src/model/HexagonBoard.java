@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+/**
+ * This class represents a hexagonal board for the game of HexReversi.
+ */
 public class HexagonBoard implements IBoard {
   private final HashMap<ICell, Optional<Player>> boardPositions;
   private final int sideLength;
