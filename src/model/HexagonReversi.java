@@ -1,7 +1,5 @@
 package model;
-import java.util.List;
 import java.util.Optional;
-import java.util.Spliterator;
 
 /**
  * This class represents a game of HexReversi. It implements the IReversiModel interface.
@@ -11,7 +9,7 @@ public class HexagonReversi implements IReversiModel{
   IBoard board;
   Player currentPlayer;
   int passCount;
-  boolean gameStarted;
+  boolean gameRunning;
   int sideLength;
 
   /**
@@ -21,7 +19,7 @@ public class HexagonReversi implements IReversiModel{
    * @throws IllegalArgumentException if the side length is less than 3
    */
   public HexagonReversi(int sideLength) throws IllegalArgumentException{
-    if (gameStarted) {
+    if (gameRunning) {
       throw new IllegalStateException("Game is already started");
     }
     if (sideLength < 3) {
@@ -30,7 +28,7 @@ public class HexagonReversi implements IReversiModel{
       this.sideLength = sideLength;
     }
 
-    this.gameStarted = true;
+    this.gameRunning = true;
     this.currentPlayer = Player.BLACK;
     this.passCount = 0;
     this.board = this.initBoard(sideLength-1); // rings excluding the center cell = sideLength - 1
@@ -39,7 +37,7 @@ public class HexagonReversi implements IReversiModel{
 
   //helper to check if the game is started before running any other command.
   private void gameStartedChecker() throws IllegalStateException{
-    if (!gameStarted) {
+    if (!gameRunning) {
       throw new IllegalStateException("Game is not started");
     }
   }
@@ -75,11 +73,8 @@ public class HexagonReversi implements IReversiModel{
           , IllegalArgumentException {
     this.gameStartedChecker();
 
-    if (this.board.validMove(targetCell, this.currentPlayer)) {
-//      this.flipEverythingBetweenCells(targetCell, this.currentPlayer);
-      this.board.flipAllInBetween(targetCell, this.currentPlayer);
-      //fixme this would handle only the target cell
-
+    if (this.board.validMove(targetCell, this.currentPlayer, false)) {
+      this.board.validMove(targetCell, this.currentPlayer, true);
       this.board.newCellOwner(targetCell, Optional.of(this.currentPlayer));
       this.passCount = 0;
       this.currentPlayer = this.currentPlayer.next();
@@ -88,10 +83,6 @@ public class HexagonReversi implements IReversiModel{
     }
   }
 
-
-  //this helper will use newCellOwner to flip everything new to be flipped over.
-  private void flipEverythingBetweenCells(ICell cell, Player player) {
-  }
 
   @Override
   public void passTurn() throws IllegalStateException {
@@ -138,13 +129,23 @@ public class HexagonReversi implements IReversiModel{
   @Override
   public boolean isGameOver() throws IllegalStateException{
     this.gameStartedChecker();
-    int whiteScore = this.board.getScore(Player.WHITE);
-    int blackScore = this.board.getScore(Player.BLACK);
+    if (this.passCount > Player.values().length) {
+      this.gameRunning = false;
+      return true;
+    }
 
+    if(this.board.validMovesLeft(Player.WHITE).isEmpty() &&
+            this.board.validMovesLeft(Player.BLACK).isEmpty()) {
+      this.gameRunning = false;
+      return true;
+    }
 
-
-    return true;
+    return false;
   }
 
+
+    public int getPassCount() {
+    return this.passCount;
+    }
 
 }

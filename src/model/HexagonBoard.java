@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class HexagonBoard implements IBoard {
@@ -17,6 +18,10 @@ public class HexagonBoard implements IBoard {
 
   @Override
   public void newCellOwner(ICell cell, Optional<Player> player) {
+    // Throws an exception if the cell is null.
+    checkCellNotNull(cell);
+
+    checkCellInBounds(cell);
     this.boardPositions.put(cell, player);
   }
 
@@ -37,6 +42,7 @@ public class HexagonBoard implements IBoard {
 
   @Override
   public Optional<Player> getCellState(ICell hexagonCell) throws IllegalArgumentException {
+    checkCellNotNull(hexagonCell);
     return this.boardPositions.get(hexagonCell);
   }
 

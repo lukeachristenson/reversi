@@ -20,7 +20,7 @@ public interface IBoard {
   /**
    * Returns whether a move is valid or not.
    */
-  public boolean validMove(ICell cell, Player player) throws IllegalArgumentException;
+  public boolean validMove(ICell cell, Player player, boolean flip) throws IllegalArgumentException;
 
 
   /**
