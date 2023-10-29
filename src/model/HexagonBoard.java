@@ -20,6 +20,21 @@ public class HexagonBoard implements IBoard {
     this.boardPositions.put(cell, player);
   }
 
+  private static void checkCellNotNull(ICell cell) {
+    if (cell == null) {
+      throw new IllegalArgumentException("Null cell passed into newCellOwner.");
+    }
+  }
+
+  private void checkCellInBounds(ICell cell) {
+    if(!(Math.abs(cell.getCoordinates().get(0)) < sideLength)
+            || !(Math.abs(cell.getCoordinates().get(1)) < sideLength)
+            || !(Math.abs(cell.getCoordinates().get(2)) < sideLength)) {
+      throw new IllegalArgumentException("Invalid coordinates for the target cell, " +
+              "coordinates out of bounds");
+    }
+  }
+
   @Override
   public Optional<Player> getCellState(ICell hexagonCell) throws IllegalArgumentException {
     return this.boardPositions.get(hexagonCell);
@@ -27,15 +42,9 @@ public class HexagonBoard implements IBoard {
 
   @Override
   public boolean validMove(ICell cell, Player playerToAdd, boolean flip) {
-
     // Throw an exception if the coordinates are out of bounds of the hexagonal grid.
-    if(!(Math.abs(cell.getCoordinates().get(0)) < sideLength)
-            || !(Math.abs(cell.getCoordinates().get(1)) < sideLength)
-            || !(Math.abs(cell.getCoordinates().get(2)) < sideLength)) {
-      throw new IllegalArgumentException("Invalid coordinates for the target cell, " +
-              "coordinates out of bounds");
-    }
-
+    checkCellInBounds(cell);
+    checkCellNotNull(cell);
     // Throw an exception if the specified cell is occupied by a non-empty player already.
     if(this.boardPositions.get(cell).isPresent()) {
       throw new IllegalStateException("Cell is already occupied.");

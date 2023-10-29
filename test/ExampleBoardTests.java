@@ -15,7 +15,86 @@ import view.ReversiTextView;
 import view.TextView;
 
 
+/**
+ * This class contains tests for the HexagonBoard class.d
+ */
 public class ExampleBoardTests {
+
+  /**
+   *    Tests for HexagonBoard:
+   *      Tests for newCellOwner
+   *        testAddingToCellWithoutOwner
+   *        testAddingToCellWithOwner
+   *        testAddingOutOfBounds
+   *        testAddingNullCell
+   *
+   *    Tests for getCellState:
+   *      testGetEmptyCell
+   *      testGetNonEmptyCell
+   *      testGetOutOfBounds
+   *      testGetNullCellState
+   *
+   *    Tests for validMove:
+   *      testValidMoveOutOfBounds
+   *      testValidMoveNullCell
+   *      testValidMoveOccupiedCell
+   *      testValidMoveWithFlippingBool
+   *      testValidMoveWithoutFlippingBool
+   *      testInvalidMoveWithoutFlippingBool
+   *      testInvalidMoveWithFlippingBool
+   *      testValidMoveWithFlippingBoolFlipsInAllDirections
+   *      testValidMoveWithFlippingBoolFlipsInSomeDirections
+   *      testValidMoveWithFlippingBoolFlipsInOneDirection
+   *
+   *
+   *    Tests for toString:
+   *      testToString
+   *    Tests for getScore
+   *    Tests for validMovesLeft
+   *
+   *    Tests for HexagonModel:
+   *      Tests for getDimensions
+   *      Tests for getCellState
+   *      Tests for getScore
+   *      Tests for getCurrentPlayer:
+   *        testEmptyPlayerReturned
+   *        testCorrectNonEmptyPlayerReturned
+   *
+   *      Tests for isGameOver:
+   *        testGameOverDueToOnePlayerWinning
+   *        testGameOverDueToBoardFillingUp
+   *        testGameOverDueToNoMoreValidMovesAndBoardNotFilled
+   *        testGameOverDueToBothPlayersPassing
+   *
+   *
+   *      Tests for placePiece:
+   *       testCanOnlyAddToEmptyCell
+   *       testCanOnlyAddToCellInBounds
+   *       testCanOnlyAddToCellWithSumOfCoordinatesZero
+   *       testPlacePieceThrowsExceptionIfGameIsNotRunning
+   *      Tests for passTurn:
+   *       testPassTurn
+   *       testPassTurnThrowsExceptionIfGameIsOver
+   *       testPassTurnThrowsExceptionIfGameIsNotRunning
+   *
+   *
+   *    Tests for ReversiTextView
+   *      testReturnsEmptyStringIfGameIsOver
+   *      testTextViewWorks
+   *
+   *
+   *    Tests for Cell:
+   *      test Q+R+S = 0  getCoordinates returns the valid string
+   *      test Q+R+S != 0 throws IllegalArgumentException
+   *
+   *    Tests for Player:
+   *      testNext
+   *
+   */
+
+
+
+
 
   @Test
   public void testHexagonBoardToString() {
