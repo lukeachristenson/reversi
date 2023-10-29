@@ -15,7 +15,7 @@ public interface IBoard {
    *
    * @param cell the cell to get the state of.
    */
-  public Optional<Player> getCellState(ICell cell);
+  public Optional<Player> getCellOccupant(ICell cell);
 
   /**
    * Returns whether a move is valid or not.
@@ -43,4 +43,6 @@ public interface IBoard {
    * @return              List of valid moves for the player.
    */
   public List<ICell> validMovesLeft(Player playerToAdd);
+
+
 }

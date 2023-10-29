@@ -13,7 +13,7 @@ public class ReversiTextView implements TextView{
 
   @Override
   public String toString() {
-    return this.model.getBoard().toString();
+    return this.model.toString();
   }
 
 }

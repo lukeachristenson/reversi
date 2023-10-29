@@ -61,16 +61,14 @@ public interface IReversiModel{
   public void passTurn() throws IllegalStateException;
 
 
-  /**
-   * Returns the model's board.
-   * @return  IBoard  The model's board.
-   */
-  public IBoard getBoard();
 
   /**
    * Returns the number of consecutive passes that have been made in the game so far.
    * @return number of consecutive passes that have been made in the game so far.
    */
   public int getPassCount();
+
+
+  String toString();
 }
 

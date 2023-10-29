@@ -44,16 +44,17 @@ public class HexagonBoard implements IBoard {
   }
 
   @Override
-  public Optional<Player> getCellState(ICell hexagonCell) throws IllegalArgumentException {
+  public Optional<Player> getCellOccupant(ICell hexagonCell) throws IllegalArgumentException {
     checkCellNotNull(hexagonCell);
+    checkCellInBounds(hexagonCell);
     return this.boardPositions.get(hexagonCell);
   }
 
   @Override
   public boolean validMove(ICell cell, Player playerToAdd, boolean flip) {
     // Throw an exception if the coordinates are out of bounds of the hexagonal grid.
-    checkCellInBounds(cell);
     checkCellNotNull(cell);
+    checkCellInBounds(cell);
     // Throw an exception if the specified cell is occupied by a non-empty player already.
     if(this.boardPositions.get(cell).isPresent()) {
       throw new IllegalStateException("Cell is already occupied.");
@@ -73,11 +74,15 @@ public class HexagonBoard implements IBoard {
      *      (1, 0, -1) -> Right 1
      */
 
-    // difference in row direction
+    // difference in q direction
     int[] dq = {1, -1, 0, 0, -1, 1};
-    // difference in column direction
+    // difference in r direction
     int[] dr = {-1, 1, -1, 1, 0, 0};
+    // difference in s direction
     int[] ds = {0, 0, 1, -1, 1, -1};
+
+    // array to store the directions in which the move is valid.
+    boolean[] directionalValid = {false, false, false, false, false, false};
 
     int coordinateQ = cell.getCoordinates().get(0);
     int coordinateR = cell.getCoordinates().get(1);
@@ -109,16 +114,13 @@ public class HexagonBoard implements IBoard {
 
         // If the cell is occupied by the opposite player, set foundOppositeColor to true.
         if (!boardPositions.get(targetCell).equals(Optional.of(playerToAdd))) {
-          if (flip) {
-            this.newCellOwner(targetCell, Optional.of(playerToAdd));
-          }
           foundOppositeColor = true;
         }
 
         // If the cell is occupied by the same player, return true if foundOppositeColor is true.
-        if(boardPositions.get(targetCell).equals(Optional.of(playerToAdd))) {
-          if(foundOppositeColor) {
-            return true;
+        if (boardPositions.get(targetCell).equals(Optional.of(playerToAdd))) {
+          if (foundOppositeColor) {
+            directionalValid[direction] = true;
           }
         }
 
@@ -128,7 +130,78 @@ public class HexagonBoard implements IBoard {
       }
     }
 
+    if(flip){
+      flipMechanism(cell, playerToAdd, directionalValid);
+    }
+
+    for(boolean b : directionalValid) {
+      if(b) {
+        return true;
+      }
+    }
+
     return false; // Invalid move
+  }
+
+  private void flipMechanism(ICell cell, Player playerToAdd, boolean[] directionalValid) {
+    int coordinateQ = cell.getCoordinates().get(0);
+    int coordinateR = cell.getCoordinates().get(1);
+    int coordinateS = cell.getCoordinates().get(2);
+
+    // difference in q direction
+    int[] dq = {1, -1, 0, 0, -1, 1};
+    // difference in r direction
+    int[] dr = {-1, 1, -1, 1, 0, 0};
+    // difference in s direction
+    int[] ds = {0, 0, 1, -1, 1, -1};
+
+    for (int direction = 0; direction < 6; direction++) {
+      // If not supposed to flip in this direction, continue.
+      if (!directionalValid[direction]) {
+        continue;
+      }
+
+      int qChange = dq[direction];
+      int rChange = dr[direction];
+      int sChange = ds[direction];
+
+      int targetQ = coordinateQ;
+      int targetR = coordinateR;
+      int targetS = coordinateS;
+      targetQ += qChange;
+      targetR += rChange;
+      targetS += sChange;
+      boolean foundOppositeColor = false;
+
+      while (Math.abs(targetQ) < sideLength
+              && Math.abs(targetR) < sideLength
+              && Math.abs(targetS) < sideLength) {
+        ICell targetCell = new HexagonCell(targetQ, targetR, targetS);
+
+        // If the cell is occupied by an empty, return false
+        if (boardPositions.get(targetCell).isEmpty()) {
+          break;
+        }
+
+        // If the cell is occupied by the opposite player, set foundOppositeColor to true.
+        if (!boardPositions.get(targetCell).equals(Optional.of(playerToAdd))) {
+
+          boardPositions.put(targetCell, Optional.of(playerToAdd));
+          foundOppositeColor = true;
+        }
+
+        // If the cell is occupied by the same player, return true if foundOppositeColor is true.
+        if (boardPositions.get(targetCell).equals(Optional.of(playerToAdd))) {
+          if (foundOppositeColor) {
+            directionalValid[direction] = true;
+          }
+        }
+
+        targetQ += qChange;
+        targetR += rChange;
+        targetS += sChange;
+      }
+    }
   }
 
   @Override
@@ -195,11 +268,14 @@ public class HexagonBoard implements IBoard {
     // Iterate through all the cells in the board
     for(ICell cell : this.boardPositions.keySet()) {
       // If the move is a valid move, for the playerToAdd, add that cell to the return list
-      if(validMove(cell, playerToAdd, false)) {
-        validMoves.add(cell);
+      if(this.getCellOccupant(cell).isEmpty()){
+        if (validMove(cell, playerToAdd, false)) {
+          validMoves.add(cell);
+        }
       }
     }
     // Return the list of valid moves
     return validMoves;
   }
+
 }
