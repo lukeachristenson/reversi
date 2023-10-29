@@ -95,11 +95,12 @@ public class HexagonReversi implements IReversiModel{
 
   @Override
   public void passTurn() throws IllegalStateException {
+    if (this.passCount > Player.values().length) {
+      throw new IllegalStateException("cannot pass more than " + Player.values().length
+              + " times, game should be over");
+    }
     this.gameStartedChecker();
     this.passCount++;
-    if (this.passCount == Player.values().length) {
-      this.gameStarted = false;
-    }
     this.currentPlayer = this.currentPlayer.next();
   }
 

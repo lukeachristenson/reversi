@@ -44,9 +44,9 @@ public class ExampleBoardTests {
     hexagonBoard.newCellOwner(new HexagonCell(1, -2, 1), Optional.of(Player.WHITE));
     hexagonBoard.newCellOwner(new HexagonCell(2, -2, 0), Optional.of(Player.WHITE));
 
-    System.out.println(hexagonBoard.validMove(new HexagonCell(0, 0, 0), Player.BLACK));
-    System.out.println(hexagonBoard.validMove(new HexagonCell(0, 0, 0), Player.WHITE));
-    System.out.println(hexagonBoard.validMove(new HexagonCell(0, -1, 1), Player.WHITE));
+    System.out.println(hexagonBoard.validMove(new HexagonCell(0, 0, 0), Player.BLACK, false));
+    System.out.println(hexagonBoard.validMove(new HexagonCell(0, 0, 0), Player.WHITE, false));
+    System.out.println(hexagonBoard.validMove(new HexagonCell(0, -1, 1), Player.WHITE, false));
 
     System.out.println(hexagonBoard.toString());
   }

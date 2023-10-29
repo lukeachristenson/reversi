@@ -29,14 +29,6 @@ public interface IBoard {
    */
   public String toString();
 
-
-  /**
-   * Flips all the cells in the six directions to this player after the player is placed there.
-   * @param cell
-   * @param playerToAdd
-   */
-  public void flipAllInBetween(ICell cell, Player playerToAdd);
-
   /**
    * Returns the score of this player in the board.
    * @param player  Player whose score is to be returned.
