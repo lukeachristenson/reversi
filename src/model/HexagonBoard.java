@@ -191,12 +191,12 @@ public class HexagonBoard implements IBoard {
               && Math.abs(targetS) < sideLength) {
         ICell targetCell = new HexagonCell(targetQ, targetR, targetS);
 
-        // If the cell is occupied by an empty, return false
+        // If the cell is occupied by an empty, break
         if (boardPositions.get(targetCell).isEmpty()) {
           break;
         }
 
-        // If the cell is occupied by the opposite player, set foundOppositeColor to true.
+        // If the cell is occupied by the opposite player, change color.
         if (!boardPositions.get(targetCell).equals(Optional.of(playerToAdd))) {
           this.newCellOwner(targetCell, Optional.of(playerToAdd));
           foundOppositeColor = true;
@@ -235,9 +235,9 @@ public class HexagonBoard implements IBoard {
 
     // Check if for each empty cell:
     // If the move is a valid move, for the playerToAdd, add that cell to the return list
-//
+
 //    for(ICell cell : this.boardPositions.keySet()) {
-//      if(cell)
+//      if()
 //    }
 
 
