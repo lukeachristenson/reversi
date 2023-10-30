@@ -69,7 +69,6 @@ public class HexagonBoard implements IBoard {
      *      (-1, 0, 1) -> Left 1
      *      (1, 0, -1) -> Right 1
      */
-
     // difference in q direction
     int[] dq = {1, -1, 0, 0, -1, 1};
     // difference in r direction
