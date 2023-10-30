@@ -9,7 +9,7 @@ import java.util.Optional;
  * This class represents a hexagonal board for the game of HexReversi.
  */
 public class HexagonBoard implements IBoard {
-  private final HashMap<ICell, Optional<Player>> boardPositions;
+  private final HashMap<ICell, Optional<Color>> boardPositions;
   private final int sideLength;
 
   public HexagonBoard(int sideLength) {
@@ -18,12 +18,12 @@ public class HexagonBoard implements IBoard {
   }
 
   @Override
-  public void newCellOwner(ICell cell, Optional<Player> player) {
+  public void newCellOwner(ICell cell, Optional<Color> color) {
     // Throws an exception if the cell is null.
     checkCellNotNull(cell);
 
     checkCellInBounds(cell);
-    this.boardPositions.put(cell, player);
+    this.boardPositions.put(cell, color);
   }
 
   private static void checkCellNotNull(ICell cell) {
@@ -42,14 +42,14 @@ public class HexagonBoard implements IBoard {
   }
 
   @Override
-  public Optional<Player> getCellOccupant(ICell hexagonCell) throws IllegalArgumentException {
+  public Optional<Color> getCellOccupant(ICell hexagonCell) throws IllegalArgumentException {
     checkCellNotNull(hexagonCell);
     checkCellInBounds(hexagonCell);
     return this.boardPositions.get(hexagonCell);
   }
 
   @Override
-  public boolean validMove(ICell cell, Player playerToAdd, boolean flip) {
+  public boolean validMove(ICell cell, Color colorToAdd, boolean flip) {
     // Throw an exception if the coordinates are out of bounds of the hexagonal grid.
     checkCellNotNull(cell);
     checkCellInBounds(cell);
@@ -108,13 +108,13 @@ public class HexagonBoard implements IBoard {
         }
 
         // If the cell is occupied by the opposite player, set foundOppositeColor to true.
-        if (!boardPositions.get(targetCell).equals(Optional.of(playerToAdd))) {
+        if (!boardPositions.get(targetCell).equals(Optional.of(colorToAdd))) {
           cellsFlipTemp.add(targetCell);
           foundOppositeColor = true;
         }
 
         // If the cell is occupied by the same player, return true if foundOppositeColor is true.
-        if (boardPositions.get(targetCell).equals(Optional.of(playerToAdd))) {
+        if (boardPositions.get(targetCell).equals(Optional.of(colorToAdd))) {
           if (foundOppositeColor) {
             cellsFlip.addAll(cellsFlipTemp);
           }
@@ -125,14 +125,14 @@ public class HexagonBoard implements IBoard {
       }
     }
     if(flip){
-      flipMechanismMk2(cellsFlip, playerToAdd);
+      flipMechanismMk2(cellsFlip, colorToAdd);
     }
     return !cellsFlip.isEmpty();
   }
 
-  private void flipMechanismMk2(List<ICell> cellsToBeFlipped, Player playerToAdd) {
+  private void flipMechanismMk2(List<ICell> cellsToBeFlipped, Color colorToAdd) {
     for(ICell cell : cellsToBeFlipped) {
-      this.newCellOwner(cell, Optional.of(playerToAdd));
+      this.newCellOwner(cell, Optional.of(colorToAdd));
     }
   }
 
@@ -154,11 +154,11 @@ public class HexagonBoard implements IBoard {
 
     // Populate the board with player symbols or "X" based on the cell state
     for (ICell cell : boardPositions.keySet()) {
-      Optional<Player> occupant = boardPositions.get(cell);
+      Optional<Color> occupant = boardPositions.get(cell);
       List<Integer> coordinates = cell.getCoordinates();
       int x = coordinates.get(0) + sideLength; //q
       int y = coordinates.get(1) + sideLength; //r
-      boardArray[y][x] = occupant.map(Player::toString).orElse("-");
+      boardArray[y][x] = occupant.map(Color::toString).orElse("-");
     }
 
     // Adjusts the spacing for every line in the board
@@ -182,12 +182,12 @@ public class HexagonBoard implements IBoard {
   }
 
   @Override
-  public int getScore(Player player) {
+  public int getScore(Color color) {
     int score = 0;
     // Iterate through all the cells in the board
     for(ICell cell : this.boardPositions.keySet()) {
       // If the cell is occupied by the player, increment the score
-      if(this.boardPositions.get(cell).equals(Optional.of(player))) {
+      if(this.boardPositions.get(cell).equals(Optional.of(color))) {
         score++;
       }
     }
@@ -195,14 +195,14 @@ public class HexagonBoard implements IBoard {
   }
 
   @Override
-  public List<ICell> validMovesLeft(Player playerToAdd) {
+  public List<ICell> validMovesLeft(Color colorToAdd) {
     // Create a list to store the valid moves
     List<ICell> validMoves = new ArrayList<>();
     // Iterate through all the cells in the board
     for(ICell cell : this.boardPositions.keySet()) {
       // If the move is a valid move, for the playerToAdd, add that cell to the return list
       if(this.getCellOccupant(cell).isEmpty()){
-        if (validMove(cell, playerToAdd, false)) {
+        if (validMove(cell, colorToAdd, false)) {
           validMoves.add(cell);
         }
       }

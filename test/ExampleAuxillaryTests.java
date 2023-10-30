@@ -10,7 +10,7 @@ import model.HexagonReversi;
 import model.IBoard;
 import model.ICell;
 import model.IReversiModel;
-import model.Player;
+import model.Color;
 import view.ReversiTextView;
 import view.TextView;
 
@@ -66,16 +66,16 @@ public class ExampleAuxillaryTests {
 
   @Test
   public void testPlayerNextWorks() {
-    Assert.assertEquals(Player.WHITE.next(), Player.BLACK);
-    Assert.assertEquals(Player.WHITE.next().next(), Player.WHITE);
-    Assert.assertEquals(Player.BLACK.next(), Player.WHITE);
-    Assert.assertEquals(Player.BLACK.next().next(), Player.BLACK);
+    Assert.assertEquals(Color.WHITE.next(), Color.BLACK);
+    Assert.assertEquals(Color.WHITE.next().next(), Color.WHITE);
+    Assert.assertEquals(Color.BLACK.next(), Color.WHITE);
+    Assert.assertEquals(Color.BLACK.next().next(), Color.BLACK);
   }
 
   @Test
   public void testPlayerDoesNotChangePlayerButReturnsNewPlayer() {
-    Player p1 = Player.WHITE;
-    Player p2 = p1.next();
-    Assert.assertEquals(p1, Player.WHITE);
+    Color p1 = Color.WHITE;
+    Color p2 = p1.next();
+    Assert.assertEquals(p1, Color.WHITE);
   }
 }

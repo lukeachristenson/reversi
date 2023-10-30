@@ -1,12 +1,12 @@
 package model;
-  public enum Player {
+  public enum Color {
     BLACK, WHITE;
 
     /**
      * Returns the next player in the sequence.
      * @return next player in sequence
      */
-    public Player next() {
+    public Color next() {
       return values()[(this.ordinal() + 1) % values().length];
     }
 
