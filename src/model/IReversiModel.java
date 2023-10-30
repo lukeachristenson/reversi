@@ -30,6 +30,14 @@ public interface IReversiModel{
    * @throws IllegalArgumentException if the given player is null
    */
   public int getScore(Color color) throws IllegalArgumentException;
+  /**
+   * Returns the current score of the given player.
+   *
+   * @param player the player whose score to return
+   * @return the current score of the given player
+   * @throws IllegalArgumentException if the given player is null
+   */
+  public int getScore(IPlayer player) throws IllegalArgumentException;
 
   /**
    * Returns the current color.

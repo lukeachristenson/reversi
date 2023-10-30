@@ -143,6 +143,13 @@ public class HexagonReversi implements IReversiModel{
   }
 
   @Override
+  public int getScore(IPlayer player) throws IllegalArgumentException
+          , IllegalStateException {
+    this.gameStartedChecker();
+    return this.board.getScore(player.getColor());
+  }
+
+  @Override
   public Color getCurrentColor() throws IllegalStateException{
     this.gameStartedChecker();
     return this.currentPlayer.getColor();
