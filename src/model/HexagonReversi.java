@@ -1,7 +1,5 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -26,9 +24,6 @@ public class HexagonReversi implements IReversiModel {
    * @throws IllegalArgumentException if the side length is less than 3
    */
   public HexagonReversi(int sideLength) throws IllegalArgumentException {
-    if (gameRunning) {
-      throw new IllegalStateException("Game is already started");
-    }
     if (sideLength < 3) {
       throw new IllegalArgumentException("Side length must be greater than 2");
     } else {
@@ -53,9 +48,6 @@ public class HexagonReversi implements IReversiModel {
    * @throws IllegalArgumentException if the side length is less than 3
    */
   public HexagonReversi(IBoard hexBoard, int sideLength) throws IllegalArgumentException {
-    if (gameRunning) {
-      throw new IllegalStateException("Game is already started");
-    }
     if (sideLength < 3) {
       throw new IllegalArgumentException("Side length must be greater than 2");
     } else {
@@ -105,6 +97,9 @@ public class HexagonReversi implements IReversiModel {
           , IllegalArgumentException {
     this.gameStartedChecker();
 
+    if(player == null) {
+      throw new IllegalArgumentException("Player passed into placePiece is null");
+    }
     if (this.board.validMove(targetCell, player.getColor(), false)) {
       this.board.validMove(targetCell, player.getColor(), true);
       this.board.newCellOwner(targetCell, Optional.of(player.getColor()));
@@ -146,15 +141,13 @@ public class HexagonReversi implements IReversiModel {
   }
 
   @Override
-  public int getScore(Color color) throws IllegalArgumentException
-          , IllegalStateException {
+  public int getScore(Color color) throws IllegalStateException {
     this.gameStartedChecker();
     return this.board.getScore(color);
   }
 
   @Override
-  public int getScore(IPlayer player) throws IllegalArgumentException
-          , IllegalStateException {
+  public int getScore(IPlayer player) throws IllegalStateException {
     this.gameStartedChecker();
     return this.board.getScore(player.getColor());
   }

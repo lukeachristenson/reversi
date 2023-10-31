@@ -19,7 +19,7 @@ public class ExampleBoardTests {
 
   IBoard hexagonBoardThree;
 
-  public void init() {
+  private void init() {
     this.hexagonBoardThree = new HexagonBoard(3);
     hexagonBoardThree.newCellOwner(new HexagonCell(0,0,0), Optional.empty());
     hexagonBoardThree.newCellOwner(new HexagonCell(1, -1, 0), Optional.of(Color.BLACK));
@@ -259,6 +259,10 @@ public class ExampleBoardTests {
     this.hexagonBoardThree.validMove(new HexagonCell(0,0,0), Color.WHITE, true);
     Assert.assertEquals(this.hexagonBoardThree.validMovesLeft(Color.BLACK).size(), 0);
     Assert.assertEquals(this.hexagonBoardThree.validMovesLeft(Color.WHITE).size(), 0);
+  }
 
+  @Test (expected = IllegalArgumentException.class)
+  public void testBoardLessThanThreeSidesThrows() {
+    IBoard board = new HexagonBoard(2);
   }
 }

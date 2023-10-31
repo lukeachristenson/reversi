@@ -15,8 +15,14 @@ public class HexagonCell implements ICell {
   private final int r;
   private final int s;
 
-
-  public HexagonCell(int q, int r, int s) {
+  /**
+   * Constructor for a HexagonCell. Takes in the cube coordinates of the cell.
+   * @param q the q coordinate of the cell.
+   * @param r the r coordinate of the cell.
+   * @param s the s coordinate of the cell.
+   * @throws IllegalArgumentException if the sum of the coordinates is not zero.
+   */
+  public HexagonCell(int q, int r, int s) throws IllegalArgumentException{
     // Throw an exception if the sum of the coordinates is not zero.
     // ******** NOTE: The constructor handles the case where the sum of the coordinates is not zero.
     if (q + r + s != 0) {
@@ -29,8 +35,12 @@ public class HexagonCell implements ICell {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
     HexagonCell that = (HexagonCell) o;
     return q == that.q && r == that.r && s == that.s;
   }

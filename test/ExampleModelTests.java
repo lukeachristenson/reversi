@@ -25,7 +25,7 @@ public class ExampleModelTests {
   IPlayer whitePlayer;
 
 
-  public void init() {
+  private void init() {
     basicModelThree = new HexagonReversi(3);
     basicModelFour = new HexagonReversi(4);
 
@@ -60,6 +60,12 @@ public class ExampleModelTests {
     this.init();
     Assert.assertEquals(this.basicModelThree.getDimensions(), 3);
     Assert.assertEquals(this.basicModelFour.getDimensions(), 4);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testInvalidGameConfig() {
+    this.init();
+    basicModelThree = new HexagonReversi(2);
   }
 
   @Test

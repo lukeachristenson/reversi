@@ -12,7 +12,16 @@ public class HexagonBoard implements IBoard {
   private final HashMap<ICell, Optional<Color>> boardPositions;
   private final int sideLength;
 
+  /**
+   * Constructor for a HexagonBoard. Takes in a side length for the board.
+   * @param sideLength the side length of the board.
+   */
   public HexagonBoard(int sideLength) {
+    // Throw an exception if the side length is less than 3 because the board will be too small
+    // to play a game.
+    if (sideLength < 3) {
+      throw new IllegalArgumentException("Side length must be greater than 2");
+    }
     this.boardPositions = new HashMap<>();
     this.sideLength = sideLength;
   }
@@ -21,21 +30,20 @@ public class HexagonBoard implements IBoard {
   public void newCellOwner(ICell cell, Optional<Color> color) {
     // Throws an exception if the cell is null.
     checkCellNotNull(cell);
-
     checkCellInBounds(cell);
     this.boardPositions.put(cell, color);
   }
 
-  private static void checkCellNotNull(ICell cell) {
+  private void checkCellNotNull(ICell cell) {
     if (cell == null) {
       throw new IllegalArgumentException("Null cell passed into newCellOwner.");
     }
   }
 
   private void checkCellInBounds(ICell cell) {
-    if (!(Math.abs(cell.getCoordinates().get(0)) < sideLength)
-            || !(Math.abs(cell.getCoordinates().get(1)) < sideLength)
-            || !(Math.abs(cell.getCoordinates().get(2)) < sideLength)) {
+    if (Math.abs(cell.getCoordinates().get(0)) >= sideLength
+            || Math.abs(cell.getCoordinates().get(1)) >= sideLength
+            || Math.abs(cell.getCoordinates().get(2)) >= sideLength) {
       throw new IllegalArgumentException("Invalid coordinates for the target cell, " +
               "coordinates out of bounds");
     }
@@ -61,7 +69,7 @@ public class HexagonBoard implements IBoard {
     // Throw an exception if the sum of coordinates is not 0.
     // ************** Note: Handled in the constructor of HexagonCell. **************
 
-    /**     Defined direction vectors for the six possible directions when placing a piece
+    /*     Defined direction vectors for the six possible directions when placing a piece
      *      (1, -1, 0) -> Up 1, Right 1
      *      (-1, 1, 0) -> Down 1, Left 1
      *      (0, -1, 1) -> Up 1, Left 1
@@ -83,6 +91,7 @@ public class HexagonBoard implements IBoard {
 
     List<ICell> cellsFlip = new ArrayList<>();
 
+    // Iterate through all the directions.
     for (int direction = 0; direction < 6; direction++) {
       int qChange = dq[direction];
       int rChange = dr[direction];
@@ -97,6 +106,7 @@ public class HexagonBoard implements IBoard {
       targetS += sChange;
       boolean foundOppositeColor = false;
 
+      // While the target cell is in bounds of the board.
       while (Math.abs(targetQ) < sideLength
               && Math.abs(targetR) < sideLength
               && Math.abs(targetS) < sideLength) {
@@ -130,6 +140,7 @@ public class HexagonBoard implements IBoard {
     return !cellsFlip.isEmpty();
   }
 
+  //helper method to flip the cells
   private void flipMechanism(List<ICell> cellsToBeFlipped, Color colorToAdd) {
     for (ICell cell : cellsToBeFlipped) {
       this.newCellOwner(cell, Optional.of(colorToAdd));

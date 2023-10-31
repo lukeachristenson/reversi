@@ -37,25 +37,29 @@ public class Main {
 ## Class Invariant(s)
 
 1. One of the recognized class invariants for the game was the fact that the sideLength of the board
-   cannot be less than 3.
+   cannot be less than 3. This is due to the fact that a standard game of hexagon reversi cannot have less than 3 sides since there
+   would be no valid move that can be played by either colored token.
 
 2. Another invariant that is enforced in the code pertains to the
    [cube coordinates system](https://www.redblobgames.com/grids/hexagons/#coordinates-cube). An
    IllegalArgumentException is thrown if the sum of the coordinates that are passed into the
    constructor of the HexagonCell is not zero(**i.e. q+r+s != 0**).
 
+3. The player passed into the `placePiece` method cannot be null since the model cannot place a null or empty 
+   player into a cell.
+
 ## Key Components
 
 ### Game Model
 
-The HexagonReversi class is the core game model, responsible for managing game mechanics, including
-player moves, turn passing, scoring, and game state. It is built on top of the HexagonalBoard class,
-representing the game board.
+The `HexagonReversi` class is the core game model that implements the `IReversiModel` interface, 
+responsible for managing game mechanics, including player moves, turn passing, scoring, and game state. It is built on top of the HexagonalBoard class,
+representing the game board. 
 
 ### Text-based View for Reversi
 
-The TextView interface serves as a marker for text-based views in the Reversi game. The
-ReversiTextView class implements this interface and provides a text-based representation of the game
+The `TextView` interface serves as a marker interface for text-based views in the Reversi game. The
+`ReversiTextView` class implements this interface and provides a text-based representation of the game
 state. It uses the IReversiModel instance to render the game state in text format.
 
 ### Game Board Representation
@@ -87,7 +91,7 @@ and within a hexagonal shape or not.
 
 #### IPlayer Interface:
 
-A marker interface for player representation. It includes a method to retrieve the player's color.
+`IPlayer` is a  marker interface for player representation. It includes a method to retrieve the player's color.
 An IPlayer can be a human player or an AI(**not implemented yet**).
 A concrete class for Human players, called HumanPlayer is made which represents Human Players. The
 only field that the `HumanPlayer` class has is a `Color`.
@@ -110,7 +114,7 @@ intention of code extensibility so that the code can be extended to a new format
 a game cell. The ICell interface has only one method, `getCoordinates()` which returns a list of
 coordinates of the `ICell`.
 
-#### HexagonCell:
+#### HexagonCell Class:
 The `HexagonCell` class implements the `ICell` interface and it represents the location of a cell in
 a `HexagonBoard`. The class is configured to work with a game of `Hexagon Reversi`. The cell's
 coordinates are based on the [cube coordinates system](#coordinate-system) mentioned above.

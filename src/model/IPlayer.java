@@ -9,8 +9,7 @@ public interface IPlayer {
   /**
    * Returns the color of the token for this player.
    *
-   * @return Color Color of this player.
+   * @return Color: Color of this player.
    */
-  Color getColor();
-
+  public Color getColor();
 }

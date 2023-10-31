@@ -1,7 +1,7 @@
 package model;
 
 /**
- *
+ * An Enum for different colors to be placed by players.
  */
 public enum Color {
   BLACK, WHITE;
@@ -15,6 +15,10 @@ public enum Color {
     return values()[(this.ordinal() + 1) % values().length];
   }
 
+  /**
+   * Converts the color to a string.
+   * @return
+   */
   public String toString() {
     if (this.equals(BLACK)) {
       return "B";
