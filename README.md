@@ -71,7 +71,7 @@ toString, and validMovesLeft.
 
 ### Coordinate System
 
-![Cube Coordinate System](/Users/aryankalaskar/Documents/OOD/reversi/cubeCoordinatesSystem.jpg)
+![Cube Coordinate System](cubeCoordinatesSystem.jpg)
 
 The [cube coordinates system](https://www.redblobgames.com/grids/hexagons/#coordinates-cube)
 from [RedBlobGames](https://www.redblobgames.com/) was used to represent the location of each cell
