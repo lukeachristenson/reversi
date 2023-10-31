@@ -7,7 +7,8 @@ public interface TextView {
 
   /**
    * Returns a rendered string that displays the game's state.
-   * @return  String  Rendered string for the game state.
+   *
+   * @return String  Rendered string for the game state.
    */
   String toString();
 

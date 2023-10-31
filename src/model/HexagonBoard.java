@@ -33,7 +33,7 @@ public class HexagonBoard implements IBoard {
   }
 
   private void checkCellInBounds(ICell cell) {
-    if(!(Math.abs(cell.getCoordinates().get(0)) < sideLength)
+    if (!(Math.abs(cell.getCoordinates().get(0)) < sideLength)
             || !(Math.abs(cell.getCoordinates().get(1)) < sideLength)
             || !(Math.abs(cell.getCoordinates().get(2)) < sideLength)) {
       throw new IllegalArgumentException("Invalid coordinates for the target cell, " +
@@ -54,7 +54,7 @@ public class HexagonBoard implements IBoard {
     checkCellNotNull(cell);
     checkCellInBounds(cell);
     // Throw an exception if the specified cell is occupied by a non-empty player already.
-    if(this.boardPositions.get(cell).isPresent()) {
+    if (this.boardPositions.get(cell).isPresent()) {
       throw new IllegalStateException("Cell is already occupied.");
     }
 
@@ -124,18 +124,17 @@ public class HexagonBoard implements IBoard {
         targetS += sChange;
       }
     }
-    if(flip){
-      flipMechanismMk2(cellsFlip, colorToAdd);
+    if (flip) {
+      flipMechanism(cellsFlip, colorToAdd);
     }
     return !cellsFlip.isEmpty();
   }
 
-  private void flipMechanismMk2(List<ICell> cellsToBeFlipped, Color colorToAdd) {
-    for(ICell cell : cellsToBeFlipped) {
+  private void flipMechanism(List<ICell> cellsToBeFlipped, Color colorToAdd) {
+    for (ICell cell : cellsToBeFlipped) {
       this.newCellOwner(cell, Optional.of(colorToAdd));
     }
   }
-
 
   @Override
   public String toString() {
@@ -162,8 +161,8 @@ public class HexagonBoard implements IBoard {
     }
 
     // Adjusts the spacing for every line in the board
-    for(int i = 0 ; i < rows ; i++) {
-      for(int j = i ; j > 0 ; j--){
+    for (int i = 0; i < rows; i++) {
+      for (int j = i; j > 0; j--) {
         boardArray[i][0] = boardArray[i][0] + " ";
       }
     }
@@ -185,9 +184,9 @@ public class HexagonBoard implements IBoard {
   public int getScore(Color color) {
     int score = 0;
     // Iterate through all the cells in the board
-    for(ICell cell : this.boardPositions.keySet()) {
+    for (ICell cell : this.boardPositions.keySet()) {
       // If the cell is occupied by the player, increment the score
-      if(this.boardPositions.get(cell).equals(Optional.of(color))) {
+      if (this.boardPositions.get(cell).equals(Optional.of(color))) {
         score++;
       }
     }
@@ -199,9 +198,9 @@ public class HexagonBoard implements IBoard {
     // Create a list to store the valid moves
     List<ICell> validMoves = new ArrayList<>();
     // Iterate through all the cells in the board
-    for(ICell cell : this.boardPositions.keySet()) {
+    for (ICell cell : this.boardPositions.keySet()) {
       // If the move is a valid move, for the playerToAdd, add that cell to the return list
-      if(this.getCellOccupant(cell).isEmpty()){
+      if (this.getCellOccupant(cell).isEmpty()) {
         if (validMove(cell, colorToAdd, false)) {
           validMoves.add(cell);
         }
@@ -210,5 +209,4 @@ public class HexagonBoard implements IBoard {
     // Return the list of valid moves
     return validMoves;
   }
-
 }

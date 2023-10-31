@@ -1,6 +1,6 @@
 package model;
 
-public class HumanPlayer implements IPlayer{
+public class HumanPlayer implements IPlayer {
   private Color color;
 
   public HumanPlayer(Color color) {
@@ -9,7 +9,7 @@ public class HumanPlayer implements IPlayer{
 
   @Override
   public Color getColor() {
-    if(this.color.toString().equals("B")) {
+    if (this.color.toString().equals("B")) {
       return Color.BLACK;
     } else {
       return Color.WHITE;

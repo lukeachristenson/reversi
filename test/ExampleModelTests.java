@@ -6,7 +6,9 @@ import java.util.Optional;
 import model.HexagonBoard;
 import model.HexagonCell;
 import model.HexagonReversi;
+import model.HumanPlayer;
 import model.IBoard;
+import model.IPlayer;
 import model.IReversiModel;
 import model.Color;
 
@@ -18,6 +20,9 @@ public class ExampleModelTests {
   IReversiModel basicModelThree;
   IReversiModel basicModelFour;
   IBoard riggedBoard;
+
+  IPlayer blackPlayer;
+  IPlayer whitePlayer;
 
 
   public void init() {
@@ -45,6 +50,9 @@ public class ExampleModelTests {
     riggedBoard.newCellOwner(new HexagonCell(0, -2, 2), Optional.of(Color.WHITE));
     riggedBoard.newCellOwner(new HexagonCell(1, -2, 1), Optional.of(Color.WHITE));
     riggedBoard.newCellOwner(new HexagonCell(2, -2, 0), Optional.of(Color.WHITE));
+
+    this.blackPlayer = new HumanPlayer(Color.BLACK);
+    this.whitePlayer = new HumanPlayer(Color.WHITE);
   }
 
   @Test
@@ -82,7 +90,7 @@ public class ExampleModelTests {
     // Before a move.
     Assert.assertEquals(this.basicModelThree.getScore(Color.WHITE),3);
     Assert.assertEquals(this.basicModelThree.getScore(Color.BLACK), 3);
-    this.basicModelThree.placePiece(new HexagonCell(-1, -1, 2), Color.BLACK);
+    this.basicModelThree.placePiece(new HexagonCell(-1, -1, 2), this.blackPlayer);
     // After a move.
     Assert.assertEquals(this.basicModelThree.getScore(Color.WHITE),2);
     Assert.assertEquals(this.basicModelThree.getScore(Color.BLACK), 5);
@@ -100,9 +108,9 @@ public class ExampleModelTests {
   @Test
   public void testGameOverDueToOnePlayerWinning() {
     this.init();
-    this.basicModelThree.placePiece(new HexagonCell(-1, -1, 2), Color.BLACK);
-    this.basicModelThree.placePiece(new HexagonCell(-1, 2, -1), Color.BLACK);
-    this.basicModelThree.placePiece(new HexagonCell(1, -2, 1), Color.BLACK);
+    this.basicModelThree.placePiece(new HexagonCell(-1, -1, 2), this.blackPlayer);
+    this.basicModelThree.placePiece(new HexagonCell(-1, 2, -1), this.blackPlayer);
+    this.basicModelThree.placePiece(new HexagonCell(1, -2, 1), this.blackPlayer);
     // Game over and Player.BLACK wins.
     Assert.assertTrue(this.basicModelThree.isGameOver());
   }
@@ -112,16 +120,16 @@ public class ExampleModelTests {
     this.init();
     this.basicModelThree = new HexagonReversi(riggedBoard, 3);
     Assert.assertFalse(this.basicModelThree.isGameOver());
-    this.basicModelThree.placePiece(new HexagonCell(0,0,0), Color.WHITE);
+    this.basicModelThree.placePiece(new HexagonCell(0,0,0), this.whitePlayer);
     Assert.assertTrue(this.basicModelThree.isGameOver());
   }
 
   @Test
   public void testGameOverDueToNoMoreValidMovesAndBoardNotFilled() {
     this.init();
-    this.basicModelThree.placePiece(new HexagonCell(-1, -1, 2), Color.BLACK);
-    this.basicModelThree.placePiece(new HexagonCell(-1, 2, -1), Color.BLACK);
-    this.basicModelThree.placePiece(new HexagonCell(1, -2, 1), Color.BLACK);
+    this.basicModelThree.placePiece(new HexagonCell(-1, -1, 2), this.blackPlayer);
+    this.basicModelThree.placePiece(new HexagonCell(-1, 2, -1), this.blackPlayer);
+    this.basicModelThree.placePiece(new HexagonCell(1, -2, 1), this.blackPlayer);
     // Board is not full and there are no more valid moves left for both players.
     Assert.assertTrue(this.basicModelThree.isGameOver());
   }
@@ -139,21 +147,21 @@ public class ExampleModelTests {
   public void testCanOnlyAddToEmptyCell() {
     // Tests adding to a cell that is occupied by a non-empty player.
     this.init();
-    this.basicModelThree.placePiece(new HexagonCell(-1, 1, 0), Color.BLACK);
+    this.basicModelThree.placePiece(new HexagonCell(-1, 1, 0), this.blackPlayer);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testCanOnlyAddToCellInBounds() {
     // Tests adding to a cell that is occupied by a non-empty player.
     this.init();
-    this.basicModelThree.placePiece(new HexagonCell(-3, 3, 0), Color.BLACK);
+    this.basicModelThree.placePiece(new HexagonCell(-3, 3, 0), this.blackPlayer);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testCanOnlyAddToCellWithSumOfCoordinatesZero() {
     // Tests adding to a cell that is occupied by a non-empty player.
     this.init();
-    this.basicModelThree.placePiece(new HexagonCell(-1, 1, 1), Color.BLACK);
+    this.basicModelThree.placePiece(new HexagonCell(-1, 1, 1), this.blackPlayer);
   }
 
   @Test
@@ -167,9 +175,9 @@ public class ExampleModelTests {
   @Test(expected = IllegalStateException.class)
   public void testPassTurnThrowsExceptionIfGameIsOver() {
     this.init();
-    this.basicModelThree.placePiece(new HexagonCell(-1, -1, 2), Color.BLACK);
-    this.basicModelThree.placePiece(new HexagonCell(-1, 2, -1), Color.BLACK);
-    this.basicModelThree.placePiece(new HexagonCell(1, -2, 1), Color.BLACK);
+    this.basicModelThree.placePiece(new HexagonCell(-1, -1, 2), this.blackPlayer);
+    this.basicModelThree.placePiece(new HexagonCell(-1, 2, -1), this.blackPlayer);
+    this.basicModelThree.placePiece(new HexagonCell(1, -2, 1), this.blackPlayer);
     // Game is over.
     Assert.assertTrue(this.basicModelThree.isGameOver());
     this.basicModelThree.passTurn();

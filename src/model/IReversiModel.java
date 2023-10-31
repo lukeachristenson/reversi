@@ -1,10 +1,11 @@
 package model;
+
 import java.util.Optional;
 
 /**
  * This interface represents a model for a game of Reversi.
  */
-public interface IReversiModel{
+public interface IReversiModel {
 
 
   /**
@@ -30,6 +31,7 @@ public interface IReversiModel{
    * @throws IllegalArgumentException if the given player is null
    */
   public int getScore(Color color) throws IllegalArgumentException;
+
   /**
    * Returns the current score of the given player.
    *
@@ -59,17 +61,17 @@ public interface IReversiModel{
    * @param targetCell the Cell at which to place the piece
    * @throws IllegalArgumentException if the given row or column is out of bounds, or if the
    */
-  public void placePiece(ICell targetCell, Color color) throws IllegalStateException;
+  public void placePiece(ICell targetCell, IPlayer player) throws IllegalStateException;
 
   /**
    * action to pass ones turn, deferring the turn to the other player. if all players pass,
    * the game is over.
-   *
    */
   public void passTurn() throws IllegalStateException;
 
   /**
    * Returns the number of consecutive passes that have been made in the game so far.
+   *
    * @return number of consecutive passes that have been made in the game so far.
    */
   public int getPassCount();
@@ -77,14 +79,16 @@ public interface IReversiModel{
 
   /**
    * Returns the rendered string of the game model.
-   * @return  Rendered string of the game model.
+   *
+   * @return Rendered string of the game model.
    */
   String toString();
 
 
   /**
    * Returns the current player.
-   * @return  The current player.
+   *
+   * @return The current player.
    */
   IPlayer getCurrentPlayer();
 }

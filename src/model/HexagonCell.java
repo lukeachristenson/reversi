@@ -16,6 +16,17 @@ public class HexagonCell implements ICell {
   private final int s;
 
 
+  public HexagonCell(int q, int r, int s) {
+    // Throw an exception if the sum of the coordinates is not zero.
+    // ******** NOTE: The constructor handles the case where the sum of the coordinates is not zero.
+    if (q + r + s != 0) {
+      throw new IllegalArgumentException("Sum of coordinates is not zero.");
+    }
+    this.q = q;
+    this.r = r;
+    this.s = s;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -27,16 +38,6 @@ public class HexagonCell implements ICell {
   @Override
   public int hashCode() {
     return Objects.hash(q, r, s);
-  }
-
-  public HexagonCell(int q, int r, int s) {
-    // Throw an exception if the sum of the coordinates is not zero.
-    if(q + r + s != 0) {
-      throw new IllegalArgumentException("Sum of coordinates is not zero.");
-    }
-    this.q = q;
-    this.r = r;
-    this.s = s;
   }
 
   @Override

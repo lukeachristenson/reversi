@@ -3,7 +3,7 @@ package view;
 import model.HexagonReversi;
 import model.IReversiModel;
 
-public class ReversiTextView implements TextView{
+public class ReversiTextView implements TextView {
   private final IReversiModel model;
   private Appendable appendable;
 

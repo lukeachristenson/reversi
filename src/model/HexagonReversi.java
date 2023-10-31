@@ -1,4 +1,5 @@
 package model;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -7,21 +8,24 @@ import java.util.Optional;
  * This class represents a game of HexReversi. It implements the IReversiModel interface.
  * HexReversi is a hexagonal version of the game Reversi.
  */
-public class HexagonReversi implements IReversiModel{
-  IBoard board;
-  Color currentColor;
-  IPlayer currentPlayer;
-  int passCount;
-  boolean gameRunning;
-  int sideLength;
+public class HexagonReversi implements IReversiModel {
+  private final IBoard board;
+  private Color currentColor;
+  private IPlayer currentPlayer;
+  private IPlayer player1;
+  private IPlayer player2;
+  private int passCount;
+  private boolean gameRunning;
+  private final int sideLength;
 
   /**
    * Constructor for a HexagonReversi model. Takes in a board, current player, pass count, and
    * whether the game has started or not.
+   *
    * @param sideLength the side length of the board.
    * @throws IllegalArgumentException if the side length is less than 3
    */
-  public HexagonReversi(int sideLength) throws IllegalArgumentException{
+  public HexagonReversi(int sideLength) throws IllegalArgumentException {
     if (gameRunning) {
       throw new IllegalStateException("Game is already started");
     }
@@ -33,18 +37,22 @@ public class HexagonReversi implements IReversiModel{
 
     this.gameRunning = true;
     this.currentColor = Color.BLACK;
+    this.player1 = new HumanPlayer(Color.BLACK);
+    this.player2 = new HumanPlayer(Color.BLACK);
     this.currentPlayer = new HumanPlayer(Color.BLACK);
     this.passCount = 0;
-    this.board = this.initBoard(sideLength-1); // rings excluding the center cell = sideLength - 1
+    this.board = this.initBoard(sideLength - 1); // rings excluding the center cell = sideLength - 1
     this.addStartingMoves();
   }
+
   /**
    * Constructor for a HexagonReversi model used ONLY for testing. Rigs the game by
    * passing in a hexagonal board for the game.
+   *
    * @param hexBoard rigged board.
    * @throws IllegalArgumentException if the side length is less than 3
    */
-  public HexagonReversi(IBoard hexBoard, int sideLength) throws IllegalArgumentException{
+  public HexagonReversi(IBoard hexBoard, int sideLength) throws IllegalArgumentException {
     if (gameRunning) {
       throw new IllegalStateException("Game is already started");
     }
@@ -61,21 +69,21 @@ public class HexagonReversi implements IReversiModel{
   }
 
   //helper to check if the game is started before running any other command.
-  private void gameStartedChecker() throws IllegalStateException{
+  private void gameStartedChecker() throws IllegalStateException {
     if (!gameRunning) {
       throw new IllegalStateException("Game is not started");
     }
   }
 
   //helper to initialize a board based on sideLength
-  private IBoard initBoard(int rings) throws IllegalStateException{
+  private IBoard initBoard(int rings) throws IllegalStateException {
     IBoard hexReturn = new HexagonBoard(rings + 1);
     for (int q = -rings; q <= rings; q++) {
       int r1 = Math.max(-rings, -q - rings);
       int r2 = Math.min(rings, -q + rings);
 
       for (int r = r1; r <= r2; r++) {
-        HexagonCell hp = new HexagonCell(q, r, -q-r);
+        HexagonCell hp = new HexagonCell(q, r, -q - r);
         hexReturn.newCellOwner(hp, Optional.empty());
       }
     }
@@ -93,16 +101,14 @@ public class HexagonReversi implements IReversiModel{
   }
 
   @Override
-  public void placePiece(ICell targetCell, Color color) throws IllegalStateException
+  public void placePiece(ICell targetCell, IPlayer player) throws IllegalStateException
           , IllegalArgumentException {
     this.gameStartedChecker();
 
-//    System.out.println(this.board.validMove(targetCell, this.currentPlayer, ));
-    if (this.board.validMove(targetCell, color, false)) {
-      this.board.validMove(targetCell, color, true);
-      this.board.newCellOwner(targetCell, Optional.of(color));
+    if (this.board.validMove(targetCell, player.getColor(), false)) {
+      this.board.validMove(targetCell, player.getColor(), true);
+      this.board.newCellOwner(targetCell, Optional.of(player.getColor()));
       this.passCount = 0;
-//      this.currentPlayer = this.currentPlayer.next();
     } else {
       throw new IllegalStateException("Invalid move");
     }
@@ -118,7 +124,11 @@ public class HexagonReversi implements IReversiModel{
     this.gameStartedChecker();
     this.passCount++;
     this.currentColor = this.currentColor.next();
-    this.currentPlayer = new HumanPlayer(this.currentColor);
+    if (this.currentPlayer.equals(player1)) {
+      this.currentPlayer = this.player2;
+    } else {
+      this.currentPlayer = this.player1;
+    }
   }
 
 
@@ -150,20 +160,20 @@ public class HexagonReversi implements IReversiModel{
   }
 
   @Override
-  public Color getCurrentColor() throws IllegalStateException{
+  public Color getCurrentColor() throws IllegalStateException {
     this.gameStartedChecker();
     return this.currentPlayer.getColor();
   }
 
   @Override
-  public boolean isGameOver() throws IllegalStateException{
+  public boolean isGameOver() throws IllegalStateException {
     this.gameStartedChecker();
     if (this.passCount >= Color.values().length) {
       this.gameRunning = false;
       return true;
     }
 
-    if(this.board.validMovesLeft(Color.WHITE).isEmpty() &&
+    if (this.board.validMovesLeft(Color.WHITE).isEmpty() &&
             this.board.validMovesLeft(Color.BLACK).isEmpty()) {
       this.gameRunning = false;
       return true;
@@ -173,9 +183,9 @@ public class HexagonReversi implements IReversiModel{
   }
 
   @Override
-    public int getPassCount() {
+  public int getPassCount() {
     return this.passCount;
-    }
+  }
 
 
   @Override
