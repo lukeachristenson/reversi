@@ -85,8 +85,10 @@ public class ExampleBoardTests {
   @Test
   public void testGetNonEmptyCell() {
     this.init();
-    Assert.assertEquals(this.hexagonBoardThree.getCellOccupant(new HexagonCell(-1,0,1)), Optional.of(Color.BLACK));
-    Assert.assertEquals(this.hexagonBoardThree.getCellOccupant(new HexagonCell(-2,0,2)), Optional.of(Color.WHITE));
+    Assert.assertEquals(this.hexagonBoardThree.getCellOccupant(new
+            HexagonCell(-1,0,1)), Optional.of(Color.BLACK));
+    Assert.assertEquals(this.hexagonBoardThree.getCellOccupant(new
+            HexagonCell(-2,0,2)), Optional.of(Color.WHITE));
   }
 
   @Test(expected = IllegalArgumentException.class)

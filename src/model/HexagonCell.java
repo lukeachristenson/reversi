@@ -22,7 +22,7 @@ public class HexagonCell implements ICell {
    * @param s the s coordinate of the cell.
    * @throws IllegalArgumentException if the sum of the coordinates is not zero.
    */
-  public HexagonCell(int q, int r, int s) throws IllegalArgumentException{
+  public HexagonCell(int q, int r, int s) throws IllegalArgumentException {
     // Throw an exception if the sum of the coordinates is not zero.
     // ******** NOTE: The constructor handles the case where the sum of the coordinates is not zero.
     if (q + r + s != 0) {

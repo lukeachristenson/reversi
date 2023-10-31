@@ -97,7 +97,7 @@ public class HexagonReversi implements IReversiModel {
           , IllegalArgumentException {
     this.gameStartedChecker();
 
-    if(player == null) {
+    if (player == null) {
       throw new IllegalArgumentException("Player passed into placePiece is null");
     }
     if (this.board.validMove(targetCell, player.getColor(), false)) {
