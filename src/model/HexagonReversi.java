@@ -38,8 +38,8 @@ public class HexagonReversi implements IReversiModel {
     this.gameRunning = true;
     this.currentColor = Color.BLACK;
     this.player1 = new HumanPlayer(Color.BLACK);
-    this.player2 = new HumanPlayer(Color.BLACK);
-    this.currentPlayer = new HumanPlayer(Color.BLACK);
+    this.player2 = new HumanPlayer(Color.WHITE);
+    this.currentPlayer = this.player1;
     this.passCount = 0;
     this.board = this.initBoard(sideLength - 1); // rings excluding the center cell = sideLength - 1
     this.addStartingMoves();
