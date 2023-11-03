@@ -1,6 +1,7 @@
 package model;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -62,5 +63,12 @@ public interface IBoard {
    */
   List<ICell> validMovesLeft(Color colorToAdd);
 
+
+  /**
+   * Returns a deep copy of the map of positions to colors of this board.
+   *
+   * @return Map of positions to colors.
+   */
+  Map<ICell, Optional<Color>> getPositionsMapCopy();
 
 }

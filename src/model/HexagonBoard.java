@@ -3,7 +3,9 @@ package model;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * This class represents a hexagonal board for the game of HexReversi.
@@ -220,4 +222,16 @@ public class HexagonBoard implements IBoard {
     // Return the list of valid moves
     return validMoves;
   }
+
+  @Override
+  public Map<ICell, Optional<Color>> getPositionsMapCopy() {
+    Map<ICell, Optional<Color>> mapCopy = new HashMap<>();
+    for(ICell cell : this.boardPositions.keySet()) {
+      ICell addCell = new HexagonCell(cell.getCoordinates().get(0), cell.getCoordinates().get(1),
+              cell.getCoordinates().get(2));
+      mapCopy.put(addCell, this.boardPositions.get(cell));
+    }
+    return mapCopy;
+  }
+
 }

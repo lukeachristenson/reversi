@@ -1,5 +1,7 @@
 package model;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -61,7 +63,7 @@ public class HexagonReversi implements IReversiModel {
   }
 
   //helper to check if the game is started before running any other command.
-  private void gameStartedChecker() throws IllegalStateException {
+  protected void gameStartedChecker() throws IllegalStateException {
     if (!gameRunning) {
       throw new IllegalStateException("Game is not started");
     }
@@ -189,6 +191,22 @@ public class HexagonReversi implements IReversiModel {
   @Override
   public IPlayer getCurrentPlayer() {
     return new HumanPlayer(this.currentPlayer.getColor());
+  }
+
+  @Override
+  public List<ICell> getValidMoves(Color color) throws IllegalStateException {
+    return this.board.validMovesLeft(color);
+  }
+
+  @Override
+  public IBoard createBoardCopy() {
+    Map<ICell, Optional<Color>> mapCopy = this.board.getPositionsMapCopy();
+    IBoard copyBoard = new HexagonBoard(this.sideLength - 1); //rings excluding the center cell
+    for (ICell cell : mapCopy.keySet()) {
+      copyBoard.newCellOwner(cell, mapCopy.get(cell));
+    }
+
+    return copyBoard;
   }
 
 }

@@ -1,5 +1,6 @@
 package model;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -100,5 +101,17 @@ public interface IReversiModel {
    * @throws IllegalStateException if the game has not yet started.
    */
   IPlayer getCurrentPlayer() throws IllegalStateException;
+
+
+  List<ICell> getValidMoves(Color color) throws IllegalStateException;
+
+
+  /**
+   * Returns a copy of the board.
+   *
+   * @return a copy of the board.
+   */
+  IBoard createBoardCopy();
+
 }
 
