@@ -233,4 +233,9 @@ public class HexagonBoard implements IBoard {
     return mapCopy;
   }
 
+  @Override
+  public int getNumRings() {
+    return numRings;
+  }
+
 }

@@ -113,36 +113,35 @@ public class ReversiPanel extends JPanel {
 
     // Create a copy of the board.
     IBoard boardCopy = this.roModel.createBoardCopy();
+    int screenCoordX = this.getPreferredLogicalSize().width;
+    double sideLength = (double) 0.7 * screenCoordX/(2*(boardCopy.getNumRings() + 1));
 
     // Add the cartesian positions to the drawMap.
     for (ICell cell : boardCopy.getPositionsMapCopy().keySet()) {
-      drawMap.put(new CartesianPosn(0,0,5).getFromICell(cell), boardCopy.getCellOccupant(cell));
+      drawMap.put(new CartesianPosn(0,0,sideLength).getFromICell(cell), boardCopy.getCellOccupant(cell));
     }
 
     // For each cartesian position in the drawMap, draw the hexagon with a specified size.
     for (CartesianPosn posn : drawMap.keySet()) {
       if (drawMap.get(posn).isPresent()) {
         if (drawMap.get(posn).get().equals(model.Color.BLACK)) {
-          System.out.println("BLACK");
+
           g2d.setColor(Color.BLACK);
         } else {
-          System.out.println("WHITE");
           g2d.setColor(Color.WHITE);
         }
       } else {
-        System.out.println("BLUE");
-        g2d.setColor(Color.BLUE);
+        g2d.setColor(Color.GRAY);
       }
 
       // TODO: Change the size of the hexagon to be based on the size of the board.
-      System.out.println(g2d.getColor().toString());
-      this.drawHexagon(g2d, posn.getX(), posn.getY(), 5);
+      this.drawHexagon(g2d, posn.getX(), posn.getY(), sideLength);
     }
   }
 
   // ... (other methods)
-  private void drawHexagon(Graphics2D g, double centerX, double centerY, int sideLength) {
-    Path2D path = new Path2D.Double();
+  private void drawHexagon(Graphics2D g, double centerX, double centerY, double sideLength) {
+    Path2D mainPath = new Path2D.Double();
     double leftX = centerX - sideLength * Math.sin(Math.PI / 3);
     double rightX = centerX + sideLength * Math.sin(Math.PI / 3);
     double angleDownY = centerY - sideLength * Math.cos(Math.PI / 3);
@@ -169,14 +168,15 @@ public class ReversiPanel extends JPanel {
     };
 
     // Move the Path to the center of the hexagon.
-    path.moveTo(xPoints[0], yPoints[0]);
+    mainPath.moveTo(xPoints[0], yPoints[0]);
+
 
     // Draw a line to the next point in the hexagon.
     for (int i = 1; i < 7; i++) {
-      path.lineTo(xPoints[i], yPoints[i]);
+      mainPath.lineTo(xPoints[i], yPoints[i]);
     }
-    path.closePath();
-    g.fill(path);
+    mainPath.closePath();
+    g.fill(mainPath);
   }
 
 }
