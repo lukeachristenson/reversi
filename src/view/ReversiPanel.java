@@ -36,7 +36,8 @@ public class ReversiPanel extends JPanel {
 
   /**
    * TODO REWRITE THIS JAVADOC
-   * @return  Our preferred *physical* size.
+   *
+   * @return Our preferred *physical* size.
    */
   @Override
   public Dimension getPreferredSize() {
@@ -46,6 +47,7 @@ public class ReversiPanel extends JPanel {
 
   /**
    * TODO REWRITE THIS JAVADOC
+   *
    * @return Our preferred *logical* size.
    */
   private Dimension getPreferredLogicalSize() {
@@ -70,6 +72,7 @@ public class ReversiPanel extends JPanel {
    * TODO REWRITE THIS JAVADOC
    * <p>
    * This is the inverse of {@link ReversiPanel#transformPhysicalToLogical()}.
+   *
    * @return The necessary transformation
    */
   private AffineTransform transformLogicalToPhysical() {
@@ -86,6 +89,7 @@ public class ReversiPanel extends JPanel {
    * TODO REWRITE THIS JAVADOC
    * <p>
    * This is the inverse of {@link ReversiPanel#transformLogicalToPhysical()}.
+   *
    * @return The necessary transformation
    */
   private AffineTransform transformPhysicalToLogical() {
@@ -98,68 +102,85 @@ public class ReversiPanel extends JPanel {
   }
 
 
-
   @Override
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
     Graphics2D g2d = (Graphics2D) g.create();
     g2d.transform(transformLogicalToPhysical());
 
+    // Initialize a map for cartesian posns to colors.
     Map<CartesianPosn, Optional<model.Color>> drawMap = new HashMap<>();
+
+    // Create a copy of the board.
     IBoard boardCopy = this.roModel.createBoardCopy();
 
+    // Add the cartesian positions to the drawMap.
     for (ICell cell : boardCopy.getPositionsMapCopy().keySet()) {
-      drawMap.put(CartesianPosn.getFromICell(cell), boardCopy.getCellOccupant(cell));
+      drawMap.put(new CartesianPosn(0,0,5).getFromICell(cell), boardCopy.getCellOccupant(cell));
     }
 
-    int hexSize = 30; // Adjust the size as needed
-
+    // For each cartesian position in the drawMap, draw the hexagon with a specified size.
     for (CartesianPosn posn : drawMap.keySet()) {
-      int centerX = posn.getX() * hexSize * 3;
-      int centerY = posn.getY() * hexSize * 2;
-
-      // Offset Y for odd rows
-      if (posn.getX() % 2 == 1) {
-        centerY += hexSize * Math.sqrt(3);
-      }
-
-      g2d.setColor(Color.BLACK); // Default color
-
       if (drawMap.get(posn).isPresent()) {
-        if (drawMap.get(posn).get() == model.Color.BLACK) {
+        if (drawMap.get(posn).get().equals(model.Color.BLACK)) {
+          System.out.println("BLACK");
           g2d.setColor(Color.BLACK);
-        } else if (drawMap.get(posn).get() == model.Color.WHITE) {
+        } else {
+          System.out.println("WHITE");
           g2d.setColor(Color.WHITE);
         }
+      } else {
+        System.out.println("BLUE");
+        g2d.setColor(Color.BLUE);
       }
 
-      drawHexagon(g2d, centerX, centerY, hexSize);
+      // TODO: Change the size of the hexagon to be based on the size of the board.
+      System.out.println(g2d.getColor().toString());
+      this.drawHexagon(g2d, posn.getX(), posn.getY(), 5);
     }
   }
 
   // ... (other methods)
-
-  private void drawHexagon(Graphics2D g, int centerX, int centerY, int size) {
+  private void drawHexagon(Graphics2D g, double centerX, double centerY, int sideLength) {
     Path2D path = new Path2D.Double();
-    double angle = Math.PI / 3; // Angle between hexagon vertices
+    double leftX = centerX - sideLength * Math.sin(Math.PI / 3);
+    double rightX = centerX + sideLength * Math.sin(Math.PI / 3);
+    double angleDownY = centerY - sideLength * Math.cos(Math.PI / 3);
+    double angleUpY = centerY + sideLength * Math.cos(Math.PI / 3);
+    double upwardsY = centerY + sideLength * Math.cos(0.);
+    double downwardsY = centerY - sideLength * Math.cos(0.);
 
-    for (int i = 0; i < 6; i++) {
-      double x = centerX + size * Math.cos(i * angle);
-      double y = centerY + size * Math.sin(i * angle);
+    double[] xPoints = {
+            leftX,
+            leftX,
+            centerX,
+            rightX,
+            rightX,
+            centerX,
+            leftX};
+    double[] yPoints = {
+            angleDownY,
+            angleUpY,
+            upwardsY,
+            angleUpY,
+            angleDownY,
+            downwardsY,
+            angleDownY
+    };
 
-      if (i == 0) {
-        path.moveTo(x, y);
-      } else {
-        path.lineTo(x, y);
-      }
+    // Move the Path to the center of the hexagon.
+    path.moveTo(xPoints[0], yPoints[0]);
+
+    // Draw a line to the next point in the hexagon.
+    for (int i = 1; i < 7; i++) {
+      path.lineTo(xPoints[i], yPoints[i]);
     }
-
     path.closePath();
-
     g.fill(path);
   }
 
 }
+
 
 
 
