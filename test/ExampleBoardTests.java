@@ -10,6 +10,8 @@ import model.HexagonBoard;
 import model.HexagonCell;
 import model.IBoard;
 import model.Color;
+import view.ReversiTextView;
+import view.TextView;
 
 
 /**
@@ -264,7 +266,7 @@ public class ExampleBoardTests {
   }
 
   @Test (expected = IllegalArgumentException.class)
-  public void testBoardLessThanThreeSidesThrows() {
+  public void testBoardLessThanThreeRingsThrows() {
     IBoard board = new HexagonBoard(2);
   }
 }

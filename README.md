@@ -148,17 +148,18 @@ It has an invariant that limits the coordinates such that their sum is 0.
 - [x] Model setup:
   - [x]  The ability to create a board of a given size, in default initial state
   - [x]  The ability to create a copy of a board
-- [ ] Observations:
+- [x] Observations:
   - [x]    How big is the board?
   - [x]    What are the contents of a cell at a given coordinate?
-  - [ ]    Is it legal for the current player to play at a given coordinate?
+  - [x]    Is it legal for the current player to play at a given coordinate? - BOARD DOES THIS
   - [x]    What is the current score for either player?
   - [x]    Does the current player have any legal moves?
   - [x]    Is the game over?
-- [ ] Operations:
-  - [ ]    The current player makes a move at a given cell
-  - [ ]    The current player passes
-- [ ] Document changes made for pt2 in a separate section.  
+- [x] Operations:
+  - [x]    The current player makes a move at a given cell
+  - [x]    The current player passes
+- [ ] Document changes made for pt2 in a separate section.
+- [ ] Remove unused methods from the interfaces and the concrete classes.
 
 
 - [ ] Implement graphical view using Swing

@@ -6,7 +6,7 @@ import java.util.Optional;
 /**
  * This interface represents a model for a game of Reversi.
  */
-public interface IReversiModel {
+public interface IReversiModel extends ROModel {
 
   /**
    * Returns the dimensions of the board.
@@ -70,6 +70,16 @@ public interface IReversiModel {
           , IllegalArgumentException;
 
   /**
+   * Places the current player on the given cell.
+   *
+   * @param targetCell the cell to place the current player on.
+   * @throws IllegalStateException if the game has not yet started.
+   * @throws IllegalArgumentException if the target cell is null.
+   */
+  public void placeCurrentPlayerPiece(ICell targetCell) throws IllegalStateException
+          , IllegalArgumentException;
+
+  /**
    * action to pass ones turn, deferring the turn to the other player. if all players pass,
    * the game is over.
    * @throws IllegalStateException if the game has not yet started.
@@ -93,25 +103,6 @@ public interface IReversiModel {
    */
   String toString() throws IllegalStateException;
 
-
-  /**
-   * Returns the current player.
-   *
-   * @return The current player.
-   * @throws IllegalStateException if the game has not yet started.
-   */
-  IPlayer getCurrentPlayer() throws IllegalStateException;
-
-
   List<ICell> getValidMoves(Color color) throws IllegalStateException;
-
-
-  /**
-   * Returns a copy of the board.
-   *
-   * @return a copy of the board.
-   */
-  IBoard createBoardCopy();
-
 }
 

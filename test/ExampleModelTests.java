@@ -11,6 +11,8 @@ import model.IBoard;
 import model.IPlayer;
 import model.IReversiModel;
 import model.Color;
+import view.ReversiTextView;
+import view.TextView;
 
 
 /**
@@ -190,4 +192,21 @@ public class ExampleModelTests {
   }
 
 
+  // New tests
+  @Test
+  public void testPlaceCurrentPlayerPiece() {
+    // Tests if the placeCurrentPlayerPiece method works.
+    this.init();
+    basicModelFour = new HexagonReversi(4);
+    basicModelFour.placeCurrentPlayerPiece(new HexagonCell(-1, -1, 2));
+    basicModelFour.placeCurrentPlayerPiece(new HexagonCell(-2, 1, 1));
+    System.out.println(basicModelFour.toString());
+  }
+
+  @Test
+  public void testBoardSize() {
+    this.init();
+    TextView view = new ReversiTextView(this.basicModelFour);
+    System.out.println(view.toString());
+  }
 }

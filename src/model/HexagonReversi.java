@@ -71,6 +71,7 @@ public class HexagonReversi implements IReversiModel {
 
   //helper to initialize a board based on sideLength
   private IBoard initBoard(int rings) throws IllegalStateException {
+    // rings + 1 = sideLength, includes the center ring here
     IBoard hexReturn = new HexagonBoard(rings + 1);
     for (int q = -rings; q <= rings; q++) {
       int r1 = Math.max(-rings, -q - rings);
@@ -99,6 +100,8 @@ public class HexagonReversi implements IReversiModel {
           , IllegalArgumentException {
     this.gameStartedChecker();
 
+    // We can check if the player is the current player here or have it in the method
+    // placeCurrentPlayerPiece. Can use this for testing only.
     if (player == null) {
       throw new IllegalArgumentException("Player passed into placePiece is null");
     }
@@ -111,6 +114,30 @@ public class HexagonReversi implements IReversiModel {
     }
   }
 
+  /**
+   * Places the current player on the given cell.
+   *
+   * @param targetCell the cell to place the current player on.
+   * @throws IllegalStateException if the game has not yet started.
+   * @throws IllegalArgumentException if the target cell is null.
+   */
+  @Override
+  public void placeCurrentPlayerPiece(ICell targetCell) throws IllegalStateException
+          , IllegalArgumentException {
+    this.gameStartedChecker();
+    if (this.board.validMove(targetCell, this.currentPlayer.getColor(), false)) {
+      this.board.validMove(targetCell, this.currentPlayer.getColor(), true);
+      this.board.newCellOwner(targetCell, Optional.of(this.currentPlayer.getColor()));
+      this.passCount = 0;
+    } else {
+      throw new IllegalStateException("Invalid move");
+    }
+    if(this.currentPlayer.equals(player1)) {
+      this.currentPlayer = player2;
+    } else {
+      this.currentPlayer = player1;
+    }
+  }
 
   @Override
   public void passTurn() throws IllegalStateException {
@@ -201,7 +228,8 @@ public class HexagonReversi implements IReversiModel {
   @Override
   public IBoard createBoardCopy() {
     Map<ICell, Optional<Color>> mapCopy = this.board.getPositionsMapCopy();
-    IBoard copyBoard = new HexagonBoard(this.sideLength - 1); //rings excluding the center cell
+    IBoard copyBoard = new HexagonBoard(this.sideLength);
+
     for (ICell cell : mapCopy.keySet()) {
       copyBoard.newCellOwner(cell, mapCopy.get(cell));
     }

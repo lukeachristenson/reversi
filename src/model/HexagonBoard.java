@@ -5,27 +5,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * This class represents a hexagonal board for the game of HexReversi.
  */
 public class HexagonBoard implements IBoard {
   private final HashMap<ICell, Optional<Color>> boardPositions;
-  private final int sideLength;
+  private final int numRings;
 
   /**
    * Constructor for a HexagonBoard. Takes in a side length for the board.
-   * @param sideLength the side length of the board.
+   * @param numRings the number of rings of hexagons apart from the center one in the board.
    */
-  public HexagonBoard(int sideLength) {
+  public HexagonBoard(int numRings) {
     // Throw an exception if the side length is less than 3 because the board will be too small
     // to play a game.
-    if (sideLength < 3) {
+    if (numRings < 3) {
       throw new IllegalArgumentException("Side length must be greater than 2");
     }
     this.boardPositions = new HashMap<>();
-    this.sideLength = sideLength;
+    this.numRings = numRings;
   }
 
   @Override
@@ -43,9 +42,9 @@ public class HexagonBoard implements IBoard {
   }
 
   private void checkCellInBounds(ICell cell) {
-    if (Math.abs(cell.getCoordinates().get(0)) >= sideLength
-            || Math.abs(cell.getCoordinates().get(1)) >= sideLength
-            || Math.abs(cell.getCoordinates().get(2)) >= sideLength) {
+    if (Math.abs(cell.getCoordinates().get(0)) >= numRings
+            || Math.abs(cell.getCoordinates().get(1)) >= numRings
+            || Math.abs(cell.getCoordinates().get(2)) >= numRings) {
       throw new IllegalArgumentException("Invalid coordinates for the target cell, " +
               "coordinates out of bounds");
     }
@@ -109,9 +108,9 @@ public class HexagonBoard implements IBoard {
       boolean foundOppositeColor = false;
 
       // While the target cell is in bounds of the board.
-      while (Math.abs(targetQ) < sideLength
-              && Math.abs(targetR) < sideLength
-              && Math.abs(targetS) < sideLength) {
+      while (Math.abs(targetQ) < numRings
+              && Math.abs(targetR) < numRings
+              && Math.abs(targetS) < numRings) {
         ICell targetCell = new HexagonCell(targetQ, targetR, targetS);
 
         // If the cell is occupied by an empty, return false
@@ -151,8 +150,8 @@ public class HexagonBoard implements IBoard {
 
   @Override
   public String toString() {
-    int rows = 2 * sideLength;
-    int columns = 2 * sideLength;
+    int rows = 2 * numRings;
+    int columns = 2 * numRings;
 
     // Create a 2D array to represent the board
     String[][] boardArray = new String[rows][columns];
@@ -168,8 +167,8 @@ public class HexagonBoard implements IBoard {
     for (ICell cell : boardPositions.keySet()) {
       Optional<Color> occupant = boardPositions.get(cell);
       List<Integer> coordinates = cell.getCoordinates();
-      int x = coordinates.get(0) + sideLength; //q
-      int y = coordinates.get(1) + sideLength; //r
+      int x = coordinates.get(0) + numRings; //q
+      int y = coordinates.get(1) + numRings; //r
       boardArray[y][x] = occupant.map(Color::toString).orElse("-");
     }
 
