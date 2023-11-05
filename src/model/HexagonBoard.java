@@ -37,7 +37,7 @@ public class HexagonBoard implements IBoard {
 
   private void checkCellNotNull(ICell cell) {
     if (cell == null) {
-      throw new IllegalArgumentException("Null cell passed into newCellOwner.");
+      throw new IllegalArgumentException("Null cell passed into this method.");
     }
   }
 

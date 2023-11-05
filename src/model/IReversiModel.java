@@ -11,7 +11,7 @@ public interface IReversiModel extends ROModel {
   /**
    * Returns the dimensions of the board.
    *
-   * @return the dimensions of the board as a list of integers.
+   * @return the dimensions of the board as an integer.
    * @throws IllegalStateException if the game has not yet started
    */
   public int getDimensions() throws IllegalStateException;

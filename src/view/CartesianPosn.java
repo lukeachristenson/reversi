@@ -1,5 +1,8 @@
 package view;
 
+import java.util.List;
+import java.util.Objects;
+
 import model.HexagonCell;
 import model.ICell;
 
@@ -36,38 +39,42 @@ public class CartesianPosn {
       x = 2 * central * cell.getCoordinates().get(0) * Math.cos(Math.PI / 3);
       y = 2 * central * cell.getCoordinates().get(0) * Math.sin(Math.PI / 3);
     } else {
-      //TODO: Implement this using the correct proportions.
       int q = cell.getCoordinates().get(0) + cell.getCoordinates().get(1);
       int r = 0;
       int s = cell.getCoordinates().get(2);
       ICell axisCell = new HexagonCell(q, r, s);
       ICell directionCell = new HexagonCell(cell.getCoordinates().get(0) - axisCell.getCoordinates().get(0),
               cell.getCoordinates().get(1) - axisCell.getCoordinates().get(1), 0);
-      if(cell.getCoordinates().get(0) == 2 && cell.getCoordinates().get(1) == -1 && cell.getCoordinates().get(2) == -1) {
-        System.out.println("axisCell: " + axisCell.getCoordinates());
-        System.out.println("directionCell: " + directionCell.getCoordinates());
-      }
+
+
       CartesianPosn axisPosn = this.getFromICell(axisCell);
       CartesianPosn directionPosn = this.getFromICell(directionCell);
       x = axisPosn.getX() + directionPosn.getX();
       y = axisPosn.getY() + directionPosn.getY();
     }
-
     return new CartesianPosn(x, y, sideLength);
   }
 
-
-
-
   /**
-   * Gets the ICell from the given CartesianPosn.
-   * @param posn  the CartesianPosn to get the ICell from
-   * @return    the ICell
+   * Gets the nearest CartesianPosition from the given CartesianPosns.
+   * @param posn  the CartesianPosn to get the nearest CartesianPosn from
+   *              the given CartesianPosns
+   * @param cartesianPosnList   the list of CartesianPosns to get the nearest
+   *                           CartesianPosn from
+   * @return    the nearest CartesianPosn
    */
-  public static ICell getICellFromCartesianPosn(CartesianPosn posn) {
-    // TODO: Implement this method using the correct proportions.
-
-    return null;
+  public CartesianPosn nearestCartPosn(CartesianPosn posn, List<CartesianPosn> cartesianPosnList) {
+    double minDistance = 10000.;
+    CartesianPosn minPosn = null;
+    for (CartesianPosn cartesianPosn : cartesianPosnList) {
+      double distance = Math.sqrt(Math.pow(posn.getX() - cartesianPosn.getX(), 2)
+              + Math.pow(posn.getY() - cartesianPosn.getY(), 2));
+      if (distance < minDistance) {
+        minDistance = distance;
+        minPosn = cartesianPosn;
+      }
+    }
+    return Objects.requireNonNull(minPosn);
   }
 
   public double getX() {
@@ -80,5 +87,18 @@ public class CartesianPosn {
 
   public double getSideLength() {
     return this.sideLength;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    CartesianPosn that = (CartesianPosn) o;
+    return Double.compare(x, that.x) == 0 && Double.compare(y, that.y) == 0;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(x, y);
   }
 }

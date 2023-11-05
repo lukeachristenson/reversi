@@ -18,8 +18,9 @@ public class BasicReversiView extends JFrame implements ReversiView{
 
 
   @Override
-  public void addFeatureListener(ViewFeatures features) {
+  public void addFeatureListener(ViewFeatures feature) {
     //TODO: Implement this using the panel's addFeatureListener method.
+    this.panel.addFeaturesListener(feature);
   }
 
   @Override
@@ -30,10 +31,12 @@ public class BasicReversiView extends JFrame implements ReversiView{
   @Override
   public void advance() {
     //TODO: Implement this using the panel's advance method.
+    this.panel.advance();
   }
 
   @Override
   public void error() {
     //TODO: Implement this using the panel's error method.
+    this.panel.error();
   }
 }

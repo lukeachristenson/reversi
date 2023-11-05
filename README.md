@@ -163,7 +163,7 @@ It has an invariant that limits the coordinates such that their sum is 0.
 
 
 - [ ] Implement graphical view using Swing
-  - [ ] View only has the read-only model interface.
+  - [X] View only has the read-only model interface.
   - [ ] Controller must be able to handle mouse clicks
   - [ ] User should be able to click on a cell of the board, and it should highlight the cell.
   - [ ] View should print containing the logical coordinates of the cell that was clicked    

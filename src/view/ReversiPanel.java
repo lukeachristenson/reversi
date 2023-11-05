@@ -1,9 +1,12 @@
 package view;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.EventListener;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +14,9 @@ import java.util.Objects;
 import java.util.Optional;
 
 import javax.swing.*;
+import javax.swing.event.MouseInputAdapter;
 
+import model.HexagonCell;
 import model.IBoard;
 import model.ICell;
 import model.IPlayer;
@@ -21,17 +26,24 @@ public class ReversiPanel extends JPanel {
   private final ROModel roModel;
   private final List<ViewFeatures> featureListeners;
   private final IBoard board;
-  private final boolean mouseIsDown;
+  private boolean mouseIsDown;
   private IPlayer activePlayer;
   private CartesianPosn mousePosn;
+  private CartesianPosn activeCell;
+
+  private List<CartesianPosn> cartesianPosns;
 
   public ReversiPanel(ROModel roModel) {
     this.roModel = roModel;
     this.featureListeners = new ArrayList<>();
+    MouseEventListener mouseEventListener = new MouseEventListener();
+    this.addMouseListener(mouseEventListener);
+    this.addMouseMotionListener(mouseEventListener);
     this.board = this.roModel.createBoardCopy();
     this.activePlayer = this.roModel.getCurrentPlayer();
     this.mouseIsDown = false;
     this.mousePosn = null;
+    cartesianPosns = new ArrayList<>();
   }
 
   /**
@@ -44,7 +56,6 @@ public class ReversiPanel extends JPanel {
     return new Dimension(1000, 1000);
   }
 
-
   /**
    * TODO REWRITE THIS JAVADOC
    *
@@ -54,18 +65,20 @@ public class ReversiPanel extends JPanel {
     return new Dimension(100, 100);
   }
 
-
   public void addFeaturesListener(ViewFeatures features) {
     this.featureListeners.add(Objects.requireNonNull(features));
   }
 
-
   public void advance() {
     //TODO: Implement this method by advancing to the next board state.
+    System.out.println("Advancing");
+    this.repaint();
   }
 
   public void error() {
     //TODO: Implement this method by displaying an error message.
+    JOptionPane.showMessageDialog(this, "Invalid Move", "Invalid Move", JOptionPane.INFORMATION_MESSAGE);
+    System.err.println("Error");
   }
 
   /**
@@ -84,7 +97,6 @@ public class ReversiPanel extends JPanel {
     return ret;
   }
 
-
   /**
    * TODO REWRITE THIS JAVADOC
    * <p>
@@ -101,7 +113,6 @@ public class ReversiPanel extends JPanel {
     return ret;
   }
 
-
   @Override
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
@@ -114,11 +125,13 @@ public class ReversiPanel extends JPanel {
     // Create a copy of the board.
     IBoard boardCopy = this.roModel.createBoardCopy();
     int screenCoordX = this.getPreferredLogicalSize().width;
+    // Set the sideLength of the board based on the number of rings and the screen size.
     double sideLength = (double) 0.7 * screenCoordX/(2*(boardCopy.getNumRings() + 1));
 
     // Add the cartesian positions to the drawMap.
     for (ICell cell : boardCopy.getPositionsMapCopy().keySet()) {
       drawMap.put(new CartesianPosn(0,0,sideLength).getFromICell(cell), boardCopy.getCellOccupant(cell));
+      cartesianPosns.add(new CartesianPosn(0,0,sideLength).getFromICell(cell));
     }
 
     // For each cartesian position in the drawMap, draw the hexagon with a specified size.
@@ -133,13 +146,10 @@ public class ReversiPanel extends JPanel {
       } else {
         g2d.setColor(Color.GRAY);
       }
-
-      // TODO: Change the size of the hexagon to be based on the size of the board.
       this.drawHexagon(g2d, posn.getX(), posn.getY(), sideLength);
     }
   }
 
-  // ... (other methods)
   private void drawHexagon(Graphics2D g, double centerX, double centerY, double sideLength) {
     Path2D mainPath = new Path2D.Double();
     double leftX = centerX - sideLength * Math.sin(Math.PI / 3);
@@ -170,7 +180,6 @@ public class ReversiPanel extends JPanel {
     // Move the Path to the center of the hexagon.
     mainPath.moveTo(xPoints[0], yPoints[0]);
 
-
     // Draw a line to the next point in the hexagon.
     for (int i = 1; i < 7; i++) {
       mainPath.lineTo(xPoints[i], yPoints[i]);
@@ -179,6 +188,35 @@ public class ReversiPanel extends JPanel {
     g.fill(mainPath);
   }
 
+
+  private class MouseEventListener extends MouseInputAdapter {
+    @Override
+    public void mousePressed(MouseEvent e) {
+      ReversiPanel.this.mouseIsDown = true;
+      this.mouseDragged(e);
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+      ReversiPanel.this.mouseIsDown = false;
+      CartesianPosn nearestPosn = new CartesianPosn(ReversiPanel.this.mousePosn.getX(),
+              ReversiPanel.this.mousePosn.getY(), ReversiPanel.this.mousePosn.getSideLength())
+              .nearestCartPosn(ReversiPanel.this.mousePosn, cartesianPosns);
+
+      ReversiPanel.this.featureListeners.forEach(l -> l.playMove(nearestPosn));
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+      Point physicalPoint = e.getPoint();
+      Point2D logicalPoint = transformPhysicalToLogical().transform(physicalPoint, null);
+      System.out.println(physicalPoint);
+      System.out.println(logicalPoint.toString());
+      ReversiPanel.this.mousePosn = new CartesianPosn(logicalPoint.getX(), logicalPoint.getY(),
+              0.7 * getPreferredLogicalSize().width/(2*(board.getNumRings() + 1)));
+    }
+
+  }
 }
 
 
