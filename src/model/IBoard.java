@@ -52,7 +52,7 @@ public interface IBoard {
    * @param color Player whose score is to be returned.
    * @return Score of the given player.
    */
-  int getScore(Color color);
+  int getColorCount(Color color);
 
 
   /**

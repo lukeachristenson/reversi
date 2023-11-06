@@ -1,6 +1,5 @@
 package controller;
 
-import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -36,7 +35,7 @@ public class Controller implements ViewFeatures {
     } else {
       this.view.error();
     }
-    System.out.println(model.getScore(Color.BLACK) + " " + model.getScore(Color.WHITE));
+    System.out.println(model.getColorCount(Color.BLACK) + " " + model.getColorCount(Color.WHITE));
   }
 
   @Override

@@ -141,6 +141,9 @@ It has an invariant that limits the coordinates such that their sum is 0.
         └── TextView.java
 ```
 
+# To-Do List
+- [ ] Figuring out player v. color.
+- [ ] 
 
 # Checklist
 

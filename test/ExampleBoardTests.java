@@ -10,8 +10,6 @@ import model.HexagonBoard;
 import model.HexagonCell;
 import model.IBoard;
 import model.Color;
-import view.ReversiTextView;
-import view.TextView;
 
 
 /**
@@ -246,12 +244,12 @@ public class ExampleBoardTests {
   @Test
   public void testGetScore() {
     this.init();
-    Assert.assertEquals(this.hexagonBoardThree.getScore(Color.WHITE), 12);
-    Assert.assertEquals(this.hexagonBoardThree.getScore(Color.BLACK), 6);
+    Assert.assertEquals(this.hexagonBoardThree.getColorCount(Color.WHITE), 12);
+    Assert.assertEquals(this.hexagonBoardThree.getColorCount(Color.BLACK), 6);
     this.hexagonBoardThree.validMove(new HexagonCell(0,0,0), Color.WHITE, true);
     // White score is 18 and not 19 because the white token is not placed at the cell.
-    Assert.assertEquals(this.hexagonBoardThree.getScore(Color.WHITE), 18);
-    Assert.assertEquals(this.hexagonBoardThree.getScore(Color.BLACK), 0);
+    Assert.assertEquals(this.hexagonBoardThree.getColorCount(Color.WHITE), 18);
+    Assert.assertEquals(this.hexagonBoardThree.getColorCount(Color.BLACK), 0);
   }
 
   @Test

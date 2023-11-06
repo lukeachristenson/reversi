@@ -10,7 +10,6 @@ import java.util.Optional;
  */
 public class HexagonReversi implements IReversiModel {
   private final IBoard board;
-  private Color currentColor;
   private IPlayer currentPlayer;
   private IPlayer player1;
   private IPlayer player2;
@@ -33,7 +32,6 @@ public class HexagonReversi implements IReversiModel {
     }
 
     this.gameRunning = true;
-    this.currentColor = Color.BLACK;
     this.player1 = new HumanPlayer(Color.BLACK);
     this.player2 = new HumanPlayer(Color.WHITE);
     this.currentPlayer = this.player1;
@@ -55,9 +53,7 @@ public class HexagonReversi implements IReversiModel {
     } else {
       this.sideLength = sideLength;
     }
-
     this.gameRunning = true;
-    this.currentColor = Color.BLACK;
     this.passCount = 0;
     this.board = hexBoard;
   }
@@ -147,7 +143,6 @@ public class HexagonReversi implements IReversiModel {
     }
     this.gameStartedChecker();
     this.passCount++;
-    this.currentColor = this.currentColor.next();
     if (this.currentPlayer.equals(player1)) {
       this.currentPlayer = this.player2;
     } else {
@@ -170,15 +165,15 @@ public class HexagonReversi implements IReversiModel {
   }
 
   @Override
-  public int getScore(Color color) throws IllegalStateException {
+  public int getColorCount(Color color) throws IllegalStateException {
     this.gameStartedChecker();
-    return this.board.getScore(color);
+    return this.board.getColorCount(color);
   }
 
   @Override
   public int getScore(IPlayer player) throws IllegalStateException {
     this.gameStartedChecker();
-    return this.board.getScore(player.getColor());
+    return this.board.getColorCount(player.getColor());
   }
 
   @Override
@@ -209,7 +204,6 @@ public class HexagonReversi implements IReversiModel {
     return this.passCount;
   }
 
-
   @Override
   public String toString() {
     return this.board.toString();
@@ -236,5 +230,4 @@ public class HexagonReversi implements IReversiModel {
 
     return copyBoard;
   }
-
 }

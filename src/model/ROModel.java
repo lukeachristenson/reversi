@@ -2,8 +2,6 @@ package model;
 
 public interface ROModel {
   //TODO: Implement Read Only Model Interface
-
-
   /**
    * Returns the current player.
    *
@@ -18,5 +16,4 @@ public interface ROModel {
    * @return a copy of the board.
    */
   IBoard createBoardCopy();
-
 }

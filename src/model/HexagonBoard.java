@@ -193,7 +193,7 @@ public class HexagonBoard implements IBoard {
   }
 
   @Override
-  public int getScore(Color color) {
+  public int getColorCount(Color color) {
     int score = 0;
     // Iterate through all the cells in the board
     for (ICell cell : this.boardPositions.keySet()) {

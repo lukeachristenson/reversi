@@ -31,7 +31,7 @@ public interface IReversiModel extends ROModel {
    * @return the current score of the given player
    * @throws IllegalStateException if the game has not yet started
    */
-  public int getScore(Color color) throws IllegalStateException;
+  public int getColorCount(Color color) throws IllegalStateException;
 
   /**
    * Returns the current score of the given player.
