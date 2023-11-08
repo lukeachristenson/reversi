@@ -1,6 +1,8 @@
 package view;
 
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
@@ -42,6 +44,9 @@ public class ReversiPanel extends JPanel {
     MouseEventListener mouseEventListener = new MouseEventListener();
     this.addMouseListener(mouseEventListener);
     this.addMouseMotionListener(mouseEventListener);
+    KeyboardEventListener keyboardEventListener = new KeyboardEventListener();
+    this.addKeyListener(keyboardEventListener);
+    this.setFocusable(true);
     this.board = this.roModel.createBoardCopy();
     this.activePlayer = this.roModel.getCurrentPlayer();
     this.mouseIsDown = false;
@@ -243,5 +248,16 @@ public class ReversiPanel extends JPanel {
 
     }
 
+  }
+
+  private class KeyboardEventListener extends KeyAdapter {
+    @Override
+    public void keyPressed(KeyEvent e) {
+      if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+        for (ViewFeatures listener : ReversiPanel.this.featureListeners) {
+          ReversiPanel.activeCell.ifPresent(listener::playMove);
+        }
+      }
+    }
   }
 }
