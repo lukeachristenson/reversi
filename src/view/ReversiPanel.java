@@ -160,6 +160,7 @@ public class ReversiPanel extends JPanel {
 
   private void drawHexagon(Graphics2D g, double centerX, double centerY, double sideLength) {
     Path2D mainPath = new Path2D.Double();
+
     double leftX = centerX - sideLength * Math.sin(Math.PI / 3);
     double rightX = centerX + sideLength * Math.sin(Math.PI / 3);
     double angleDownY = centerY - sideLength * Math.cos(Math.PI / 3);
@@ -194,6 +195,9 @@ public class ReversiPanel extends JPanel {
     }
     mainPath.closePath();
     g.fill(mainPath);
+    g.setColor(Color.BLACK);
+    g.setStroke(new BasicStroke((float)sideLength * 0.1f));
+    g.draw(mainPath);
   }
 
 
