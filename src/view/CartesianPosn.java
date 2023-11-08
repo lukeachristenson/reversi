@@ -25,8 +25,8 @@ public class CartesianPosn {
   public CartesianPosn getFromICell(ICell cell) {
     // If q = 0
     double central = this.sideLength * Math.sin(Math.PI / 3);
-    double x = 0;
-    double y = 0;
+    double x;
+    double y;
     double sideLength = this.sideLength;
 
     if(cell.getCoordinates().get(0) == 0) {     // q = 0 works

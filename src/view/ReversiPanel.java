@@ -8,6 +8,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,7 @@ import java.util.Optional;
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 
+import model.HexagonCell;
 import model.IBoard;
 import model.ICell;
 import model.IPlayer;
@@ -26,15 +28,12 @@ public class ReversiPanel extends JPanel {
   private final ROModel roModel;
   private final List<ViewFeatures> featureListeners;
   private final IBoard board;
-  private boolean mouseIsDown;
   private IPlayer activePlayer;
   private CartesianPosn mousePosn;
+  private final Map<ICell, CartesianPosn> cellToCartesianPosnMap;
 
-  private List<HexViewCell> cells;
-  private List<CartesianPosn> cartesianPosns;
-  private int clickCount;
   private static Optional<CartesianPosn> activeCell = Optional.empty();
-  private final double scale = 0.5;
+  private final double scale;
 
   private static double sideLength;
 
@@ -49,9 +48,19 @@ public class ReversiPanel extends JPanel {
     this.setFocusable(true);
     this.board = this.roModel.createBoardCopy();
     this.activePlayer = this.roModel.getCurrentPlayer();
-    this.mouseIsDown = false;
     this.mousePosn = null;
-    cartesianPosns = new ArrayList<>();
+
+    // Set the scale
+    this.scale = 0.5;
+
+    // Initialize and populate the cellToCartesianPosnMap.
+    this.cellToCartesianPosnMap = new HashMap<>();
+    IBoard boardCopy = this.roModel.createBoardCopy();
+    sideLength = scale * this.getPreferredLogicalSize().width/(2*(boardCopy.getNumRings() + 1));
+    for (ICell icell : boardCopy.getPositionsMapCopy().keySet()) {
+      CartesianPosn cartesianPosn = new CartesianPosn(0, 0, sideLength).getFromICell(icell);
+      cellToCartesianPosnMap.put(icell, cartesianPosn);
+    }
   }
 
   /**
@@ -132,14 +141,11 @@ public class ReversiPanel extends JPanel {
 
     // Create a copy of the board.
     IBoard boardCopy = this.roModel.createBoardCopy();
-    int screenCoordX = this.getPreferredLogicalSize().width;
-    // Set the sideLength of the board based on the number of rings and the screen size.
-    sideLength = scale * screenCoordX/(2*(boardCopy.getNumRings() + 1));
 
-    // Add the cartesian positions to the drawMap.
-    for (ICell cell : boardCopy.getPositionsMapCopy().keySet()) {
-      drawMap.put(new CartesianPosn(0,0,sideLength).getFromICell(cell), boardCopy.getCellOccupant(cell));
-      cartesianPosns.add(new CartesianPosn(0,0,sideLength).getFromICell(cell));
+
+    // Add the cartesian positions mapped to their occupants to the drawMap.
+    for (ICell cell : this.cellToCartesianPosnMap.keySet()) {
+      drawMap.put(this.cellToCartesianPosnMap.get(cell), boardCopy.getCellOccupant(cell));
     }
 
     // For each cartesian position in the drawMap, draw the hexagon with a specified size.
@@ -160,6 +166,11 @@ public class ReversiPanel extends JPanel {
     if (activeCell.isPresent()) {
       g2d.setColor(Color.RED);
       this.drawHexagon(g2d, activeCell.get().getX(), activeCell.get().getY(), sideLength/2);
+    }
+
+    // Display the Cube Coordinates of the cell that was highlighted(if highlighted)
+    if (activeCell.isPresent()) {
+      g2d.setColor(Color.BLACK);
     }
   }
 
@@ -209,16 +220,14 @@ public class ReversiPanel extends JPanel {
   private class MouseEventListener extends MouseInputAdapter {
     @Override
     public void mousePressed(MouseEvent e) {
-      ReversiPanel.this.mouseIsDown = true;
       this.mouseDragged(e);
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-      ReversiPanel.this.mouseIsDown = false;
       CartesianPosn nearestPosn = new CartesianPosn(ReversiPanel.this.mousePosn.getX(),
               ReversiPanel.this.mousePosn.getY(), ReversiPanel.this.mousePosn.getSideLength())
-              .nearestCartPosn(ReversiPanel.this.mousePosn, cartesianPosns);
+              .nearestCartPosn(ReversiPanel.this.mousePosn, new ArrayList<>(cellToCartesianPosnMap.values()));
 
       if(nearestPosn.isWithinCell(ReversiPanel.this.mousePosn)) {
         // If cell was clicked twice, removes the highlight, else, highlights the cell.
