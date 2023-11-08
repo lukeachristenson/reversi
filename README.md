@@ -171,10 +171,10 @@ It has an invariant that limits the coordinates such that their sum is 0.
   - [ ] User should be able to click on a cell of the board, and it should highlight the cell.
   - [ ] View should print containing the logical coordinates of the cell that was clicked    
         (Note: Print the coordinates in the coordinates system of the cell)
-  - [ ] View should let the user deselect a selected cell by 
-    - [ ] (1) clicking on it again, 
-    - [ ] (2) clicking on another cell (in which case you should select that new cell), or 
-    - [ ] (3) clicking outside the boundary of the board
+  - [X] View should let the user deselect a selected cell by 
+    - [X] (1) clicking on it again, 
+    - [X] (2) clicking on another cell (in which case you should select that new cell), or 
+    - [X] (3) clicking outside the boundary of the board
   - [ ] View should allow a user move using keyboard input(Documented in the README)
   - [ ] Include in the submission at least three screenshots of your view:
     - [ ] (1)At the start of the game

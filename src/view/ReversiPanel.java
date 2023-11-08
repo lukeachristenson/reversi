@@ -6,7 +6,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.EventListener;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +15,6 @@ import java.util.Optional;
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 
-import model.HexagonCell;
 import model.IBoard;
 import model.ICell;
 import model.IPlayer;
@@ -29,12 +27,14 @@ public class ReversiPanel extends JPanel {
   private boolean mouseIsDown;
   private IPlayer activePlayer;
   private CartesianPosn mousePosn;
-  private CartesianPosn activeCell;
+
   private List<HexViewCell> cells;
   private List<CartesianPosn> cartesianPosns;
   private int clickCount;
-
+  private static Optional<CartesianPosn> activeCell = Optional.empty();
   private final double scale = 0.5;
+
+  private static double sideLength;
 
   public ReversiPanel(ROModel roModel) {
     this.roModel = roModel;
@@ -129,7 +129,7 @@ public class ReversiPanel extends JPanel {
     IBoard boardCopy = this.roModel.createBoardCopy();
     int screenCoordX = this.getPreferredLogicalSize().width;
     // Set the sideLength of the board based on the number of rings and the screen size.
-    double sideLength = (double) scale * screenCoordX/(2*(boardCopy.getNumRings() + 1));
+    sideLength = scale * screenCoordX/(2*(boardCopy.getNumRings() + 1));
 
     // Add the cartesian positions to the drawMap.
     for (ICell cell : boardCopy.getPositionsMapCopy().keySet()) {
@@ -149,6 +149,12 @@ public class ReversiPanel extends JPanel {
         g2d.setColor(Color.GRAY);
       }
       this.drawHexagon(g2d, posn.getX(), posn.getY(), sideLength);
+    }
+
+    // Highlight the cell if it is the active cell.
+    if (activeCell.isPresent()) {
+      g2d.setColor(Color.RED);
+      this.drawHexagon(g2d, activeCell.get().getX(), activeCell.get().getY(), sideLength/2);
     }
   }
 
@@ -190,44 +196,6 @@ public class ReversiPanel extends JPanel {
     g.fill(mainPath);
   }
 
-  private void highLightCell(Graphics2D g, double centerX, double centerY, double sideLength) {
-    Path2D mainPath = new Path2D.Double();
-    double shortenedLength = sideLength * scale;
-    double leftX = centerX - shortenedLength * Math.sin(Math.PI / 3);
-    double rightX = centerX + shortenedLength * Math.sin(Math.PI / 3);
-    double angleDownY = centerY - shortenedLength * Math.cos(Math.PI / 3);
-    double angleUpY = centerY + shortenedLength * Math.cos(Math.PI / 3);
-    double upwardsY = centerY + shortenedLength * Math.cos(0.);
-    double downwardsY = centerY - shortenedLength * Math.cos(0.);
-
-    double[] xPoints = {
-            leftX,
-            leftX,
-            centerX,
-            rightX,
-            rightX,
-            centerX,
-            leftX};
-    double[] yPoints = {
-            angleDownY,
-            angleUpY,
-            upwardsY,
-            angleUpY,
-            angleDownY,
-            downwardsY,
-            angleDownY
-    };
-
-    // Move the Path to the center of the hexagon.
-    mainPath.moveTo(xPoints[0], yPoints[0]);
-
-    // Draw a line to the next point in the hexagon.
-    for (int i = 1; i < 7; i++) {
-      mainPath.lineTo(xPoints[i], yPoints[i]);
-    }
-    mainPath.closePath();
-    g.fill(mainPath);
-  }
 
   private class MouseEventListener extends MouseInputAdapter {
     @Override
@@ -243,15 +211,20 @@ public class ReversiPanel extends JPanel {
               ReversiPanel.this.mousePosn.getY(), ReversiPanel.this.mousePosn.getSideLength())
               .nearestCartPosn(ReversiPanel.this.mousePosn, cartesianPosns);
 
-      ReversiPanel.this.featureListeners.forEach(l -> l.playMove(nearestPosn));
+      if(nearestPosn.isWithinCell(ReversiPanel.this.mousePosn)) {
+        // If cell was clicked twice, removes the highlight, else, highlights the cell.
+        ReversiPanel.activeCell = ReversiPanel.activeCell.equals(Optional.of(nearestPosn)) ? Optional.empty() : Optional.of(nearestPosn);
+
+      } else {
+        ReversiPanel.activeCell = Optional.empty();
+      }
+      ReversiPanel.this.repaint();
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
       Point physicalPoint = e.getPoint();
       Point2D logicalPoint = transformPhysicalToLogical().transform(physicalPoint, null);
-      System.out.println(physicalPoint);
-      System.out.println(logicalPoint.toString());
       ReversiPanel.this.mousePosn = new CartesianPosn(logicalPoint.getX(), logicalPoint.getY(),
               scale * getPreferredLogicalSize().width/(2*(board.getNumRings() + 1)));
     }
@@ -266,13 +239,5 @@ public class ReversiPanel extends JPanel {
 
     }
 
-    private void highlightCell(CartesianPosn cellPosn) {
-      // Your highlight logic goes here
-
-
-      // You can modify the cell's state to indicate it's highlighted or change its appearance
-      // For example, change its border color or fill color.
-      // Ensure to repaint the panel after highlighting the cell to reflect the changes visually.
-    }
   }
 }

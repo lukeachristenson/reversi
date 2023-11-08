@@ -17,6 +17,7 @@ public class HexagonReversi implements IReversiModel {
   private boolean gameRunning;
   private final int sideLength;
 
+
   /**
    * Constructor for a HexagonReversi model. Takes in a board, current player, pass count, and
    * whether the game has started or not.

@@ -101,4 +101,45 @@ public class CartesianPosn {
   public int hashCode() {
     return Objects.hash(x, y);
   }
+
+  /**
+   * Determines if the given CartesianPosn is within this CartesianPosn's cell.
+   * @param cellPosn  the CartesianPosn to check if it is within the given cell
+   * @return  true if the given CartesianPosn is within the given cell, false otherwise
+   */
+  public boolean isWithinCell(CartesianPosn cellPosn) {
+    // Write a method to check if the given CartesianPosn is within the given cell
+
+    // Checks horizontal limits
+    if(Math.abs(cellPosn.getX() - this.x) > this.sideLength * Math.sin(Math.PI / 3)) {
+//      System.out.println("---------FALSE ONES-------");
+//      System.out.println("X:" + cellPosn.getX() + " Y:" + cellPosn.getY());
+//      System.out.println("this.x: " + this.x + " this.y: " + this.y);
+//      System.out.println(Math.abs(cellPosn.getX()) - this.x);
+//      System.out.println(this.sideLength);
+//      System.out.println(this.sideLength * Math.sin(Math.PI / 3));
+      return false;
+    }
+
+    // Checks vertical limits
+    if(Math.abs(cellPosn.getY() - this.y) > this.sideLength) {
+//      System.out.println("HERE2");
+      return false;
+    }
+
+
+    // y = - x/rt(3) + this.sideLength
+    if((Math.abs(cellPosn.getY() - this.y)) + (Math.abs(cellPosn.getX() - this.x)) / Math.sqrt(3)  > this.sideLength) {
+//      System.out.println("HERE3");
+      return false;
+    }
+
+//    System.out.println("---------TRUE ONES---------");
+//    System.out.println("X:" + cellPosn.getX() + " Y:" + cellPosn.getY());
+//    System.out.println("this.x: " + this.x + " this.y: " + this.y);
+//    System.out.println(Math.abs(cellPosn.getX() - this.x));
+//    System.out.println(this.sideLength);
+//    System.out.println(this.sideLength * Math.sin(Math.PI / 3));
+    return true;
+  }
 }
