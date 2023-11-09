@@ -63,6 +63,7 @@ public class CartesianPosn {
    *                           CartesianPosn from
    * @return    the nearest CartesianPosn
    */
+  // TODO Move this to ReversiPanel
   public CartesianPosn nearestCartPosn(CartesianPosn posn, List<CartesianPosn> cartesianPosnList) {
     double minDistance = 10000.;
     CartesianPosn minPosn = null;

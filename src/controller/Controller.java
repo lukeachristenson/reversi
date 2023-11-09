@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -13,35 +14,46 @@ import view.ViewFeatures;
 
 public class Controller implements ViewFeatures {
   private final IReversiModel model;
-  private final ReversiView view;
+  private final List<ReversiView> view;
 
-  public Controller(IReversiModel model, ReversiView view) {
+  public Controller(IReversiModel model, ReversiView view1, ReversiView view2) {
     this.model = model;
-    this.view = view;
-    this.view.addFeatureListener(this);
+    this.view = List.of(view1, view2);
+    for(ReversiView view : this.view) {
+      view.addFeatureListener(this);
+    }
   }
 
   public void go() {
-    this.view.display(true);
+    for(ReversiView view : this.view) {
+      view.display(true);
+    }
   }
 
 
   @Override
-  public void playMove(CartesianPosn posn) {
-    boolean validate = this.model.getValidMoves(this.model.getCurrentPlayer().getColor()).contains(this.getCell(posn));
+  public void playMove(ICell cell) {
+    boolean validate = this.model.getValidMoves(this.model.getCurrentPlayer().getColor()).contains(cell);
     if (validate) {
-      this.model.placeCurrentPlayerPiece(this.getCell(posn));
-      this.view.advance();
+      this.model.placeCurrentPlayerPiece(cell);
+      for(ReversiView view : this.view) {
+        view.advance();
+      }
     } else {
-      this.view.error();
+      for(ReversiView view : this.view) {
+        if(view.getFrameColor() == this.model.getCurrentColor()) {
+          view.error();
+        }
+      }
     }
-    System.out.println(model.getColorCount(Color.BLACK) + " " + model.getColorCount(Color.WHITE));
   }
 
   @Override
   public void pass() {
     this.model.passTurn();
-    this.view.advance();
+    for(ReversiView view : this.view) {
+      view.advance();
+    }
   }
 
 
@@ -63,6 +75,8 @@ public class Controller implements ViewFeatures {
   @Override
   public void passTurn() {
     this.model.passTurn();
-    this.view.advance();
+    for(ReversiView view : this.view) {
+      view.advance();
+    }
   }
 }

@@ -21,7 +21,7 @@ public class Main {
   public static void main(String[] args) {
     IReversiModel model = aHexagonReversi(6); // Specify the number of sides for the game board.
     TextView textView = aReversiTextView(model); // Provide the model for rendering.
-    aSystem.out.println(textView.toString()); // Display the game state in the console or your application.
+    System.out.println(textView.toString()); // Display the game state in the console or your application.
   }
 }
 ```

@@ -18,4 +18,6 @@ public interface ROModel {
   IBoard createBoardCopy();
 
   boolean isGameOver();
+
+  Color getCurrentColor();
 }

@@ -1,5 +1,7 @@
 package view;
 
+import model.Color;
+
 public interface ReversiView {
 
   void addFeatureListener(ViewFeatures features);
@@ -10,4 +12,6 @@ public interface ReversiView {
   void advance();
 
   void error();
+
+  Color getFrameColor();
 }

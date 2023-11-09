@@ -20,5 +20,4 @@ public class ROHexagonModel extends HexagonReversi{
   @Override
   public void passTurn() {
   }
-
 }
