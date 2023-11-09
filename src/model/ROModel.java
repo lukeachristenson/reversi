@@ -16,4 +16,6 @@ public interface ROModel {
    * @return a copy of the board.
    */
   IBoard createBoardCopy();
+
+  boolean isGameOver();
 }
