@@ -66,14 +66,14 @@ public class ReversiPanel extends JPanel {
     this.setBackground(Color.darkGray);
 
     setLayout(new BorderLayout());
-    this.southLabel = new JLabel("Reversi");
+    this.southLabel = new JLabel("");
     this.southLabel.setForeground(Color.white);
     this.southLabel.setPreferredSize(new Dimension(100, 100));
     this.southLabel.setHorizontalAlignment(SwingConstants.CENTER);
     Font labelFont = new Font(this.southLabel.getFont().getName(), Font.BOLD, 30);
     this.southLabel.setFont(labelFont);
     add(southLabel, BorderLayout.SOUTH);
-    this.northLabel = new JLabel("Reversi");
+    this.northLabel = new JLabel("");
     this.northLabel.setForeground(Color.white);
     this.northLabel.setPreferredSize(new Dimension(100, 100));
     this.northLabel.setHorizontalAlignment(SwingConstants.CENTER);
