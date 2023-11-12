@@ -11,6 +11,7 @@ import model.IBoard;
 import model.Color;
 import model.ICell;
 import model.IReversiModel;
+import strategy.UpperLeftStrat;
 
 
 /**
@@ -69,5 +70,14 @@ public class ExampleATests {
     this.init();
     IBoard copyBoard = reversiModel.createBoardCopy();
     Assert.assertFalse(copyBoard == hexagonBoardThree);
+  }
+
+  @Test
+  public void testStrategy() {
+    // Write a test for the basic strategy using the basic model.
+    // This test should check that the basic strategy returns the correct move for the basic model.
+    IReversiModel model = new HexagonReversi(6);
+
+    System.out.println(new UpperLeftStrat(Color.BLACK, model).chooseMove(model, Optional.empty()).get(0).getCoordinates());
   }
 }

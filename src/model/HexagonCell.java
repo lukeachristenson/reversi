@@ -10,7 +10,7 @@ import java.util.Objects;
  * Information about cube coordinate system
  * <a href="https://www.redblobgames.com/grids/hexagons/">here</a>
  */
-public class HexagonCell implements ICell {
+public final class HexagonCell implements ICell {
   private final int q;
   private final int r;
   private final int s;

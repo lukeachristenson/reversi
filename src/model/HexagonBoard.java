@@ -1,7 +1,9 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -230,7 +232,7 @@ public class HexagonBoard implements IBoard {
               cell.getCoordinates().get(2));
       mapCopy.put(addCell, this.boardPositions.get(cell));
     }
-    return mapCopy;
+    return Collections.unmodifiableMap(mapCopy);
   }
 
   @Override
@@ -238,4 +240,8 @@ public class HexagonBoard implements IBoard {
     return numRings;
   }
 
+  @Override
+  public Iterator<ICell> iterator() {
+    return null;
+  }
 }

@@ -6,6 +6,7 @@ import java.util.Objects;
 import model.HexagonCell;
 import model.ICell;
 
+
 public class CartesianPosn {
   private final double x;
   private final double y;
@@ -23,59 +24,11 @@ public class CartesianPosn {
    * @return    the CartesianPosn
    */
   public CartesianPosn getFromICell(ICell cell) {
-    // If q = 0
-    double central = this.sideLength * Math.sin(Math.PI / 3);
-    double x;
-    double y;
     double sideLength = this.sideLength;
+    double x = sideLength * (Math.sqrt(3) * cell.getCoordinates().get(0)  +  Math.sqrt(3)/2 * cell.getCoordinates().get(1));
+    double y = - sideLength * (3.)/2 * cell.getCoordinates().get(1);
 
-    if(cell.getCoordinates().get(0) == 0) {     // q = 0 works
-      x = 2 * central * cell.getCoordinates().get(1) * Math.cos(Math.PI / 3);
-      y = -2 * central * cell.getCoordinates().get(1) * Math.sin(Math.PI / 3);
-    } else if(cell.getCoordinates().get(1) == 0) { // r = 0 works
-      x = 2 * central * cell.getCoordinates().get(0);
-      y = 0;
-    } else if(cell.getCoordinates().get(2) == 0) { // s = 0 works
-      x = 2 * central * cell.getCoordinates().get(0) * Math.cos(Math.PI / 3);
-      y = 2 * central * cell.getCoordinates().get(0) * Math.sin(Math.PI / 3);
-    } else {
-      int q = cell.getCoordinates().get(0) + cell.getCoordinates().get(1);
-      int r = 0;
-      int s = cell.getCoordinates().get(2);
-      ICell axisCell = new HexagonCell(q, r, s);
-      ICell directionCell = new HexagonCell(cell.getCoordinates().get(0) - axisCell.getCoordinates().get(0),
-              cell.getCoordinates().get(1) - axisCell.getCoordinates().get(1), 0);
-
-
-      CartesianPosn axisPosn = this.getFromICell(axisCell);
-      CartesianPosn directionPosn = this.getFromICell(directionCell);
-      x = axisPosn.getX() + directionPosn.getX();
-      y = axisPosn.getY() + directionPosn.getY();
-    }
     return new CartesianPosn(x, y, sideLength);
-  }
-
-  /**
-   * Gets the nearest CartesianPosition from the given CartesianPosns.
-   * @param posn  the CartesianPosn to get the nearest CartesianPosn from
-   *              the given CartesianPosns
-   * @param cartesianPosnList   the list of CartesianPosns to get the nearest
-   *                           CartesianPosn from
-   * @return    the nearest CartesianPosn
-   */
-  // TODO Move this to ReversiPanel
-  public CartesianPosn nearestCartPosn(CartesianPosn posn, List<CartesianPosn> cartesianPosnList) {
-    double minDistance = 10000.;
-    CartesianPosn minPosn = null;
-    for (CartesianPosn cartesianPosn : cartesianPosnList) {
-      double distance = Math.sqrt(Math.pow(posn.getX() - cartesianPosn.getX(), 2)
-              + Math.pow(posn.getY() - cartesianPosn.getY(), 2));
-      if (distance < minDistance) {
-        minDistance = distance;
-        minPosn = cartesianPosn;
-      }
-    }
-    return Objects.requireNonNull(minPosn);
   }
 
   public double getX() {

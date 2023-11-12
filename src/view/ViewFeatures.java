@@ -8,6 +8,4 @@ public interface ViewFeatures {
   //todo implement this
   void pass();
   void quit();
-
-  void passTurn();
 }

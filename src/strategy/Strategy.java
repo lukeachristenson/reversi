@@ -1,8 +1,12 @@
 package strategy;
 
+import java.util.List;
+import java.util.Optional;
+
 import model.ICell;
 import model.IReversiModel;
+import model.ROModel;
 
 public interface Strategy {
-  ICell chooseMove(IReversiModel model);
+  List<ICell> chooseMove(ROModel model, Optional<List<ICell>> filteredMoves);
 }

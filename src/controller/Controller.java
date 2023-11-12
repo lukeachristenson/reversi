@@ -71,12 +71,4 @@ public class Controller implements ViewFeatures {
   public void quit() {
     System.exit(0);
   }
-
-  @Override
-  public void passTurn() {
-    this.model.passTurn();
-    for(ReversiView view : this.view) {
-      view.advance();
-    }
-  }
 }

@@ -7,7 +7,7 @@ import java.util.Optional;
 /**
  * This interface represents a board for a game of Reversi.
  */
-public interface IBoard {
+public interface IBoard extends Iterable<ICell>{
   /**
    * Adds a cell to the board or can reassign a cell to a player.
    *
