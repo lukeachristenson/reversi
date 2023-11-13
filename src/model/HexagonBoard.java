@@ -87,7 +87,6 @@ public class HexagonBoard implements IBoard {
     // difference in s direction
     int[] ds = {0, 0, 1, -1, 1, -1};
 
-
     int coordinateQ = cell.getCoordinates().get(0);
     int coordinateR = cell.getCoordinates().get(1);
     int coordinateS = cell.getCoordinates().get(2);
@@ -240,8 +239,4 @@ public class HexagonBoard implements IBoard {
     return numRings;
   }
 
-  @Override
-  public Iterator<ICell> iterator() {
-    return null;
-  }
 }

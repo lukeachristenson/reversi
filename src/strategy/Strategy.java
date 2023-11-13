@@ -8,5 +8,5 @@ import model.IReversiModel;
 import model.ROModel;
 
 public interface Strategy {
-  List<ICell> chooseMove(ROModel model, Optional<List<ICell>> filteredMoves);
+  List<ICell> chooseMove(ROModel model, List<ICell> filteredMoves);
 }

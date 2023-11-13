@@ -67,7 +67,7 @@ public class HexagonReversi implements IReversiModel {
   }
 
   //helper to initialize a board based on sideLength
-  private IBoard initBoard(int rings) throws IllegalStateException {
+  public IBoard initBoard(int rings) throws IllegalStateException {
     // rings + 1 = sideLength, includes the center ring here
     IBoard hexReturn = new HexagonBoard(rings + 1);
     for (int q = -rings; q <= rings; q++) {
@@ -231,4 +231,4 @@ public class HexagonReversi implements IReversiModel {
 
     return copyBoard;
   }
-}
+ }

@@ -7,7 +7,7 @@ import java.util.Optional;
 /**
  * This interface represents a board for a game of Reversi.
  */
-public interface IBoard extends Iterable<ICell>{
+public interface IBoard {
   /**
    * Adds a cell to the board or can reassign a cell to a player.
    *
@@ -19,6 +19,7 @@ public interface IBoard extends Iterable<ICell>{
 
   /**
    * Gets the occupant of the cell, either a player or empty represented by an optional.
+   *
    * @param cell the cell to get the state of.
    * @return the occupant of the cell.
    * @throws IllegalArgumentException if the cell is null, or the coordinates are out of bounds.
@@ -28,9 +29,10 @@ public interface IBoard extends Iterable<ICell>{
   /**
    * Returns whether a move is valid or not. If the boolean flip is true, then the move is made and
    * all the cells that are supposed to be flipped based on the move are flipped.
-   * @param cell the cell to be added.
+   *
+   * @param cell  the cell to be added.
    * @param color the color of the player.
-   * @param flip whether to flip the cells or not.
+   * @param flip  whether to flip the cells or not.
    * @return whether the move is valid or not.
    * @throws IllegalArgumentException if the cell is null or the coordinates are out of bounds.
    * @throws IllegalStateException    if the cell is already occupied.

@@ -1,6 +1,7 @@
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -11,6 +12,7 @@ import model.IBoard;
 import model.Color;
 import model.ICell;
 import model.IReversiModel;
+import strategy.Greedy;
 import strategy.UpperLeftStrat;
 
 
@@ -78,6 +80,7 @@ public class ExampleATests {
     // This test should check that the basic strategy returns the correct move for the basic model.
     IReversiModel model = new HexagonReversi(6);
 
-    System.out.println(new UpperLeftStrat(Color.BLACK, model).chooseMove(model, Optional.empty()).get(0).getCoordinates());
+//    System.out.println(new UpperLeftStrat(Color.BLACK, model).chooseMove(model, List.of()).get(0).getCoordinates());
+    System.out.println(new Greedy(Color.BLACK).chooseMove(model, List.of()).get(0).getCoordinates());
   }
 }

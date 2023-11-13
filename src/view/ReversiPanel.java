@@ -21,6 +21,7 @@ import javax.swing.event.MouseInputAdapter;
 import model.IBoard;
 import model.ICell;
 import model.ROModel;
+import strategy.Greedy;
 import strategy.UpperLeftStrat;
 import strategy.Strategy;
 
@@ -203,12 +204,12 @@ public class ReversiPanel extends JPanel {
 
 //    // This is used ONLY to test the view by highlighting the strategy's indicated move.
 //    // Highlight BasicStrategy's move.
-//    Strategy basic = new UpperLeftStrat(this.roModel.getCurrentPlayer().getColor(), this.roModel);
-//    ICell stratCell = basic.chooseMove(this.roModel, Optional.empty()).get(0);
+//    Strategy greedy = new Greedy(this.roModel.getCurrentPlayer().getColor());
+//    ICell stratCell = greedy.chooseMove(this.roModel, List.of()).get(0);
 //    g2d.setColor(Color.RED);
 //    this.drawHexagon(g2d, this.cellToCartesianPosnMap.get(stratCell).getX(),
 //            this.cellToCartesianPosnMap.get(stratCell).getY(), sideLength);
-//
+
 
     // Place circular tokens on the board.
     for (CartesianPosn posn : drawMap.keySet()) {
