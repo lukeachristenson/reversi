@@ -8,6 +8,9 @@ import model.HexagonCell;
 import model.ICell;
 import model.ROModel;
 
+/**
+ * Function object strategy that chooses
+ */
 public class AvoidEdges implements Strategy {
   private final model.Color color;
 

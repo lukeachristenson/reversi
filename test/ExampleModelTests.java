@@ -96,12 +96,12 @@ public class ExampleModelTests {
   public void testGetScore() {
     this.init();
     // Before a move.
-    Assert.assertEquals(this.basicModelThree.getColorCount(Color.WHITE),3);
-    Assert.assertEquals(this.basicModelThree.getColorCount(Color.BLACK), 3);
+    Assert.assertEquals(this.basicModelThree.getScore(Color.WHITE),3);
+    Assert.assertEquals(this.basicModelThree.getScore(Color.BLACK), 3);
     this.basicModelThree.placePiece(new HexagonCell(-1, -1, 2), this.blackPlayer);
     // After a move.
-    Assert.assertEquals(this.basicModelThree.getColorCount(Color.WHITE),2);
-    Assert.assertEquals(this.basicModelThree.getColorCount(Color.BLACK), 5);
+    Assert.assertEquals(this.basicModelThree.getScore(Color.WHITE),2);
+    Assert.assertEquals(this.basicModelThree.getScore(Color.BLACK), 5);
   }
 
   @Test

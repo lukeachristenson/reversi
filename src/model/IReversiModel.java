@@ -87,5 +87,7 @@ public interface IReversiModel extends ROModel {
   String toString() throws IllegalStateException;
 
   List<ICell> getValidMoves(Color color) throws IllegalStateException;
+
+  boolean validMove(ICell cell) throws IllegalArgumentException;
 }
 

@@ -1,7 +1,6 @@
 package model;
 
 import java.util.List;
-import java.util.Objects;
 
 public interface ROModel {
   //TODO: Implement Read Only Model Interface

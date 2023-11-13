@@ -93,6 +93,13 @@ public class HexagonReversi implements IReversiModel {
   }
 
   @Override
+  public boolean validMove(ICell cell) throws IllegalArgumentException {
+    return this.board.validMove(cell, getCurrentColor(), false);
+  }
+
+
+
+  @Override
   public void placePiece(ICell targetCell, IPlayer player) throws IllegalStateException
           , IllegalArgumentException {
     this.gameStartedChecker();
@@ -166,7 +173,7 @@ public class HexagonReversi implements IReversiModel {
   }
 
   @Override
-  public int getColorCount(Color color) throws IllegalStateException {
+  public int getScore(Color color) throws IllegalStateException {
     this.gameStartedChecker();
 
     return this.board.getColorCount(color);
