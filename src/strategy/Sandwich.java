@@ -24,11 +24,9 @@ public class Sandwich implements Strategy {
   @Override
   public List<ICell> chooseMove(ROModel model, List<ICell> filteredMoves) {
     // Use Strat1 to get the best move. Pass the list of moves to the next strategy.
-    List<ICell> filter = strat1.chooseMove(model, filteredMoves);
-    if (filter.isEmpty()) {
-      return strat2.chooseMove(model, filteredMoves);
-    } else {
-      return strat2.chooseMove(model, filter);
-    }
+    List<ICell> filter = (strat1.chooseMove(model, filteredMoves).isEmpty()) ? filteredMoves
+            : strat1.chooseMove(model, filteredMoves);
+    return strat2.chooseMove(model, filter);
+
   }
 }

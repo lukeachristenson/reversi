@@ -67,7 +67,7 @@ public class HexagonReversi implements IReversiModel {
   }
 
   //helper to initialize a board based on sideLength
-  public IBoard initBoard(int rings) throws IllegalStateException {
+  private IBoard initBoard(int rings) throws IllegalStateException {
     // rings + 1 = sideLength, includes the center ring here
     IBoard hexReturn = new HexagonBoard(rings + 1);
     for (int q = -rings; q <= rings; q++) {
@@ -168,13 +168,8 @@ public class HexagonReversi implements IReversiModel {
   @Override
   public int getColorCount(Color color) throws IllegalStateException {
     this.gameStartedChecker();
-    return this.board.getColorCount(color);
-  }
 
-  @Override
-  public int getScore(IPlayer player) throws IllegalStateException {
-    this.gameStartedChecker();
-    return this.board.getColorCount(player.getColor());
+    return this.board.getColorCount(color);
   }
 
   @Override
@@ -201,11 +196,6 @@ public class HexagonReversi implements IReversiModel {
   }
 
   @Override
-  public int getPassCount() {
-    return this.passCount;
-  }
-
-  @Override
   public String toString() {
     return this.board.toString();
   }
@@ -218,6 +208,18 @@ public class HexagonReversi implements IReversiModel {
   @Override
   public List<ICell> getValidMoves(Color color) throws IllegalStateException {
     return this.board.validMovesLeft(color);
+  }
+
+  @Override
+  public int cellsFlipped(ICell cell, Color color) {
+    int initialScore = this.getScore(color);
+    int finalScore = 0;
+   if(this.board.validMove(cell, color, false)) {
+     IBoard boardCopy = this.createBoardCopy();
+     boardCopy.validMove(cell, color, true);
+      finalScore = boardCopy.getColorCount(color);
+    }
+    return finalScore - initialScore;
   }
 
   @Override

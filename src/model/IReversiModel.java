@@ -14,7 +14,7 @@ public interface IReversiModel extends ROModel {
    * @return the dimensions of the board as an integer.
    * @throws IllegalStateException if the game has not yet started
    */
-  public int getDimensions() throws IllegalStateException;
+  int getDimensions() throws IllegalStateException;
 
   /**
    * Returns the cell at the given row and column.
@@ -22,7 +22,7 @@ public interface IReversiModel extends ROModel {
    * @return the cell at the given row and column.
    * @throws IllegalStateException    if the game has not yet started.
    */
-  public Optional<Color> getCellState(ICell cell) throws IllegalStateException;
+   Optional<Color> getCellState(ICell cell) throws IllegalStateException;
 
   /**
    * Returns the current score of the given player.
@@ -31,16 +31,7 @@ public interface IReversiModel extends ROModel {
    * @return the current score of the given player
    * @throws IllegalStateException if the game has not yet started
    */
-  public int getColorCount(Color color) throws IllegalStateException;
-
-  /**
-   * Returns the current score of the given player.
-   *
-   * @param player the player whose score to return
-   * @return the current score of the given player
-   * @throws IllegalArgumentException if the given player is null
-   */
-  public int getScore(IPlayer player) throws IllegalArgumentException;
+   int getScore(Color color) throws IllegalStateException;
 
   /**
    * Returns the current color for actions made in the model like placing a piece.
@@ -48,7 +39,7 @@ public interface IReversiModel extends ROModel {
    * @return the current color of the player whose turn it is.
    * @throws IllegalStateException if the game has not yet started.
    */
-  public Color getCurrentColor() throws IllegalStateException;
+   Color getCurrentColor() throws IllegalStateException;
 
   /**
    * Returns whether the game is over.
@@ -56,7 +47,7 @@ public interface IReversiModel extends ROModel {
    * @return whether the game is over.
    * @throws IllegalStateException if the game has not yet started.
    */
-  public boolean isGameOver() throws IllegalStateException;
+   boolean isGameOver() throws IllegalStateException;
 
   /**
    * Attempts to place a piece of the current player's color at the given Cell.
@@ -66,7 +57,7 @@ public interface IReversiModel extends ROModel {
    * @throws IllegalStateException    if the game has not yet started, if the given Cell is
    *                                  already occupied, or if the current player is null.
    */
-  public void placePiece(ICell targetCell, IPlayer player) throws IllegalStateException
+   void placePiece(ICell targetCell, IPlayer player) throws IllegalStateException
           , IllegalArgumentException;
 
   /**
@@ -76,7 +67,7 @@ public interface IReversiModel extends ROModel {
    * @throws IllegalStateException if the game has not yet started.
    * @throws IllegalArgumentException if the target cell is null.
    */
-  public void placeCurrentPlayerPiece(ICell targetCell) throws IllegalStateException
+   void placeCurrentPlayerPiece(ICell targetCell) throws IllegalStateException
           , IllegalArgumentException;
 
   /**
@@ -84,15 +75,7 @@ public interface IReversiModel extends ROModel {
    * the game is over.
    * @throws IllegalStateException if the game has not yet started.
    */
-  public void passTurn() throws IllegalStateException;
-
-  /**
-   * Returns the number of consecutive passes that have been made in the game so far.
-   *
-   * @return number of consecutive passes that have been made in the game so far.
-   * @throws IllegalStateException if the game has not yet started.
-   */
-  public int getPassCount() throws IllegalStateException;
+  void passTurn() throws IllegalStateException;
 
 
   /**

@@ -20,7 +20,14 @@ public interface ROModel {
    */
   IBoard createBoardCopy();
   boolean isGameOver();
+
+  int getScore(Color color) throws IllegalStateException;
+
   Color getCurrentColor();
   int getDimensions();
   List<ICell> getValidMoves(Color color);
+
+  int cellsFlipped(ICell cell, Color color);
+
+  boolean validMove(ICell cell) throws IllegalArgumentException;
 }

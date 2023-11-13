@@ -33,7 +33,7 @@ public class Controller implements ViewFeatures {
 
   @Override
   public void playMove(ICell cell) {
-    boolean validate = this.model.getValidMoves(this.model.getCurrentPlayer().getColor()).contains(cell);
+    boolean validate = this.model.getValidMoves(this.model.getCurrentColor()).contains(cell);
     if (validate) {
       this.model.placeCurrentPlayerPiece(cell);
       for(ReversiView view : this.view) {

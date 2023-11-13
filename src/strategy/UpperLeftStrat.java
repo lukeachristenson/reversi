@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import model.Color;
+import model.HexagonCell;
 import model.IBoard;
 import model.ICell;
 import model.ROModel;
@@ -11,7 +12,7 @@ import model.ROModel;
 public class UpperLeftStrat implements Strategy {
   private final Color color;
 
-  public UpperLeftStrat(Color color, ROModel model) {
+  public UpperLeftStrat(Color color) {
     this.color = color;
   }
 
@@ -19,8 +20,8 @@ public class UpperLeftStrat implements Strategy {
   // TODO: Need to make this select the uppermost-leftmost move.
   @Override
   public List<ICell> chooseMove(ROModel model, List<ICell> filteredMoves) {
-    ICell returnCell = null;
-    List<ICell> choices = (filteredMoves.isEmpty()) ? model.createBoardCopy().validMovesLeft(color) : filteredMoves;
+    ICell returnCell = new HexagonCell(0, -model.getDimensions(), model.getDimensions());
+    List<ICell> choices = (filteredMoves.isEmpty()) ? model.getValidMoves(color) : filteredMoves;
     if (model.getCurrentColor().equals(color)) {
       // Get leftmost and uppermost move.
       // Get cell with maximum s, minimum r --> (s - r) = maximum.

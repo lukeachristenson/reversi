@@ -35,6 +35,7 @@ public class ChooseCorners implements Strategy {
         }
       }
     }
+    System.out.println("Corners: " + retList);
     return retList;
   }
 }

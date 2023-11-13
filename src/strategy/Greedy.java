@@ -3,7 +3,9 @@ package strategy;
 import java.util.List;
 
 import model.Color;
+import model.HexagonReversi;
 import model.ICell;
+import model.IReversiModel;
 import model.ROModel;
 
 public class Greedy implements Strategy{
@@ -17,13 +19,11 @@ public class Greedy implements Strategy{
   public List<ICell> chooseMove(ROModel model, List<ICell> filteredMoves) {
     List<ICell> choices = (filteredMoves.isEmpty()) ? model.createBoardCopy().validMovesLeft(color) : filteredMoves;
     ICell retCell = null;
+
     int minScoreDiff = 0;
-    int existingScore = model.createBoardCopy().getColorCount(color);
 
     for(ICell cell : choices) {
-      model.IBoard board = model.createBoardCopy();
-      board.validMove(cell, color, true);
-      int scoreDiff = board.getColorCount(color) - existingScore;
+      int scoreDiff = model.cellsFlipped(cell, color);
       if(scoreDiff > minScoreDiff) {
         minScoreDiff = scoreDiff;
         retCell = cell;
