@@ -1,5 +1,6 @@
 package StrategyTests;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -75,19 +76,26 @@ public class GreedyStrategyTests {
   public void testGreedyWhenOnlyOneMoveIsFiltered() {
     // Test that the strategy returns the single move when only one move is filtered.
     this.init();
-
-    System.out.println(this.strategy.chooseMove(this.mockModel, List.of(new HexagonCell(1, 1, -2))));
-    System.out.println(log);
+    List<Integer> expected = List.of(1, 1, -2);
+    List<Integer> observed = this.strategy.chooseMove(this.mockModel,
+            List.of(new HexagonCell(1, 1, -2))).get(0).getCoordinates();
+    Assert.assertEquals(expected, observed);
+//    System.out.println(this.strategy.chooseMove(this.mockModel, List.of(new HexagonCell(1, 1, -2))).get(0).getCoordinates());
+//    System.out.println(log);
   }
 
   @Test
   public void testGreedyChoosesUpperLeftMostWhenMultipleMovesAreEqual() {
     this.init();
-
-    System.out.println(this.strategy.chooseMove(this.mockModel,
+    List<Integer> expected = List.of(-1, -1, 2);
+    List<Integer> observed = this.strategy.chooseMove(this.mockModel,
             List.of(new HexagonCell(1, 1, -2), new HexagonCell(-2, 1, 1),
-                    new HexagonCell(-1, -1, 2))).get(0).getCoordinates());
-    System.out.println(log);
+                    new HexagonCell(-1, -1, 2))).get(0).getCoordinates();
+    Assert.assertEquals(expected, observed);
+//    System.out.println(this.strategy.chooseMove(this.mockModel,
+//            List.of(new HexagonCell(1, 1, -2), new HexagonCell(-2, 1, 1),
+//                    new HexagonCell(-1, -1, 2))).get(0).getCoordinates());
+//    System.out.println(log);
   }
 
   @Test
@@ -98,12 +106,16 @@ public class GreedyStrategyTests {
     this.addBasicStartingMoves(board);
     board.validMove(new HexagonCell(-2, 1, 1), Color.BLACK, true);
     this.createModel(board, 6, log);
-
-
-    System.out.println(this.strategy.chooseMove(this.mockModel,
+    List<Integer> expected = List.of(1, 1, -2);
+    List<Integer> observed = this.strategy.chooseMove(this.mockModel,
             //these are all the possible moves for white in this situation
             List.of(new HexagonCell(  1, 1,-2), new HexagonCell(2,-1,-1),
-                    new HexagonCell(-3, 1, 2), new HexagonCell (-1,-1,2))).get(0).getCoordinates());
+                    new HexagonCell(-3, 1, 2), new HexagonCell (-1,-1,2))).get(0).getCoordinates();
+    Assert.assertEquals(expected, observed);
+//    System.out.println(this.strategy.chooseMove(this.mockModel,
+//            //these are all the possible moves for white in this situation
+//            List.of(new HexagonCell(  1, 1,-2), new HexagonCell(2,-1,-1),
+//                    new HexagonCell(-3, 1, 2), new HexagonCell (-1,-1,2))).get(0).getCoordinates());
 //    System.out.println(log);
   }
 }
