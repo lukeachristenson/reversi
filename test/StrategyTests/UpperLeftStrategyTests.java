@@ -6,14 +6,20 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import controller.Controller;
 import model.Color;
 import model.HexagonBoard;
 import model.HexagonCell;
+import model.HexagonReversi;
 import model.IBoard;
 import model.ICell;
+import model.IReversiModel;
 import model.ROModel;
 import strategy.Strategy;
 import strategy.UpperLeftStrat;
+import view.BasicReversiView;
+import view.ReversiTextView;
+import view.ReversiView;
 
 public class UpperLeftStrategyTests {
   private ROModel mockModel;
@@ -28,20 +34,20 @@ public class UpperLeftStrategyTests {
     this.testColor = Color.BLACK;
     this.mockFilteredMoves = List.of();
     this.strategy = new UpperLeftStrat(testColor);
+    this.mockModel = new MockModel(6, log);
   }
 
-  private void createModel(IBoard board, int sideLength, StringBuilder log) {
+  protected void createModel(IBoard board, int sideLength, StringBuilder log) {
     this.mockModel = new MockModel(board, sideLength, log);
   }
 
-  // Tests for UpperLeftStrat.
   @Test
   public void testBasicUpperLeftStratWithNoFilter() {
-    // Test that the strategy returns the uppermost-leftmost move when no filtered
+    // Test that the strategy returns the uppermost-leftmost moves when no filtered
     // moves are passed to it.
     this.init();
-    this.createModel(new HexagonBoard(3), 3, log);
-    this.strategy.chooseMove(this.mockModel, new ArrayList<>());
+
+    System.out.println(this.strategy.chooseMove(this.mockModel, new ArrayList<>()).get(0).getCoordinates());
     System.out.println(log);
   }
 
@@ -50,7 +56,6 @@ public class UpperLeftStrategyTests {
     // Test that the strategy returns the uppermost-leftmost move when a single cell is the
     // filtered strategy move.
     this.init();
-    this.createModel(new HexagonBoard(3), 3, log);
     System.out.println(this.strategy.chooseMove(this.mockModel, List.of(new HexagonCell(1, 1, -2))).get(0).getCoordinates());
     System.out.println(log);
   }
@@ -60,10 +65,7 @@ public class UpperLeftStrategyTests {
     // Test that the strategy returns the uppermost-leftmost move when multiple cells are the
     // filtered strategy moves.
     this.init();
-    this.createModel(new HexagonBoard(3), 3, log);
     System.out.println(this.strategy.chooseMove(this.mockModel, List.of(new HexagonCell(1, 1, -2), new HexagonCell(0, 1, -1))).get(0).getCoordinates());
     System.out.println(log);
   }
-
-
 }

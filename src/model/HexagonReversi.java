@@ -81,7 +81,6 @@ public class HexagonReversi implements IReversiModel {
     }
     return hexReturn;
   }
-
   //helper to add the starting moves of each player
   private void addStartingMoves() {
     this.board.newCellOwner(new HexagonCell(-1, 1, 0), Optional.of(Color.BLACK));

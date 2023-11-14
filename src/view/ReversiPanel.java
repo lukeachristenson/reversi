@@ -21,11 +21,6 @@ import javax.swing.event.MouseInputAdapter;
 import model.IBoard;
 import model.ICell;
 import model.ROModel;
-import strategy.AvoidEdges;
-import strategy.ChooseCorners;
-import strategy.Greedy;
-import strategy.UpperLeftStrat;
-import strategy.Strategy;
 
 public class ReversiPanel extends JPanel {
   private final ROModel roModel;

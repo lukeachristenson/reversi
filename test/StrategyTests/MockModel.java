@@ -22,6 +22,7 @@ public class MockModel  implements ROModel {
   private IPlayer currentPlayer;
   private final int sideLength;
   private final StringBuilder log;
+//  private final List<ICell>
 
   /**
    * Constructor for a HexagonReversi model. Takes in a board, current player, pass count, and
@@ -39,7 +40,9 @@ public class MockModel  implements ROModel {
 
     this.log = log;
     this.currentPlayer = new HumanPlayer(Color.BLACK);
-    this.board = this.initBoard(sideLength - 1); // rings excluding the center cell = sideLength - 1
+    // rings excluding the center cell = sideLength - 1
+    this.board = this.initBoard(sideLength - 1);
+    this.addStartingMoves();
   }
 
   /**
@@ -66,7 +69,6 @@ public class MockModel  implements ROModel {
     for (int q = -rings; q <= rings; q++) {
       int r1 = Math.max(-rings, -q - rings);
       int r2 = Math.min(rings, -q + rings);
-
       for (int r = r1; r <= r2; r++) {
         HexagonCell hp = new HexagonCell(q, r, -q - r);
         hexReturn.newCellOwner(hp, Optional.empty());
@@ -75,6 +77,16 @@ public class MockModel  implements ROModel {
     return hexReturn;
   }
 
+  //helper to add the starting moves of each player
+  private void addStartingMoves() {
+
+    this.board.newCellOwner(new HexagonCell(-1, 1, 0), Optional.of(Color.BLACK));
+    this.board.newCellOwner(new HexagonCell(-1, 0, 1), Optional.of(Color.WHITE));
+    this.board.newCellOwner(new HexagonCell(1, 0, -1), Optional.of(Color.BLACK));
+    this.board.newCellOwner(new HexagonCell(1, -1, 0), Optional.of(Color.WHITE));
+    this.board.newCellOwner(new HexagonCell(0, -1, 1), Optional.of(Color.BLACK));
+    this.board.newCellOwner(new HexagonCell(0, 1, -1), Optional.of(Color.WHITE));
+  }
 
 
   @Override
@@ -122,8 +134,16 @@ public class MockModel  implements ROModel {
 
   @Override
   public int cellsFlipped(ICell cell, Color color) {
-    log.append("cellsFlipped called with cell: " + cell.toString() + " and color: " + color.toString() + "\n");
-    return 0;
+    log.append("cellsFlipped called with cell: " + cell.getCoordinates() + " and color: " + color.toString() + "\n");
+    int initialScore = this.board.getColorCount(color);
+    int finalScore = 0;
+    if(this.board.validMove(cell, color, false)) {
+      IBoard boardCopy = this.createBoardCopy();
+      boardCopy.validMove(cell, color, true);
+      finalScore = boardCopy.getColorCount(color);
+    }
+
+    return finalScore - initialScore;
   }
 
   @Override
