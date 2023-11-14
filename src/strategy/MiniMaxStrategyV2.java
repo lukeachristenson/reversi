@@ -25,7 +25,7 @@ public class MiniMaxStrategyV2 implements Strategy {
       IBoard board = model.createBoardCopy();
       IReversiModel modelCopy = new HexagonReversi(board, model.getDimensions());
       modelCopy.placeCurrentPlayerPiece(cell);
-      //try every opponent response to your move, 
+      //try every opponent response to your move,
       for (ICell otherCell : model.getValidMoves(getOtherColor(color))) {
         IReversiModel newModelCopy = new HexagonReversi(board, model.getDimensions());
         newModelCopy.placePiece(otherCell, modelCopy.getCurrentPlayer());

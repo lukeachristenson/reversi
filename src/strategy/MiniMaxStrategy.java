@@ -14,70 +14,49 @@ import java.util.List;
 public class MiniMaxStrategy implements Strategy {
   private final Color color;
 
+
+  /**
+   * function minimax(node, depth, maximizingPlayer):
+   *     if depth is 0 or node is a terminal node:
+   *         return evaluate(node)  // Evaluate the heuristic value of the node
+   *
+   *     if maximizingPlayer:
+   *         bestValue = negative infinity
+   *         for each child in node.children:
+   *             value = minimax(child, depth - 1, false)
+   *             bestValue = max(bestValue, value)
+   *         return bestValue
+   *     else:
+   *         bestValue = positive infinity
+   *         for each child in node.children:
+   *             value = minimax(child, depth - 1, true)
+   *             bestValue = min(bestValue, value)
+   *         return bestValue
+   */
+  private int minimax(Node node, int depth, boolean maximizingPlayer) {
+    if (depth == 0 || node.isTerminal()) {
+      return node.getHeuristicValue();
+    }
+
+    if (maximizingPlayer) {
+      int bestValue = Integer.MIN_VALUE;
+      for (Node child : node.getChildren()) {
+        int value = minimax(child, depth - 1, false);
+        bestValue = Math.max(bestValue, value);
+      }
+      return bestValue;
+    } else {
+      int bestValue = Integer.MAX_VALUE;
+      for (Node child : node.getChildren()) {
+        int value = minimax(child, depth - 1, true);
+        bestValue = Math.min(bestValue, value);
+      }
+      return bestValue;
+    }
+  }
+
   public MiniMaxStrategy(Color color) {
     this.color = color;
-  }
-
-  @Override
-  public List<ICell> chooseMove(ROModel model, List<ICell> filteredMoves) {
-    // Create a map of cells to their weights.
-    HashMap<ICell, Integer> moveScores = new HashMap<>();
-
-
-
-    for (ICell cell : model.getValidMoves(color)) {
-      // Create model copy with the board.
-      IReversiModel newModel = new HexagonReversi(model.createBoardCopy(), model.getDimensions());
-
-      // If for any cell in the list of valid moves left, the game is over, add the weight of the cell accordingly.
-
-      // Else, evaluate the opponent's best move and add the weight of the cell accordingly.
-
-
-      int weight = model.cellsFlipped(cell, color);
-      IBoard newBoard = model.createBoardCopy();
-      newBoard.validMove(cell, color, true);
-      IReversiModel newModel = new HexagonReversi(newBoard, model.getDimensions());
-      moveScores.put(cell, weight + evaluateOpponentMax(newModel));
-    }
-
-    return null;
-  }
-
-  private int evaluateOpponentMax(ROModel model) {
-    List<ICell> validMoves = model.getValidMoves(getOtherColor(color));
-    int max = Integer.MIN_VALUE;
-
-    if (model.isGameOver()) {
-      // If
-      if (model.getScore(color) < model.getScore(getOtherColor(color))) {
-        return Integer.MIN_VALUE;
-      } else {
-        return Integer.MAX_VALUE;
-      }
-    }
-
-    for (ICell cell : validMoves) {
-      int score = model.cellsFlipped(cell, color);
-      if (score > max) {
-        max = score;
-      }
-    }
-
-    return -max;
-  }
-
-
-  private int returnGameOverWeight(ROModel model) {
-    if (model.isGameOver()) {
-      // If
-      if (model.getScore(color) < model.getScore(this.getOtherColor(color))) {
-        return Integer.MIN_VALUE;
-      } else {
-        return Integer.MAX_VALUE;
-      }
-    }
-    return 0;
   }
 
 
@@ -86,6 +65,11 @@ public class MiniMaxStrategy implements Strategy {
       return Color.WHITE;
     } else
       return Color.BLACK;
+  }
+
+  @Override
+  public List<ICell> chooseMove(ROModel model, List<ICell> filteredMoves) {
+    return null;
   }
 }
 
