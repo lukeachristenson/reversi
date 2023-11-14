@@ -38,13 +38,27 @@ public class GreedyStrategyTests {
 
   //helper to add the starting moves of each player
   private void addBasicStartingMoves(IBoard board) {
-
     board.newCellOwner(new HexagonCell(-1, 1, 0), Optional.of(Color.BLACK));
     board.newCellOwner(new HexagonCell(-1, 0, 1), Optional.of(Color.WHITE));
     board.newCellOwner(new HexagonCell(1, 0, -1), Optional.of(Color.BLACK));
     board.newCellOwner(new HexagonCell(1, -1, 0), Optional.of(Color.WHITE));
     board.newCellOwner(new HexagonCell(0, -1, 1), Optional.of(Color.BLACK));
     board.newCellOwner(new HexagonCell(0, 1, -1), Optional.of(Color.WHITE));
+  }
+
+  private IBoard initBoard(int rings) throws IllegalStateException {
+    // rings + 1 = sideLength, includes the center ring here
+    IBoard hexReturn = new HexagonBoard(rings + 1);
+    for (int q = -rings; q <= rings; q++) {
+      int r1 = Math.max(-rings, -q - rings);
+      int r2 = Math.min(rings, -q + rings);
+
+      for (int r = r1; r <= r2; r++) {
+        HexagonCell hp = new HexagonCell(q, r, -q - r);
+        hexReturn.newCellOwner(hp, Optional.empty());
+      }
+    }
+    return hexReturn;
   }
 
   @Test
@@ -80,14 +94,15 @@ public class GreedyStrategyTests {
   public void testGreedyChoosesBestMoveMultipleMoves() {
     this.init();
     this.strategy = new GreedyStrat(Color.WHITE);
-    IBoard board = new HexagonBoard(6);
+    IBoard board = this.initBoard(6);
     this.addBasicStartingMoves(board);
     board.validMove(new HexagonCell(-2, 1, 1), Color.BLACK, true);
     this.createModel(board, 6, log);
-
-
     System.out.println(this.strategy.chooseMove(this.mockModel,
-            List.of()).get(0).getCoordinates());
+            //these are all the possible moves for white in this situation
+            List.of(new HexagonCell(1, 1, -2), new HexagonCell(2, -1, -1)
+                    , new HexagonCell(-3, 1, 2)
+                    , new HexagonCell(-1, -1, 2))).get(0).getCoordinates());
     System.out.println(log);
   }
 }

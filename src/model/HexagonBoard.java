@@ -65,6 +65,8 @@ public class HexagonBoard implements IBoard {
     checkCellNotNull(cell);
     checkCellInBounds(cell);
     // Throw an exception if the specified cell is occupied by a non-empty player already.
+
+    //this will throw nullPointerException if the cell is not in the map.
     if (this.boardPositions.get(cell).isPresent()) {
       throw new IllegalStateException("Cell is already occupied.");
     }
