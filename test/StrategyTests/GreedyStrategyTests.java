@@ -38,10 +38,12 @@ public class GreedyStrategyTests {
   }
 
   private IBoard initBoard(int sideLength) throws IllegalStateException {
+    // rings + 1 = sideLength, includes the center ring here
     IBoard hexReturn = new HexagonBoard(sideLength);
-    for (int q = -sideLength; q <= sideLength; q++) {
-      int r1 = Math.max(-sideLength, -q - sideLength);
-      int r2 = Math.min(sideLength, -q + sideLength);
+    Integer rings = sideLength - 1;
+    for (int q = -rings; q <= rings; q++) {
+      int r1 = Math.max(-rings, -q - rings);
+      int r2 = Math.min(rings, -q + rings);
       for (int r = r1; r <= r2; r++) {
         HexagonCell hp = new HexagonCell(q, r, -q - r);
         hexReturn.newCellOwner(hp, Optional.empty());
@@ -103,7 +105,7 @@ public class GreedyStrategyTests {
   public void testGreedyChoosesBestMoveMultipleMoves() {
     this.init();
     this.strategy = new GreedyStrat(Color.WHITE);
-    IBoard board = this.initBoard(5);
+    IBoard board = this.initBoard(6);
     this.addBasicStartingMoves(board);
     board.validMove(new HexagonCell(-2, 1, 1), Color.BLACK, true);
     this.createModel(board, 6, log);

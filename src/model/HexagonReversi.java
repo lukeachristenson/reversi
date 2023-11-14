@@ -69,9 +69,10 @@ public class HexagonReversi implements IReversiModel {
   //helper to initialize a board based on sideLength
   private IBoard initBoard(int sideLength) throws IllegalStateException {
     IBoard hexReturn = new HexagonBoard(sideLength);
-    for (int q = -sideLength; q <= sideLength; q++) {
-      int r1 = Math.max(-sideLength, -q - sideLength);
-      int r2 = Math.min(sideLength, -q + sideLength);
+    Integer rings = sideLength - 1;
+    for (int q = -rings; q <= rings; q++) {
+      int r1 = Math.max(-rings, -q - rings);
+      int r2 = Math.min(rings, -q + rings);
 
       for (int r = r1; r <= r2; r++) {
         HexagonCell hp = new HexagonCell(q, r, -q - r);
