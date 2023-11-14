@@ -22,7 +22,12 @@ public class AvoidEdges implements Strategy {
   public List<ICell> chooseMove(ROModel model, List<ICell> filteredMoves) {
     List<ICell> choices = (filteredMoves.isEmpty()) ? model.createBoardCopy().validMovesLeft(color) : filteredMoves;
     List<ICell> retList = new ArrayList<>(choices);
+    //List<ICell> entireBoard = model.createBoardCopy().keySet;
+//    List<ICell> corners = new ArrayList<>(new ChooseCorners(color).chooseMove(model, entireBoard));
+    //fixme
+    //this is the old one that won't work
     List<ICell> corners = new ArrayList<>(new ChooseCorners(color).chooseMove(model, choices));
+
 
     // difference in q direction
     int[] dq = {1, -1, 0, 0, -1, 1};
@@ -33,6 +38,7 @@ public class AvoidEdges implements Strategy {
     System.out.println("Corners Here: " + corners);
 
    for(ICell corner : corners) {
+      //six directions from every cell
       for (int i = 0; i < 6; i++) {
         int q = corner.getCoordinates().get(0) + dq[i];
         int r = corner.getCoordinates().get(1) + dr[i];
@@ -42,7 +48,10 @@ public class AvoidEdges implements Strategy {
         System.out.println("Removed: " + cell.getCoordinates().toString());
       }
    }
-
-    return retList;
+   //if the only available moves were edgeMoves, brings back the option to play them.
+   if (retList.isEmpty()) {
+     return choices;
+   }
+   return retList;
   }
 }

@@ -214,6 +214,8 @@ public class HexagonBoard implements IBoard {
     List<ICell> validMoves = new ArrayList<>();
     // Iterate through all the cells in the board
     for (ICell cell : this.boardPositions.keySet()) {
+      //fixme get rid of this
+      System.out.println(cell.getCoordinates());
       // If the move is a valid move, for the playerToAdd, add that cell to the return list
       if (this.getCellOccupant(cell).isEmpty()) {
         if (validMove(cell, colorToAdd, false)) {
