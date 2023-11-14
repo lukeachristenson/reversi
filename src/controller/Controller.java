@@ -50,7 +50,7 @@ public class Controller implements ViewFeatures {
 
   @Override
   public void pass() {
-    this.model.passTurn();
+    this.model.passTurn(true);
     for(ReversiView view : this.view) {
       view.advance();
     }

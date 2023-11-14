@@ -1,5 +1,6 @@
 package strategy;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,23 +11,23 @@ import model.ROModel;
 
 public class Sandwich implements Strategy {
   private final Color color;
-  private final IBoard board;
-  private final Strategy strat1;
-  private final Strategy strat2;
+  private final List<Strategy> strategyList;
 
-  public Sandwich(Color color, IBoard board, Strategy strat1, Strategy strat2) {
+  public Sandwich(Color color, List<Strategy> strategyList) {
     this.color = color;
-    this.board = board;
-    this.strat1 = strat1;
-    this.strat2 = strat2;
+    this.strategyList = strategyList;
   }
 
   @Override
   public List<ICell> chooseMove(ROModel model, List<ICell> filteredMoves) {
     // Use Strat1 to get the best move. Pass the list of moves to the next strategy.
-    List<ICell> filter = (strat1.chooseMove(model, filteredMoves).isEmpty()) ? filteredMoves
-            : strat1.chooseMove(model, filteredMoves);
-    return strat2.chooseMove(model, filter);
+    List<ICell> filter = (filteredMoves.isEmpty()) ? model.getValidMoves(color)
+            : filteredMoves;
 
+    for(int i = 0 ; i < strategyList.size() ; i++) {
+      List<ICell> newFilter = strategyList.get(i).chooseMove(model, filter);
+      filter = newFilter;
+    }
+    return filter;
   }
 }

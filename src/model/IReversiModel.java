@@ -50,17 +50,6 @@ public interface IReversiModel extends ROModel {
    boolean isGameOver() throws IllegalStateException;
 
   /**
-   * Attempts to place a piece of the current player's color at the given Cell.
-   *
-   * @param targetCell the Cell at which to place the piece.
-   * @throws IllegalArgumentException if the given row or column is out of bounds.
-   * @throws IllegalStateException    if the game has not yet started, if the given Cell is
-   *                                  already occupied, or if the current player is null.
-   */
-   void placePiece(ICell targetCell, IPlayer player) throws IllegalStateException
-          , IllegalArgumentException;
-
-  /**
    * Places the current player on the given cell.
    *
    * @param targetCell the cell to place the current player on.
@@ -75,7 +64,7 @@ public interface IReversiModel extends ROModel {
    * the game is over.
    * @throws IllegalStateException if the game has not yet started.
    */
-  void passTurn() throws IllegalStateException;
+  void passTurn(boolean increment) throws IllegalStateException;
 
 
   /**

@@ -54,6 +54,9 @@ public class HexagonReversi implements IReversiModel {
     } else {
       this.sideLength = sideLength;
     }
+    this.player1 = new HumanPlayer(Color.BLACK);
+    this.player2 = new HumanPlayer(Color.WHITE);
+    this.currentPlayer = this.player1;
     this.gameRunning = true;
     this.passCount = 0;
     this.board = hexBoard;
@@ -97,26 +100,6 @@ public class HexagonReversi implements IReversiModel {
   }
 
 
-
-  @Override
-  public void placePiece(ICell targetCell, IPlayer player) throws IllegalStateException
-          , IllegalArgumentException {
-    this.gameStartedChecker();
-
-    // We can check if the player is the current player here or have it in the method
-    // placeCurrentPlayerPiece. Can use this for testing only.
-    if (player == null) {
-      throw new IllegalArgumentException("Player passed into placePiece is null");
-    }
-    if (this.board.validMove(targetCell, player.getColor(), false)) {
-      this.board.validMove(targetCell, player.getColor(), true);
-      this.board.newCellOwner(targetCell, Optional.of(player.getColor()));
-      this.passCount = 0;
-    } else {
-      throw new IllegalStateException("Invalid move");
-    }
-  }
-
   /**
    * Places the current player on the given cell.
    *
@@ -135,7 +118,7 @@ public class HexagonReversi implements IReversiModel {
     } else {
       throw new IllegalStateException("Invalid move");
     }
-    if(this.currentPlayer.equals(player1)) {
+    if (this.currentPlayer.equals(player1)) {
       this.currentPlayer = player2;
     } else {
       this.currentPlayer = player1;
@@ -143,13 +126,15 @@ public class HexagonReversi implements IReversiModel {
   }
 
   @Override
-  public void passTurn() throws IllegalStateException {
+  public void passTurn(boolean increment) throws IllegalStateException {
     if (this.passCount > Color.values().length) {
       throw new IllegalStateException("cannot pass more than " + Color.values().length
               + " times, game should be over");
     }
     this.gameStartedChecker();
-    this.passCount++;
+    if (increment) {
+      this.passCount++;
+    }
     if (this.currentPlayer.equals(player1)) {
       this.currentPlayer = this.player2;
     } else {

@@ -1,7 +1,5 @@
 package model;
 
-import java.util.Optional;
-
 public class ROHexagonModel extends HexagonReversi{
   public ROHexagonModel(int sideLength) throws IllegalArgumentException {
     super(sideLength);
@@ -12,12 +10,7 @@ public class ROHexagonModel extends HexagonReversi{
   }
 
   @Override
-  public void placePiece(ICell targetCell, IPlayer player) throws IllegalStateException
-          , IllegalArgumentException {
+  public void passTurn(boolean increment) throws IllegalStateException {
     this.gameStartedChecker();
-  }
-
-  @Override
-  public void passTurn() {
   }
 }
