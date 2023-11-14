@@ -118,6 +118,7 @@ public class AvoidEdgesTests {
     Assert.assertEquals(resultFilteredList, actual);
   }
 
+  //todo: this test is not done.
   @Test
   public void testAvoidEdgesKeepsEdgeMoveIfOnlyMovesAreEdgeMoves() {
     // Test that the strategy returns the uppermost-leftmost move when multiple cells are the
