@@ -37,7 +37,7 @@ public class HexagonReversi implements IReversiModel {
     this.player2 = new HumanPlayer(Color.WHITE);
     this.currentPlayer = this.player1;
     this.passCount = 0;
-    this.board = this.initBoard(sideLength - 1); // rings excluding the center cell = sideLength - 1
+    this.board = this.initBoard(sideLength); // rings excluding the center cell = sideLength - 1
     this.addStartingMoves();
   }
 
@@ -67,12 +67,11 @@ public class HexagonReversi implements IReversiModel {
   }
 
   //helper to initialize a board based on sideLength
-  private IBoard initBoard(int rings) throws IllegalStateException {
-    // rings + 1 = sideLength, includes the center ring here
-    IBoard hexReturn = new HexagonBoard(rings + 1);
-    for (int q = -rings; q <= rings; q++) {
-      int r1 = Math.max(-rings, -q - rings);
-      int r2 = Math.min(rings, -q + rings);
+  private IBoard initBoard(int sideLength) throws IllegalStateException {
+    IBoard hexReturn = new HexagonBoard(sideLength);
+    for (int q = -sideLength; q <= sideLength; q++) {
+      int r1 = Math.max(-sideLength, -q - sideLength);
+      int r2 = Math.min(sideLength, -q + sideLength);
 
       for (int r = r1; r <= r2; r++) {
         HexagonCell hp = new HexagonCell(q, r, -q - r);

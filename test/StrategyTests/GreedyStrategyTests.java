@@ -37,12 +37,11 @@ public class GreedyStrategyTests {
     this.mockModel = new MockModel(board, sideLength, log);
   }
 
-  private IBoard initBoard(int rings) throws IllegalStateException {
-    // rings + 1 = sideLength, includes the center ring here
-    IBoard hexReturn = new HexagonBoard(rings + 1);
-    for (int q = -rings; q <= rings; q++) {
-      int r1 = Math.max(-rings, -q - rings);
-      int r2 = Math.min(rings, -q + rings);
+  private IBoard initBoard(int sideLength) throws IllegalStateException {
+    IBoard hexReturn = new HexagonBoard(sideLength);
+    for (int q = -sideLength; q <= sideLength; q++) {
+      int r1 = Math.max(-sideLength, -q - sideLength);
+      int r2 = Math.min(sideLength, -q + sideLength);
       for (int r = r1; r <= r2; r++) {
         HexagonCell hp = new HexagonCell(q, r, -q - r);
         hexReturn.newCellOwner(hp, Optional.empty());
@@ -67,9 +66,11 @@ public class GreedyStrategyTests {
     // Test that the strategy returns the uppermost-leftmost moves when all valid moves are
     // equally beneficial.
     this.init();
-
-    System.out.println(this.strategy.chooseMove(this.mockModel, new ArrayList<>()).get(0).getCoordinates());
-    System.out.println(log);
+    List<Integer> expected = List.of(-1, -1, 2);
+    List<Integer> observed = this.strategy.chooseMove(this.mockModel, new ArrayList<>()).get(0).getCoordinates();
+    Assert.assertEquals(expected, observed);
+//    System.out.println(this.strategy.chooseMove(this.mockModel, new ArrayList<>()).get(0).getCoordinates());
+//    System.out.println(log);
   }
 
   @Test
