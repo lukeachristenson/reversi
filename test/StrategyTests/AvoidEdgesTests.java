@@ -118,14 +118,23 @@ public class AvoidEdgesTests {
     Assert.assertEquals(resultFilteredList, actual);
   }
 
-  //todo: this test is not done.
+  @Test
+  public void testAvoidEdgesKeepsEdgeMoveIfOnlyMoveIsEdgeMoves() {
+    // Test that the strategy returns the uppermost-leftmost move when multiple cells are the
+    // filtered strategy moves.
+    this.init();
+    List<ICell> filteredList = List.of(new HexagonCell(1, -3, 2));
+    List<ICell> actual = this.strategy.chooseMove(this.mockModel, filteredList);
+    Assert.assertEquals(filteredList, actual);
+  }
+
   @Test
   public void testAvoidEdgesKeepsEdgeMoveIfOnlyMovesAreEdgeMoves() {
     // Test that the strategy returns the uppermost-leftmost move when multiple cells are the
     // filtered strategy moves.
     this.init();
-    List<ICell> filteredList = List.of(new HexagonCell(1, 1, -2)
-            , new HexagonCell(0, 1, -1));
+    List<ICell> filteredList = List.of(new HexagonCell(1, -3, 2)
+            , new HexagonCell(-1, -2, 3));
     List<ICell> actual = this.strategy.chooseMove(this.mockModel, filteredList);
     Assert.assertEquals(filteredList, actual);
   }
