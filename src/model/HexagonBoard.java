@@ -3,7 +3,6 @@ package model;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -13,7 +12,7 @@ import java.util.Optional;
  */
 public class HexagonBoard implements IBoard {
   private final HashMap<ICell, Optional<Color>> boardPositions;
-  private final int numRings;
+  private final int sideLength;
 
   /**
    * Constructor for a HexagonBoard. Takes in a side length for the board.
@@ -26,7 +25,7 @@ public class HexagonBoard implements IBoard {
       throw new IllegalArgumentException("Side length must be greater than 2");
     }
     this.boardPositions = new HashMap<>();
-    this.numRings = numRings;
+    this.sideLength = numRings;
   }
 
   @Override
@@ -44,9 +43,9 @@ public class HexagonBoard implements IBoard {
   }
 
   private void checkCellInBounds(ICell cell) {
-    if (Math.abs(cell.getCoordinates().get(0)) >= numRings
-            || Math.abs(cell.getCoordinates().get(1)) >= numRings
-            || Math.abs(cell.getCoordinates().get(2)) >= numRings) {
+    if (Math.abs(cell.getCoordinates().get(0)) >= sideLength
+            || Math.abs(cell.getCoordinates().get(1)) >= sideLength
+            || Math.abs(cell.getCoordinates().get(2)) >= sideLength) {
       throw new IllegalArgumentException("Invalid coordinates for the target cell, " +
               "coordinates out of bounds");
     }
@@ -61,87 +60,61 @@ public class HexagonBoard implements IBoard {
 
   @Override
   public boolean validMove(ICell cell, Color colorToAdd, boolean flip) {
-    // Throw an exception if the coordinates are out of bounds of the hexagonal grid.
     checkCellNotNull(cell);
     checkCellInBounds(cell);
-    // Throw an exception if the specified cell is occupied by a non-empty player already.
 
-    //this will throw nullPointerException if the cell is not in the map.
     if (this.boardPositions.get(cell).isPresent()) {
       throw new IllegalStateException("Cell is already occupied.");
     }
 
-    // Throw an exception if the sum of coordinates is not 0.
-    // ************** Note: Handled in the constructor of HexagonCell. **************
-
-    /*     Defined direction vectors for the six possible directions when placing a piece
-     *      (1, -1, 0) -> Up 1, Right 1
-     *      (-1, 1, 0) -> Down 1, Left 1
-     *      (0, -1, 1) -> Up 1, Left 1
-     *      (0, 1, -1) -> Down 1, Right 1
-     *      (-1, 0, 1) -> Left 1
-     *      (1, 0, -1) -> Right 1
-     */
-    // difference in q direction
-    int[] dq = {1, -1, 0, 0, -1, 1};
-    // difference in r direction
-    int[] dr = {-1, 1, -1, 1, 0, 0};
-    // difference in s direction
-    int[] ds = {0, 0, 1, -1, 1, -1};
-
-    int coordinateQ = cell.getCoordinates().get(0);
-    int coordinateR = cell.getCoordinates().get(1);
-    int coordinateS = cell.getCoordinates().get(2);
-
-    List<ICell> cellsFlip = new ArrayList<>();
-
-    // Iterate through all the directions.
-    for (int direction = 0; direction < 6; direction++) {
-      int qChange = dq[direction];
-      int rChange = dr[direction];
-      int sChange = ds[direction];
-      List<ICell> cellsFlipTemp = new ArrayList<>();
-
-      int targetQ = coordinateQ;
-      int targetR = coordinateR;
-      int targetS = coordinateS;
-      targetQ += qChange;
-      targetR += rChange;
-      targetS += sChange;
-      boolean foundOppositeColor = false;
-
-      // While the target cell is in bounds of the board.
-      while (Math.abs(targetQ) < numRings
-              && Math.abs(targetR) < numRings
-              && Math.abs(targetS) < numRings) {
-        ICell targetCell = new HexagonCell(targetQ, targetR, targetS);
-
-        // If the cell is occupied by an empty, return false
-        if (boardPositions.get(targetCell).isEmpty()) {
-          break;
-        }
-
-        // If the cell is occupied by the opposite player, set foundOppositeColor to true.
-        if (!boardPositions.get(targetCell).equals(Optional.of(colorToAdd))) {
-          cellsFlipTemp.add(targetCell);
-          foundOppositeColor = true;
-        }
-
-        // If the cell is occupied by the same player, return true if foundOppositeColor is true.
-        if (boardPositions.get(targetCell).equals(Optional.of(colorToAdd))) {
-          if (foundOppositeColor) {
-            cellsFlip.addAll(cellsFlipTemp);
-          }
-        }
-        targetQ += qChange;
-        targetR += rChange;
-        targetS += sChange;
-      }
-    }
+    List<ICell> cellsFlip = calculateFlippableCells(cell, colorToAdd);
     if (flip) {
       flipMechanism(cellsFlip, colorToAdd);
     }
     return !cellsFlip.isEmpty();
+  }
+
+  private List<ICell> calculateFlippableCells(ICell cell, Color colorToAdd) {
+    List<ICell> cellsFlip = new ArrayList<>();
+    int[] dq = {1, -1, 0, 0, -1, 1};
+    int[] dr = {-1, 1, -1, 1, 0, 0};
+    int[] ds = {0, 0, 1, -1, 1, -1};
+
+    for (int direction = 0; direction < 6; direction++) {
+      cellsFlip.addAll(checkDirection(cell, dq[direction], dr[direction], ds[direction], colorToAdd));
+    }
+    return cellsFlip;
+  }
+
+  private List<ICell> checkDirection(ICell cell, int qChange, int rChange, int sChange, Color colorToAdd) {
+    List<ICell> cellsFlipTemp = new ArrayList<>();
+    int targetQ = cell.getCoordinates().get(0) + qChange;
+    int targetR = cell.getCoordinates().get(1) + rChange;
+    int targetS = cell.getCoordinates().get(2) + sChange;
+    boolean foundOppositeColor = false;
+
+    while (isInBounds(targetQ, targetR, targetS)) {
+      ICell targetCell = new HexagonCell(targetQ, targetR, targetS);
+      Optional<Color> cellOccupant = boardPositions.get(targetCell);
+
+      if (cellOccupant.isEmpty()) {
+        break;
+      } else if (!cellOccupant.equals(Optional.of(colorToAdd))) {
+        cellsFlipTemp.add(targetCell);
+        foundOppositeColor = true;
+      } else if (foundOppositeColor) {
+        return cellsFlipTemp;
+      }
+
+      targetQ += qChange;
+      targetR += rChange;
+      targetS += sChange;
+    }
+    return new ArrayList<>();
+  }
+
+  private boolean isInBounds(int targetQ, int targetR, int targetS) {
+    return Math.abs(targetQ) < sideLength && Math.abs(targetR) < sideLength && Math.abs(targetS) < sideLength;
   }
 
   //helper method to flip the cells
@@ -153,8 +126,8 @@ public class HexagonBoard implements IBoard {
 
   @Override
   public String toString() {
-    int rows = 2 * numRings;
-    int columns = 2 * numRings;
+    int rows = 2 * sideLength;
+    int columns = 2 * sideLength;
 
     // Create a 2D array to represent the board
     String[][] boardArray = new String[rows][columns];
@@ -170,8 +143,8 @@ public class HexagonBoard implements IBoard {
     for (ICell cell : boardPositions.keySet()) {
       Optional<Color> occupant = boardPositions.get(cell);
       List<Integer> coordinates = cell.getCoordinates();
-      int x = coordinates.get(0) + numRings; //q
-      int y = coordinates.get(1) + numRings; //r
+      int x = coordinates.get(0) + sideLength; //q
+      int y = coordinates.get(1) + sideLength; //r
       boardArray[y][x] = occupant.map(Color::toString).orElse("-");
     }
 
@@ -238,7 +211,7 @@ public class HexagonBoard implements IBoard {
 
   @Override
   public int getNumRings() {
-    return numRings;
+    return sideLength;
   }
 
 }
