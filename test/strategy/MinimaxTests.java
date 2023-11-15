@@ -108,6 +108,7 @@ public class MinimaxTests {
     // this.model.placeCurrentPlayerPiece(new HexagonCell(1, 1, -2));
     chosenMoves = this.strategy.chooseMove(model, List.of());
     System.out.println(chosenMoves.get(0).getCoordinates()); // TODO Insert Assert here
+    Assert.assertEquals(chosenMoves.get(0), new HexagonCell(1, 1, -2));
     model.placeCurrentPlayerPiece(new HexagonCell(1, 1, -2));
     System.out.println("Model winner evaluated in the test: " + model.getWinner());
   }
