@@ -13,8 +13,6 @@ import cs3500.reversi.model.HumanPlayer;
 import cs3500.reversi.model.IBoard;
 import cs3500.reversi.model.IPlayer;
 import cs3500.reversi.model.IReversiModel;
-import cs3500.reversi.view.ReversiTextView;
-import cs3500.reversi.view.TextView;
 
 
 /**

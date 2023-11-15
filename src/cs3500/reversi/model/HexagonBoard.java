@@ -82,12 +82,14 @@ public class HexagonBoard implements IBoard {
     int[] ds = {0, 0, 1, -1, 1, -1};
 
     for (int direction = 0; direction < 6; direction++) {
-      cellsFlip.addAll(checkDirection(cell, dq[direction], dr[direction], ds[direction], colorToAdd));
+      cellsFlip.addAll(checkDirection(cell, dq[direction]
+              , dr[direction], ds[direction], colorToAdd));
     }
     return cellsFlip;
   }
 
-  private List<ICell> checkDirection(ICell cell, int qChange, int rChange, int sChange, Color colorToAdd) {
+  private List<ICell> checkDirection(ICell cell, int qChange, int rChange
+          , int sChange, Color colorToAdd) {
     List<ICell> cellsFlipTemp = new ArrayList<>();
     int targetQ = cell.getCoordinates().get(0) + qChange;
     int targetR = cell.getCoordinates().get(1) + rChange;
@@ -115,7 +117,8 @@ public class HexagonBoard implements IBoard {
   }
 
   private boolean isInBounds(int targetQ, int targetR, int targetS) {
-    return Math.abs(targetQ) < sideLength && Math.abs(targetR) < sideLength && Math.abs(targetS) < sideLength;
+    return Math.abs(targetQ) < sideLength && Math.abs(targetR)
+            < sideLength && Math.abs(targetS) < sideLength;
   }
 
   //helper method to flip the cells

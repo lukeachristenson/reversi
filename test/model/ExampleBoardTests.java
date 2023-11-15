@@ -147,7 +147,8 @@ public class ExampleBoardTests {
     this.init();
     Assert.assertFalse(this.hexagonBoardThree.validMove(new HexagonCell(0, 0, 0),
             Color.BLACK, true));
-    Assert.assertEquals(this.hexagonBoardThree.getCellOccupant(new HexagonCell(1, -1, 0)), Optional.of(Color.BLACK));
+    Assert.assertEquals(this.hexagonBoardThree.getCellOccupant(new HexagonCell(1, -1, 0))
+            , Optional.of(Color.BLACK));
   }
 
   @Test
@@ -218,12 +219,18 @@ public class ExampleBoardTests {
 
     Assert.assertTrue(this.hexagonBoardThree.validMove(new HexagonCell(0, 0, 0),
             Color.WHITE, true));
-    Assert.assertEquals(this.hexagonBoardThree.getCellOccupant(new HexagonCell(-1, 1, 0)), Optional.of(Color.BLACK));
-    Assert.assertEquals(this.hexagonBoardThree.getCellOccupant(new HexagonCell(1, -1, 0)), Optional.of(Color.BLACK));
-    Assert.assertEquals(this.hexagonBoardThree.getCellOccupant(new HexagonCell(0, -1, 1)), Optional.of(Color.BLACK));
-    Assert.assertEquals(this.hexagonBoardThree.getCellOccupant(new HexagonCell(0, 1, -1)), Optional.of(Color.BLACK));
-    Assert.assertEquals(this.hexagonBoardThree.getCellOccupant(new HexagonCell(1, 0, -1)), Optional.of(Color.BLACK));
-    Assert.assertEquals(this.hexagonBoardThree.getCellOccupant(new HexagonCell(-1, 0, 1)), Optional.of(Color.WHITE));
+    Assert.assertEquals(this.hexagonBoardThree.getCellOccupant(new HexagonCell(-1, 1, 0))
+            , Optional.of(Color.BLACK));
+    Assert.assertEquals(this.hexagonBoardThree.getCellOccupant(new HexagonCell(1, -1, 0))
+            , Optional.of(Color.BLACK));
+    Assert.assertEquals(this.hexagonBoardThree.getCellOccupant(new HexagonCell(0, -1, 1))
+            , Optional.of(Color.BLACK));
+    Assert.assertEquals(this.hexagonBoardThree.getCellOccupant(new HexagonCell(0, 1, -1))
+            , Optional.of(Color.BLACK));
+    Assert.assertEquals(this.hexagonBoardThree.getCellOccupant(new HexagonCell(1, 0, -1))
+            , Optional.of(Color.BLACK));
+    Assert.assertEquals(this.hexagonBoardThree.getCellOccupant(new HexagonCell(-1, 0, 1))
+            , Optional.of(Color.WHITE));
   }
 
   @Test

@@ -194,10 +194,13 @@ public class ReversiPanel extends JPanel {
   }
 
   /**
-   * Generates a transformation from the physical coordinate system to the logical coordinate system.
-   * This transformation is used when interpreting physical mouse events in terms of the game's logical layout.
+   * Generates a transformation from the physical coordinate system to the logical coordinate
+   * system.
+   * This transformation is used when interpreting physical mouse events in terms of the game's
+   * logical layout.
    *
-   * @return An AffineTransform object representing the necessary transformation from physical to logical coordinates.
+   * @return An AffineTransform object representing the necessary transformation from physical to
+   *         logical coordinates.
    */
   private AffineTransform transformPhysicalToLogical() {
     AffineTransform ret = new AffineTransform();
@@ -385,7 +388,7 @@ public class ReversiPanel extends JPanel {
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
           for (ViewFeatures listener : ReversiPanel.this.featureListeners) {
             ReversiPanel.this.activeCell.ifPresent(cartesianPosn
-                    -> listener.playMove(ReversiPanel.this.getICell(cartesianPosn)));
+                -> listener.playMove(ReversiPanel.this.getICell(cartesianPosn)));
           }
         } else if (e.getKeyCode() == KeyEvent.VK_P) {
           for (ViewFeatures listener : ReversiPanel.this.featureListeners) {
