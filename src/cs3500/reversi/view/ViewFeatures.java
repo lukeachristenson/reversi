@@ -10,7 +10,7 @@ public interface ViewFeatures {
   /**
    * Plays a move at the given cell.
    *
-   * @param cell
+   * @param cell the cell to play the move at.
    */
   void playMove(ICell cell);
 

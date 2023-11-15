@@ -80,8 +80,7 @@ public class ExampleATests {
     // Write a test for the basic strategy using the basic model.
     // This test should check that the basic strategy returns the correct move for the basic model.
     IReversiModel model = new HexagonReversi(6);
-
-//    System.out.println(new UpperLeftStrat(Color.BLACK, model).chooseMove(model, List.of()).get(0).getCoordinates());
-    System.out.println(new GreedyStrat(Color.BLACK).chooseMove(model, List.of()).get(0).getCoordinates());
+    Assert.assertEquals(new GreedyStrat(Color.BLACK)
+                    .chooseMove(model, List.of()).get(0).getCoordinates(), List.of(-1, -1, 2));
   }
 }

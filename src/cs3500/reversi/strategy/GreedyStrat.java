@@ -25,7 +25,8 @@ public class GreedyStrat implements Strategy {
 
   @Override
   public List<ICell> chooseMove(ROModel model, List<ICell> filteredMoves) {
-    List<ICell> choices = (filteredMoves.isEmpty()) ? model.createBoardCopy().validMovesLeft(color) : filteredMoves;
+    List<ICell> choices = (filteredMoves.isEmpty())
+            ? model.createBoardCopy().validMovesLeft(color) : filteredMoves;
     ICell retCell = null;
     List<ICell> retList = new ArrayList<>();
     int minScoreDiff = 0;

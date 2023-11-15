@@ -5,9 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import cs3500.reversi.model.Color;
-import cs3500.reversi.model.HexagonCell;
 import cs3500.reversi.model.HexagonReversi;
-import cs3500.reversi.model.IBoard;
 import cs3500.reversi.model.ICell;
 import cs3500.reversi.model.IReversiModel;
 import cs3500.reversi.model.ROModel;

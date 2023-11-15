@@ -40,7 +40,7 @@ public class Controller implements ViewFeatures {
   /**
    * Constructs a Controller with the given model and views.
    */
-  public void go() {
+  public void controllerGo() {
     for (ReversiView view : this.views) {
       view.display(true);
     }

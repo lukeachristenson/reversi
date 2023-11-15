@@ -31,7 +31,8 @@ public class UpperLeftStrat implements Strategy {
                     && !filteredMoves.isEmpty();
 
     ICell returnCell = new HexagonCell(0, -model.getDimensions(), model.getDimensions());
-    List<ICell> choices = new ArrayList<>(allValidFilteredMoves ? filteredMoves : model.getValidMoves(color));
+    List<ICell> choices =
+            new ArrayList<>(allValidFilteredMoves ? filteredMoves : model.getValidMoves(color));
 
     // Sort based on (s - r)
     if (model.getCurrentColor().equals(color)) {

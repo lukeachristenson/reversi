@@ -4,12 +4,21 @@ import java.util.Objects;
 
 import cs3500.reversi.model.ICell;
 
+/**
+ * This class represents a Cartesian position.
 
+ */
 public class CartesianPosn {
   private final double x;
   private final double y;
   private final double sideLength;
 
+  /**
+   * Constructor for a CartesianPosn. Takes in an x and y coordinate and a side length.
+   * @param x the x coordinate
+   * @param y the y coordinate
+   * @param sideLength the side length
+   */
   public CartesianPosn(double x, double y, double sideLength) {
     this.x = x;
     this.y = y;
@@ -24,7 +33,8 @@ public class CartesianPosn {
    */
   public CartesianPosn getFromICell(ICell cell) {
     double sideLength = this.sideLength;
-    double x = sideLength * (Math.sqrt(3) * cell.getCoordinates().get(0) + Math.sqrt(3) / 2 * cell.getCoordinates().get(1));
+    double x = sideLength * (Math.sqrt(3) * cell.getCoordinates().get(0)
+            + Math.sqrt(3) / 2 * cell.getCoordinates().get(1));
     double y = -sideLength * (3.) / 2 * cell.getCoordinates().get(1);
 
     return new CartesianPosn(x, y, sideLength);
@@ -44,8 +54,12 @@ public class CartesianPosn {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
     CartesianPosn that = (CartesianPosn) o;
     return Double.compare(x, that.x) == 0 && Double.compare(y, that.y) == 0;
   }
@@ -66,31 +80,15 @@ public class CartesianPosn {
 
     // Checks horizontal limits
     if (Math.abs(cellPosn.getX() - this.x) > this.sideLength * Math.sin(Math.PI / 3)) {
-//      System.out.println("---------FALSE ONES-------");
-//      System.out.println("X:" + cellPosn.getX() + " Y:" + cellPosn.getY());
-//      System.out.println("this.x: " + this.x + " this.y: " + this.y);
-//      System.out.println(Math.abs(cellPosn.getX()) - this.x);
-//      System.out.println(this.sideLength);
-//      System.out.println(this.sideLength * Math.sin(Math.PI / 3));
       return false;
     }
 
     // Checks vertical limits
     if (Math.abs(cellPosn.getY() - this.y) > this.sideLength) {
-//      System.out.println("HERE2");
       return false;
     }
 
-
-    // y = - x/rt(3) + this.sideLength
-    //      System.out.println("HERE3");
-    return !((Math.abs(cellPosn.getY() - this.y)) + (Math.abs(cellPosn.getX() - this.x)) / Math.sqrt(3) > this.sideLength);
-
-//    System.out.println("---------TRUE ONES---------");
-//    System.out.println("X:" + cellPosn.getX() + " Y:" + cellPosn.getY());
-//    System.out.println("this.x: " + this.x + " this.y: " + this.y);
-//    System.out.println(Math.abs(cellPosn.getX() - this.x));
-//    System.out.println(this.sideLength);
-//    System.out.println(this.sideLength * Math.sin(Math.PI / 3));
+    return ((Math.abs(cellPosn.getY() - this.y))
+            + (Math.abs(cellPosn.getX() - this.x)) / Math.sqrt(3) <= this.sideLength);
   }
 }

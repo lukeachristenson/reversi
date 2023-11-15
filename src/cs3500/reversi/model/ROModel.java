@@ -3,6 +3,9 @@ package cs3500.reversi.model;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * This interface represents a read-only model for a game of Reversi.
+ */
 public interface ROModel {
   /**
    * Returns the current player.
@@ -31,7 +34,7 @@ public interface ROModel {
    *
    * @param color the color to get the score of.
    * @return the score of the given color.
-   * @throws IllegalStateException
+   * @throws IllegalStateException if the game has not yet started.
    */
   int getScore(Color color) throws IllegalStateException;
 

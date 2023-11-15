@@ -1,8 +1,7 @@
 package cs3500.reversi.view;
 
-import java.awt.*;
-
-import javax.swing.*;
+import java.awt.HeadlessException;
+import javax.swing.JFrame;
 
 import cs3500.reversi.model.Color;
 import cs3500.reversi.model.ROModel;

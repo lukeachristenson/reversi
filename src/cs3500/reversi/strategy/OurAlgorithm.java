@@ -21,7 +21,7 @@ import cs3500.reversi.model.ROModel;
  * it prunes the number of situations to test by finding the logical moves of the opponent in the
  * first place.
  */
-public class ourAlgorithm implements Strategy {
+public class OurAlgorithm implements Strategy {
   private final Color color;
 
   /**
@@ -29,7 +29,7 @@ public class ourAlgorithm implements Strategy {
    *
    * @param color the color of the player.
    */
-  public ourAlgorithm(Color color) {
+  public OurAlgorithm(Color color) {
     this.color = color;
   }
 
@@ -79,10 +79,10 @@ public class ourAlgorithm implements Strategy {
 
   // evaluates the score of the opponent color player for a given move of the strategy color player
   private int evaluateOpponentMove(IReversiModel modelCopy, ICell opponentMove) {
-    IReversiModel newModelCopy = new HexagonReversi(modelCopy.createBoardCopy(), modelCopy.getDimensions());
+    IReversiModel newModelCopy =
+            new HexagonReversi(modelCopy.createBoardCopy(), modelCopy.getDimensions());
     newModelCopy.passTurn(false);
     System.out.println("This color: " + color);
-//    System.out.println("Opponent move: " + opponentMove.getCoordinates());
     newModelCopy.placeCurrentPlayerPiece(opponentMove);
     return newModelCopy.getScore(getOtherColor(color)) - newModelCopy.getScore(color);
   }

@@ -47,8 +47,8 @@ public class HexagonBoard implements IBoard {
     if (Math.abs(cell.getCoordinates().get(0)) >= sideLength
             || Math.abs(cell.getCoordinates().get(1)) >= sideLength
             || Math.abs(cell.getCoordinates().get(2)) >= sideLength) {
-      throw new IllegalArgumentException("Invalid coordinates for the target cell, " +
-              "coordinates out of bounds");
+      throw new IllegalArgumentException("Invalid coordinates for the target cell, "
+              + "coordinates out of bounds");
     }
   }
 

@@ -1,13 +1,20 @@
 package cs3500.reversi.view;
 
-import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
+import java.awt.BasicStroke;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +22,10 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
-import javax.swing.*;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.event.MouseInputAdapter;
 
 import cs3500.reversi.model.IBoard;
@@ -33,7 +43,6 @@ public class ReversiPanel extends JPanel {
   private final double scale;
   private final double sideLength;
   private final JLabel southLabel;
-  private final JLabel northLabel;
   private final cs3500.reversi.model.Color frameColor;
   private CartesianPosn mousePosn;
   private Optional<CartesianPosn> activeCell = Optional.empty();
@@ -63,7 +72,7 @@ public class ReversiPanel extends JPanel {
     setBackground(Color.darkGray);
     setLayout(new BorderLayout());
     this.southLabel = createLabel();
-    this.northLabel = createLabel();
+    JLabel northLabel = createLabel();
     add(southLabel, BorderLayout.SOUTH);
     add(northLabel, BorderLayout.NORTH);
   }
@@ -110,7 +119,8 @@ public class ReversiPanel extends JPanel {
    * Returns the preferred physical size of the ReversiPanel.
    * This size is used to determine the panel's dimensions when displayed on the screen.
    *
-   * @return A Dimension object representing the preferred physical size (width x height) of the panel.
+   * @return A Dimension object representing the preferred physical size
+   *         (width x height) of the panel.
    */
 
   @Override
@@ -120,9 +130,11 @@ public class ReversiPanel extends JPanel {
 
   /**
    * Returns the preferred logical size of the ReversiPanel.
-   * This size is used for calculations related to the game's logical layout, such as cell positioning.
+   * This size is used for calculations related to the game's logical layout,
+   * such as cell positioning.
    *
-   * @return A Dimension object representing the preferred logical size (width x height) of the panel.
+   * @return A Dimension object representing the preferred logical size
+   *         (width x height) of the panel.
    */
 
   private Dimension getPreferredLogicalSize() {
@@ -147,7 +159,8 @@ public class ReversiPanel extends JPanel {
     if (roModel.isGameOver()) {
       activeCell = Optional.empty();
       String message = "Game Over! ";
-      JOptionPane.showMessageDialog(this, message, "Game Over", JOptionPane.INFORMATION_MESSAGE);
+      JOptionPane.showMessageDialog(this, message
+              , "Game Over", JOptionPane.INFORMATION_MESSAGE);
       System.exit(0);
     }
   }
@@ -156,17 +169,20 @@ public class ReversiPanel extends JPanel {
    * Displays an error message on the screen.
    */
   public void error() {
-    JOptionPane.showMessageDialog(this, "Invalid Move", "Invalid Move", JOptionPane.INFORMATION_MESSAGE);
+    JOptionPane.showMessageDialog(this, "Invalid Move"
+            , "Invalid Move", JOptionPane.INFORMATION_MESSAGE);
     activeCell = Optional.empty();
     System.err.println("Error");
     this.advance();
   }
 
   /**
-   * Generates a transformation from the logical coordinate system to the physical coordinate system.
+   * Generates a transformation from the logical coordinate system to
+   * the physical coordinate system.
    * This transformation is applied when rendering the game components onto the physical panel.
    *
-   * @return An AffineTransform object representing the necessary transformation from logical to physical coordinates.
+   * @return An AffineTransform object representing the necessary transformation from logical to
+   *         physical coordinates.
    */
   private AffineTransform transformLogicalToPhysical() {
     AffineTransform ret = new AffineTransform();
@@ -218,7 +234,7 @@ public class ReversiPanel extends JPanel {
     drawHexagons(g2d, drawMap);
     placeTokensOnBoard(g2d, drawMap);
     highlightActiveCell(g2d, drawMap);
-    if(this.getCellFromCartesianPosn(this.activeCell).isPresent()){
+    if (this.getCellFromCartesianPosn(this.activeCell).isPresent()) {
       System.out.println("Highlighted Cell: " +
               this.getCellFromCartesianPosn(this.activeCell).get().getCoordinates());
     }
@@ -247,7 +263,8 @@ public class ReversiPanel extends JPanel {
   }
 
   // Draws the hexagons on the board.
-  private void drawHexagons(Graphics2D g2d, Map<CartesianPosn, Optional<cs3500.reversi.model.Color>> drawMap) {
+  private void drawHexagons(Graphics2D g2d, Map<CartesianPosn
+          , Optional<cs3500.reversi.model.Color>> drawMap) {
     for (CartesianPosn posn : drawMap.keySet()) {
       g2d.setColor(Color.GRAY);
       drawHexagon(g2d, posn.getX(), posn.getY(), sideLength);
@@ -255,10 +272,12 @@ public class ReversiPanel extends JPanel {
   }
 
   // Places the tokens on the board.
-  private void placeTokensOnBoard(Graphics2D g2d, Map<CartesianPosn, Optional<cs3500.reversi.model.Color>> drawMap) {
+  private void placeTokensOnBoard(Graphics2D g2d, Map<CartesianPosn
+          , Optional<cs3500.reversi.model.Color>> drawMap) {
     for (CartesianPosn posn : drawMap.keySet()) {
       if (drawMap.get(posn).isPresent()) {
-        Color tokenColor = drawMap.get(posn).get() == cs3500.reversi.model.Color.BLACK ? Color.BLACK : Color.WHITE;
+        Color tokenColor = drawMap.get(posn).get()
+                == cs3500.reversi.model.Color.BLACK ? Color.BLACK : Color.WHITE;
         placeToken(g2d, posn, tokenColor);
       }
     }
@@ -273,7 +292,8 @@ public class ReversiPanel extends JPanel {
   }
 
   // Highlights the active cell.
-  private void highlightActiveCell(Graphics2D g2d, Map<CartesianPosn, Optional<cs3500.reversi.model.Color>> drawMap) {
+  private void highlightActiveCell(Graphics2D g2d, Map<CartesianPosn
+          , Optional<cs3500.reversi.model.Color>> drawMap) {
     if (activeCell.isPresent() && drawMap.get(activeCell.get()).isEmpty()) {
       g2d.setColor(Color.CYAN);
       CartesianPosn activePosn = activeCell.get();
@@ -292,23 +312,9 @@ public class ReversiPanel extends JPanel {
     double upwardsY = centerY + sideLength * Math.cos(0.);
     double downwardsY = centerY - sideLength * Math.cos(0.);
 
-    double[] xPoints = {
-            leftX,
-            leftX,
-            centerX,
-            rightX,
-            rightX,
-            centerX,
-            leftX};
-    double[] yPoints = {
-            angleDownY,
-            angleUpY,
-            upwardsY,
-            angleUpY,
-            angleDownY,
-            downwardsY,
-            angleDownY
-    };
+    double[] xPoints = {leftX, leftX, centerX, rightX, rightX, centerX, leftX};
+    double[] yPoints = {angleDownY, angleUpY, upwardsY, angleUpY, angleDownY
+            , downwardsY, angleDownY};
 
     // Move the Path to the first position on the path.
     mainPath.moveTo(xPoints[0], yPoints[0]);
@@ -350,7 +356,9 @@ public class ReversiPanel extends JPanel {
 
       if (nearestPosn.isWithinCell(ReversiPanel.this.mousePosn)) {
         // If cell was clicked twice, removes the highlight, else, highlights the cell.
-        ReversiPanel.this.activeCell = ReversiPanel.this.activeCell.equals(Optional.of(nearestPosn)) ? Optional.empty() : Optional.of(nearestPosn);
+        ReversiPanel.this.activeCell
+                = ReversiPanel.this.activeCell
+                .equals(Optional.of(nearestPosn)) ? Optional.empty() : Optional.of(nearestPosn);
 
       } else {
         ReversiPanel.this.activeCell = Optional.empty();
@@ -376,7 +384,8 @@ public class ReversiPanel extends JPanel {
       if (ReversiPanel.this.roModel.getCurrentColor().equals(ReversiPanel.this.frameColor)) {
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
           for (ViewFeatures listener : ReversiPanel.this.featureListeners) {
-            ReversiPanel.this.activeCell.ifPresent(cartesianPosn -> listener.playMove(ReversiPanel.this.getICell(cartesianPosn)));
+            ReversiPanel.this.activeCell.ifPresent(cartesianPosn
+                    -> listener.playMove(ReversiPanel.this.getICell(cartesianPosn)));
           }
         } else if (e.getKeyCode() == KeyEvent.VK_P) {
           for (ViewFeatures listener : ReversiPanel.this.featureListeners) {
