@@ -288,3 +288,51 @@ The `ReversiPanel` class handles keyboard inputs using the `KeyAdapter` interfac
 keys are used to control the game:
 - `Space`: Places the current player's piece in the highlighted cell if the move is valid.
 - `P` or `p`: Passes the turn to the next player.
+
+## Strategy
+For this assignment, we implemented 6 different "strategies" which were essentially algorithms to
+recommend moves within a game of a reversi, given a board state. The strategies were implemented
+using the Strategy design pattern. The method shared by all strategies in the strategy interface
+is called chooseMove. chooseMove takes in a read only model to ensure that strategies cannot change
+the game state. chooseMove also takes in a list of ICell's which are "filtered moves" the reason
+for this is so it is possible to give one strategy a list of moves to apply its logic to and then
+returning a refined list. This approach allows the usage of multiple strategies "sandwiched"
+together. The strategies are as follows:
+
+### UpperLeftStrat
+This strategy returns the uppermost and leftmost position that is valid or among the 
+list of moves passed into it.
+
+### GreedyStrat
+This strategy implements the greedy algorithm and aims to maximize the strategy player's gain in the
+given move, i.e., it aims to conquer the most number of cells in the move. If two moves are deemed
+to be equal, then this strategy returns the uppermost leftmost move amongst the equal moves using 
+the UpperLeftStrat.
+
+## Extra Credit Strategies
+
+### Sandwich
+We implemented the class sandwich which is a strategy that aims to sandwich other strategies
+together.
+
+### AvoidEdges 
+This strategy aims to avoid the edges(cells adjacent to a corner cell) in the board.
+
+### ChooseCorners
+This Strategy aims to choose corners which give a positional advantage in the game because whoever
+claims a corner will keep that corner.
+
+### OurAlgorithm
+This strategy uses a combination of other strategies. First, it considers every possible move, then
+it considers the most logical opponent responses to that move as determined by the opponent using a
+combination of strategies. The strategy searches for whichever move it can make, that will lead to
+the opponents next best move being the lowest. It also ensures that if it can play a winning move,
+that it will do so.
+
+### MiniMaxStrategy
+This strategy is inspired by the [minimax algorithm](https://en.wikipedia.org/wiki/Minimax) to 
+optimize the player's score gain against the opponent. Additionally, it avoids moves that will lead
+the player to have a chance at winnning in the next move and aims to increase its score gain. 
+This strategy analyzes all the possible move combinations starting from the strategy player's moves 
+to the subsequent opponent's moves, assigning a weight to each possible move the strategy player 
+while doing so. 
