@@ -17,18 +17,18 @@ import cs3500.reversi.model.ROModel;
 import cs3500.reversi.strategy.Strategy;
 import cs3500.reversi.strategy.UpperLeftStrat;
 
+/**
+ * This class tests the UpperLeft Strategy.
+ */
 public class UpperLeftStrategyTests {
   private ROModel mockModel;
   private Strategy strategy;
-  private List<ICell> mockFilteredMoves;
-  private Color testColor;
-  private StringBuilder log;
 
   @Before
   public void init() {
-    this.log = new StringBuilder();
-    this.testColor = Color.BLACK;
-    this.mockFilteredMoves = List.of();
+    StringBuilder log = new StringBuilder();
+    Color testColor = Color.BLACK;
+    List<ICell> mockFilteredMoves = List.of();
     this.strategy = new UpperLeftStrat(testColor);
     this.mockModel = new MockModel(6, log);
   }

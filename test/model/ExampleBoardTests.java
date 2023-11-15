@@ -47,7 +47,8 @@ public class ExampleBoardTests {
   @Test
   public void testAddingToCellWithoutOwner() {
     this.init();
-    this.hexagonBoardThree.newCellOwner(new HexagonCell(0, 0, 0), Optional.of(Color.BLACK));
+    this.hexagonBoardThree.newCellOwner(new HexagonCell(0, 0, 0)
+            , Optional.of(Color.BLACK));
     Assert.assertEquals(hexagonBoardThree.getCellOccupant(new HexagonCell(0, 0, 0)),
             Optional.of(Color.BLACK));
   }
@@ -55,7 +56,8 @@ public class ExampleBoardTests {
   @Test
   public void testAddingToCellWithOwner() {
     this.init();
-    this.hexagonBoardThree.newCellOwner(new HexagonCell(-1, 0, 1), Optional.of(Color.WHITE));
+    this.hexagonBoardThree.newCellOwner(new HexagonCell(-1, 0, 1)
+            , Optional.of(Color.WHITE));
     Assert.assertEquals(hexagonBoardThree.getCellOccupant(new HexagonCell(-1, 0, 1)),
             Optional.of(Color.WHITE));
   }
@@ -79,7 +81,8 @@ public class ExampleBoardTests {
   @Test
   public void testGetEmptyCell() {
     this.init();
-    Assert.assertTrue(this.hexagonBoardThree.getCellOccupant(new HexagonCell(0, 0, 0)).isEmpty());
+    Assert.assertTrue(this.hexagonBoardThree.getCellOccupant(new HexagonCell(0, 0, 0))
+            .isEmpty());
   }
 
   @Test
@@ -128,7 +131,8 @@ public class ExampleBoardTests {
     this.init();
     Assert.assertTrue(this.hexagonBoardThree.validMove(new HexagonCell(0, 0, 0),
             Color.WHITE, true));
-    Assert.assertEquals(this.hexagonBoardThree.getCellOccupant(new HexagonCell(1, -1, 0)), Optional.of(Color.WHITE));
+    Assert.assertEquals(this.hexagonBoardThree.getCellOccupant(new HexagonCell(1, -1, 0))
+            , Optional.of(Color.WHITE));
   }
 
   @Test
@@ -158,12 +162,18 @@ public class ExampleBoardTests {
     this.init();
     Assert.assertTrue(this.hexagonBoardThree.validMove(new HexagonCell(0, 0, 0),
             Color.WHITE, true));
-    Assert.assertEquals(this.hexagonBoardThree.getCellOccupant(new HexagonCell(-1, 1, 0)), Optional.of(Color.WHITE));
-    Assert.assertEquals(this.hexagonBoardThree.getCellOccupant(new HexagonCell(1, -1, 0)), Optional.of(Color.WHITE));
-    Assert.assertEquals(this.hexagonBoardThree.getCellOccupant(new HexagonCell(0, -1, 1)), Optional.of(Color.WHITE));
-    Assert.assertEquals(this.hexagonBoardThree.getCellOccupant(new HexagonCell(0, 1, -1)), Optional.of(Color.WHITE));
-    Assert.assertEquals(this.hexagonBoardThree.getCellOccupant(new HexagonCell(1, 0, -1)), Optional.of(Color.WHITE));
-    Assert.assertEquals(this.hexagonBoardThree.getCellOccupant(new HexagonCell(-1, 0, 1)), Optional.of(Color.WHITE));
+    Assert.assertEquals(this.hexagonBoardThree
+            .getCellOccupant(new HexagonCell(-1, 1, 0)), Optional.of(Color.WHITE));
+    Assert.assertEquals(this.hexagonBoardThree.
+            getCellOccupant(new HexagonCell(1, -1, 0)), Optional.of(Color.WHITE));
+    Assert.assertEquals(this.hexagonBoardThree
+            .getCellOccupant(new HexagonCell(0, -1, 1)), Optional.of(Color.WHITE));
+    Assert.assertEquals(this.hexagonBoardThree
+            .getCellOccupant(new HexagonCell(0, 1, -1)), Optional.of(Color.WHITE));
+    Assert.assertEquals(this.hexagonBoardThree
+            .getCellOccupant(new HexagonCell(1, 0, -1)), Optional.of(Color.WHITE));
+    Assert.assertEquals(this.hexagonBoardThree
+            .getCellOccupant(new HexagonCell(-1, 0, 1)), Optional.of(Color.WHITE));
   }
 
   @Test
@@ -179,12 +189,18 @@ public class ExampleBoardTests {
 
     Assert.assertTrue(this.hexagonBoardThree.validMove(new HexagonCell(0, 0, 0),
             Color.WHITE, true));
-    Assert.assertEquals(this.hexagonBoardThree.getCellOccupant(new HexagonCell(-1, 1, 0)), Optional.of(Color.WHITE));
-    Assert.assertEquals(this.hexagonBoardThree.getCellOccupant(new HexagonCell(1, -1, 0)), Optional.of(Color.BLACK));
-    Assert.assertEquals(this.hexagonBoardThree.getCellOccupant(new HexagonCell(0, -1, 1)), Optional.of(Color.BLACK));
-    Assert.assertEquals(this.hexagonBoardThree.getCellOccupant(new HexagonCell(0, 1, -1)), Optional.of(Color.WHITE));
-    Assert.assertEquals(this.hexagonBoardThree.getCellOccupant(new HexagonCell(1, 0, -1)), Optional.of(Color.BLACK));
-    Assert.assertEquals(this.hexagonBoardThree.getCellOccupant(new HexagonCell(-1, 0, 1)), Optional.of(Color.WHITE));
+    Assert.assertEquals(this.hexagonBoardThree
+            .getCellOccupant(new HexagonCell(-1, 1, 0)), Optional.of(Color.WHITE));
+    Assert.assertEquals(this.hexagonBoardThree
+            .getCellOccupant(new HexagonCell(1, -1, 0)), Optional.of(Color.BLACK));
+    Assert.assertEquals(this.hexagonBoardThree
+            .getCellOccupant(new HexagonCell(0, -1, 1)), Optional.of(Color.BLACK));
+    Assert.assertEquals(this.hexagonBoardThree
+            .getCellOccupant(new HexagonCell(0, 1, -1)), Optional.of(Color.WHITE));
+    Assert.assertEquals(this.hexagonBoardThree
+            .getCellOccupant(new HexagonCell(1, 0, -1)), Optional.of(Color.BLACK));
+    Assert.assertEquals(this.hexagonBoardThree
+            .getCellOccupant(new HexagonCell(-1, 0, 1)), Optional.of(Color.WHITE));
   }
 
   @Test

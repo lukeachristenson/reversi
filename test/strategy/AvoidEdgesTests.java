@@ -14,18 +14,18 @@ import cs3500.reversi.model.ROModel;
 import cs3500.reversi.strategy.AvoidEdges;
 import cs3500.reversi.strategy.Strategy;
 
+/**
+ * Tests for the AvoidEdges strategy.
+ */
 public class AvoidEdgesTests {
   private ROModel mockModel;
   private Strategy strategy;
-  private List<ICell> mockFilteredMoves;
-  private Color testColor;
-  private StringBuilder log;
 
   @Before
   public void init() {
-    this.log = new StringBuilder();
-    this.testColor = Color.BLACK;
-    this.mockFilteredMoves = List.of();
+    StringBuilder log = new StringBuilder();
+    Color testColor = Color.BLACK;
+    List<ICell> mockFilteredMoves = List.of();
     this.strategy = new AvoidEdges(testColor);
     this.mockModel = new MockModel(4, log);
   }

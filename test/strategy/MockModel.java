@@ -22,7 +22,6 @@ public class MockModel implements ROModel {
   private final int sideLength;
   private final StringBuilder log;
   private IPlayer currentPlayer;
-//  private final List<ICell>
 
   /**
    * Constructor for a HexagonReversi model. Takes in a board, current player, pass count, and
@@ -52,7 +51,8 @@ public class MockModel implements ROModel {
    * @param hexBoard rigged board.
    * @throws IllegalArgumentException if the side length is less than 3
    */
-  public MockModel(IBoard hexBoard, int sideLength, StringBuilder log) throws IllegalArgumentException {
+  public MockModel(IBoard hexBoard, int sideLength, StringBuilder log)
+          throws IllegalArgumentException {
     if (sideLength < 3) {
       throw new IllegalArgumentException("Side length must be greater than 2");
     } else {
@@ -134,7 +134,8 @@ public class MockModel implements ROModel {
 
   @Override
   public int cellsFlipped(ICell cell, Color color) {
-    log.append("cellsFlipped called with cell: " + cell.getCoordinates() + " and color: " + color.toString());
+    log.append("cellsFlipped called with cell: " + cell.getCoordinates()
+            + " and color: " + color.toString());
     int initialScore = this.board.getColorCount(color);
     int finalScore = 0;
     if (this.board.validMove(cell, color, false)) {

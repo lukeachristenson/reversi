@@ -20,15 +20,12 @@ import cs3500.reversi.strategy.Strategy;
 public class ChooseCornersTests {
   private ROModel mockModel;
   private Strategy strategy;
-  private List<ICell> mockFilteredMoves;
-  private Color testColor;
-  private StringBuilder log;
 
   @Before
   public void init() {
-    this.log = new StringBuilder();
-    this.testColor = Color.BLACK;
-    this.mockFilteredMoves = List.of();
+    StringBuilder log = new StringBuilder();
+    Color testColor = Color.BLACK;
+    List<ICell> mockFilteredMoves = List.of();
     this.strategy = new ChooseCorners(testColor);
     this.mockModel = new MockModel(4, log);
   }

@@ -209,11 +209,7 @@ public class ExampleModelTests {
     basicModelFour = new HexagonReversi(4);
     basicModelFour.placeCurrentPlayerPiece(new HexagonCell(-1, -1, 2));
     basicModelFour.placeCurrentPlayerPiece(new HexagonCell(-2, 1, 1));
-  }
-
-  @Test
-  public void testBoardSize() {
-    this.init();
-    TextView view = new ReversiTextView(this.basicModelFour);
+    Assert.assertEquals(basicModelFour.getCellState(new HexagonCell(-1, -1, 2)),
+            Optional.of(Color.BLACK));
   }
 }

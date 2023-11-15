@@ -23,15 +23,13 @@ import cs3500.reversi.strategy.Strategy;
 public class GreedyStrategyTests {
   private ROModel mockModel;
   private Strategy strategy;
-  private List<ICell> mockFilteredMoves;
-  private Color testColor;
   private StringBuilder log;
 
   @Before
   public void init() {
     this.log = new StringBuilder();
-    this.testColor = Color.BLACK;
-    this.mockFilteredMoves = List.of();
+    Color testColor = Color.BLACK;
+    List<ICell> mockFilteredMoves = List.of();
     this.strategy = new GreedyStrat(testColor);
     this.mockModel = new MockModel(3, log);
   }
@@ -73,7 +71,8 @@ public class GreedyStrategyTests {
     // equally beneficial.
     this.init();
     List<Integer> expected = List.of(-1, -1, 2);
-    List<Integer> observed = this.strategy.chooseMove(this.mockModel, new ArrayList<>()).get(0).getCoordinates();
+    List<Integer> observed = this.strategy.chooseMove(this.mockModel
+            , new ArrayList<>()).get(0).getCoordinates();
     Assert.assertEquals(expected, observed);
   }
 
@@ -83,7 +82,8 @@ public class GreedyStrategyTests {
     // it.
     this.init();
     List<Integer> expected = List.of(-1, -1, 2);
-    List<Integer> observed = this.strategy.chooseMove(this.mockModel, new ArrayList<>()).get(0).getCoordinates();
+    List<Integer> observed = this.strategy.chooseMove(this.mockModel
+            , new ArrayList<>()).get(0).getCoordinates();
     Assert.assertEquals(expected, observed);
     Assert.assertTrue(log.toString().contains("getValidMoves called with color: B"));
   }
@@ -120,7 +120,8 @@ public class GreedyStrategyTests {
     List<Integer> observed = this.strategy.chooseMove(this.mockModel,
             //these are all the possible moves for white in this situation
             List.of(new HexagonCell(1, 1, -2), new HexagonCell(2, -1, -1),
-                    new HexagonCell(-3, 1, 2), new HexagonCell(-1, -1, 2))).get(0).getCoordinates();
+                    new HexagonCell(-3, 1, 2), new HexagonCell(-1, -1, 2)))
+            .get(0).getCoordinates();
     Assert.assertEquals(expected, observed);
     System.out.println(log);
   }
