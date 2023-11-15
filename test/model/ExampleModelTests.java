@@ -1,16 +1,10 @@
+package model;
+
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Optional;
 
-import model.HexagonBoard;
-import model.HexagonCell;
-import model.HexagonReversi;
-import model.HumanPlayer;
-import model.IBoard;
-import model.IPlayer;
-import model.IReversiModel;
-import model.Color;
 import view.ReversiTextView;
 import view.TextView;
 

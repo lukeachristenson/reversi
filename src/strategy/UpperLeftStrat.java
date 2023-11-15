@@ -12,15 +12,21 @@ import model.IBoard;
 import model.ICell;
 import model.ROModel;
 
+/**
+ * Represents a strategy that chooses the uppermost-leftmost move.
+ */
 public class UpperLeftStrat implements Strategy {
   private final Color color;
 
+  /**
+   * Constructs a new UpperLeftStrat object.
+   *
+   * @param color the color of the player using this strategy
+   */
   public UpperLeftStrat(Color color) {
     this.color = color;
   }
 
-
-  // TODO: Need to make this select the uppermost-leftmost move.
   @Override
   public List<ICell> chooseMove(ROModel model, List<ICell> filteredMoves) {
     boolean allValidFilteredMoves =
@@ -38,24 +44,23 @@ public class UpperLeftStrat implements Strategy {
     return choices;
   }
 
+  private static class UpperLeftComparator implements Comparator<ICell> {
 
-    private static class UpperLeftComparator implements Comparator<ICell> {
+    @Override
+    public int compare(ICell cell1, ICell cell2) {
+      int sMinusR1 = cell1.getCoordinates().get(2) - cell1.getCoordinates().get(1);
+      int sMinusR2 = cell2.getCoordinates().get(2) - cell2.getCoordinates().get(1);
 
-      @Override
-      public int compare(ICell cell1, ICell cell2) {
-        int sMinusR1 = cell1.getCoordinates().get(2) - cell1.getCoordinates().get(1);
-        int sMinusR2 = cell2.getCoordinates().get(2) - cell2.getCoordinates().get(1);
+      // Compare based on s - r value
+      int result = Integer.compare(sMinusR2, sMinusR1);
 
-        // Compare based on s - r value
-        int result = Integer.compare(sMinusR2, sMinusR1);
-
-        // If s - r values are the same, compare based on maximum of s
-        if (result == 0) {
-          int maxS1R1 = cell1.getCoordinates().get(2);
-          int maxS2R2 = cell2.getCoordinates().get(2);
-          result = Integer.compare(maxS2R2, maxS1R1);
-        }
-        return result;
+      // If s - r values are the same, compare based on maximum of s
+      if (result == 0) {
+        int maxS1R1 = cell1.getCoordinates().get(2);
+        int maxS2R2 = cell2.getCoordinates().get(2);
+        result = Integer.compare(maxS2R2, maxS1R1);
       }
+      return result;
     }
   }
+}

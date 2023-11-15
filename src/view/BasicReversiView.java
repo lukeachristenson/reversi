@@ -7,10 +7,21 @@ import javax.swing.*;
 import model.Color;
 import model.ROModel;
 
-public class BasicReversiView extends JFrame implements ReversiView{
+/**
+ * A basic view for the Reversi game. This view is a JFrame that contains a ReversiPanel. Each
+ * color gets their own individual view.
+ */
+public class BasicReversiView extends JFrame implements ReversiView {
   private final ReversiPanel panel;
   private final Color frameColor;
 
+  /**
+   * Constructs a BasicReversiView with the given model and frameColor.
+   *
+   * @param model      the model to be used
+   * @param frameColor the color of the frame
+   * @throws HeadlessException if the environment doesn't support a keyboard, display, or mouse
+   */
   public BasicReversiView(ROModel model, Color frameColor) throws HeadlessException {
     this.frameColor = frameColor;
     this.panel = new ReversiPanel(model, this.frameColor);
@@ -19,10 +30,9 @@ public class BasicReversiView extends JFrame implements ReversiView{
     this.pack(); // Resize the frame to fit the panel
   }
 
-
   @Override
   public void addFeatureListener(ViewFeatures feature) {
-    //TODO: Implement this using the panel's addFeatureListener method.
+
     this.panel.addFeaturesListener(feature);
   }
 
@@ -33,13 +43,11 @@ public class BasicReversiView extends JFrame implements ReversiView{
 
   @Override
   public void advance() {
-    //TODO: Implement this using the panel's advance method.
     this.panel.advance();
   }
 
   @Override
   public void error() {
-    //TODO: Implement this using the panel's error method.
     this.panel.error();
   }
 
@@ -47,4 +55,5 @@ public class BasicReversiView extends JFrame implements ReversiView{
   public Color getFrameColor() {
     return frameColor;
   }
+
 }

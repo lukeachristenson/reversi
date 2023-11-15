@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * This class represents a game of HexReversi. It implements the IReversiModel interface.
+ * This class represents a game of HexagonReversi. It implements the IReversiModel interface.
  * HexReversi is a hexagonal version of the game Reversi.
  */
 public class HexagonReversi implements IReversiModel {
@@ -154,8 +154,6 @@ public class HexagonReversi implements IReversiModel {
 
   @Override
   public int getScore(Color color) throws IllegalStateException {
-    this.gameStartedChecker();
-
     return this.board.getColorCount(color);
   }
 
@@ -211,9 +209,6 @@ public class HexagonReversi implements IReversiModel {
 
   @Override
   public Optional<Color> getWinner() {
-    if(!this.isGameOver()) {
-      throw new IllegalStateException("Game is not over");
-    }
     int blackScore = this.getScore(Color.BLACK);
     int whiteScore = this.getScore(Color.WHITE);
     if(blackScore > whiteScore) {

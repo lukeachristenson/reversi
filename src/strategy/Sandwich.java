@@ -9,10 +9,18 @@ import model.IBoard;
 import model.ICell;
 import model.ROModel;
 
+/**
+ * Represents a composite strategy that uses a list of strategies to determine the best move.
+ */
 public class Sandwich implements Strategy {
   private final Color color;
   private final List<Strategy> strategyList;
 
+  /**
+   * Constructs a Sandwich strategy with the given color and list of strategies.
+   * @param color the color of the player using this strategy
+   * @param strategyList  the list of strategies to use in order
+   */
   public Sandwich(Color color, List<Strategy> strategyList) {
     this.color = color;
     this.strategyList = strategyList;

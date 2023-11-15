@@ -13,13 +13,21 @@ import java.util.HashMap;
 import java.util.List;
 
 
+/**
+ * This class represents a strategy for the game of HexagonReversi. This strategy will choose the
+ * move  based on the move that will result in the highest score difference between
+ * the strategy's color and the opponent's color.
+ */
 public class MiniMaxStrategy implements Strategy {
   private final Color color;
 
+  /**
+   * Constructor for a MiniMaxStrategy. Takes in the color of the strategy.
+   * @param color the color of the strategy.
+   */
   public MiniMaxStrategy(Color color) {
     this.color = color;
   }
-
   @Override
   public List<ICell> chooseMove(ROModel model, List<ICell> filteredMoves) {
     List<ICell> choices = (filteredMoves.isEmpty()) ? model.createBoardCopy().validMovesLeft(color)
@@ -35,23 +43,25 @@ public class MiniMaxStrategy implements Strategy {
       boardCopy.validMove(cell, color, true);
       IReversiModel modelCopy = new HexagonReversi(boardCopy, model.getDimensions());
 
+
       // If the game is over, return the score difference.
       if(modelCopy.isGameOver()) {
-        if(model.getWinner().isEmpty()) {
+        if(modelCopy.getWinner().isEmpty()) {
           moveScores.put(cell, 0);
-          continue;
         }
-        if(model.getWinner().get().equals(this.getOtherColor(color))) {
-         moveScores.put(cell, -10000); // Case where opponent color wins.
-          continue;
+        if(modelCopy.getWinner().get().equals(this.getOtherColor(color))) {
+          moveScores.put(cell, -10000); // Case where opponent color wins.
         } else {
-          moveScores.put(cell, 10000); // Case where strategy color wins.
-          continue;
+          System.out.println("Strategy wins");
+          moveScores.put(cell, 10000); // Case where strategy color wins, return the cell.
+          return List.of(cell);
         }
+        continue;
       }
       // Evaluate the score difference of the move and put it in the hashMap.
       moveScores.put(cell, scoreDifference(modelCopy, this.getOtherColor(color)));
     }
+    System.out.println(moveScores.get(new HexagonCell(1, 1, -2)));
 
     int maxScoreDifference = Integer.MIN_VALUE;
     ICell bestMove = null;
@@ -63,30 +73,28 @@ public class MiniMaxStrategy implements Strategy {
       }
     }
 
-    System.out.println(moveScores.get(new HexagonCell(1, 1, -2)));
-    System.out.println(moveScores.get(new HexagonCell(-1, -1, 2)));
-
-    // For the case where passing is simply the best move.
+    // For the case where passing might simply be the best move.
+    // This is when the passing move is evaluated to result in something better than the opponent
+    // winning.
     IReversiModel modelCopy = new HexagonReversi(model.createBoardCopy(), model.getDimensions());
     modelCopy.passTurn(false);
     int passingScoreDifference = scoreDifference(modelCopy, this.getOtherColor(color));
-    if(passingScoreDifference > maxScoreDifference) {
-      maxScoreDifference =  passingScoreDifference;
-      return List.of(null);
+    if(passingScoreDifference > maxScoreDifference || passingScoreDifference > -10000) {
+      maxScoreDifference = passingScoreDifference;
+      return List.of();
     }
+    System.out.println(bestMove.getCoordinates());
     return List.of(bestMove);
   }
-
   private int scoreDifference(IReversiModel model, Color opponentColor) {
     int maxScoreDifference = Integer.MIN_VALUE;
 
-    // Make the model's current player the color passed in.
-    if(!model.getCurrentColor().equals(opponentColor)) {
-      model.passTurn(false);
-    }
-
     for(ICell cell : model.getValidMoves(opponentColor)) {
       IReversiModel modelCopy = new HexagonReversi(model.createBoardCopy(), model.getDimensions());
+      // Make the model's current player the color passed in.
+      if(!modelCopy.getCurrentColor().equals(opponentColor)) {
+        modelCopy.passTurn(false);
+      }
       modelCopy.placeCurrentPlayerPiece(cell);
 
       // If the game is over, return the score difference.
@@ -99,6 +107,7 @@ public class MiniMaxStrategy implements Strategy {
         } else {
           maxScoreDifference =  10000; // Case where strategy color wins.
         }
+        return maxScoreDifference;
       }
 
       if(modelCopy.getScore(this.color) - modelCopy.getScore(opponentColor) > maxScoreDifference) {
@@ -111,10 +120,8 @@ public class MiniMaxStrategy implements Strategy {
     if(modelCopy.getScore(this.color) - modelCopy.getScore(opponentColor) > maxScoreDifference) {
       maxScoreDifference =  modelCopy.getScore(this.color) - modelCopy.getScore(opponentColor);
     }
-
     return maxScoreDifference;
   }
-
   private Color getOtherColor(Color color) {
     if (color.equals(Color.BLACK)) {
       return Color.WHITE;

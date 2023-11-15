@@ -1,4 +1,4 @@
-package StrategyTests;
+package strategy;
 
 import java.util.List;
 import java.util.Map;
@@ -14,7 +14,7 @@ import model.IPlayer;
 import model.ROModel;
 
 /**
- * This class represents a game of HexReversi. It implements the IReversiModel interface.
+ * This class represents a game of HexagonReversi. It implements the IReversiModel interface.
  * HexReversi is a hexagonal version of the game Reversi.
  */
 public class MockModel  implements ROModel {

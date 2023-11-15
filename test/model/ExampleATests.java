@@ -1,3 +1,5 @@
+package model;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -5,13 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import model.HexagonBoard;
-import model.HexagonCell;
-import model.HexagonReversi;
-import model.IBoard;
-import model.Color;
-import model.ICell;
-import model.IReversiModel;
 import strategy.GreedyStrat;
 
 

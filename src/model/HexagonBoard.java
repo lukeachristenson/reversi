@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * This class represents a hexagonal board for the game of HexReversi.
+ * This class represents a hexagonal board for the game of HexagonReversi.
  */
 public class HexagonBoard implements IBoard {
   private final HashMap<ICell, Optional<Color>> boardPositions;
@@ -16,16 +16,16 @@ public class HexagonBoard implements IBoard {
 
   /**
    * Constructor for a HexagonBoard. Takes in a side length for the board.
-   * @param numRings the number of rings of hexagons apart from the center one in the board.
+   * @param sideLength the number of rings of hexagons apart from the center one in the board.
    */
-  public HexagonBoard(int numRings) {
+  public HexagonBoard(int sideLength) {
     // Throw an exception if the side length is less than 3 because the board will be too small
     // to play a game.
-    if (numRings < 3) {
+    if (sideLength < 3) {
       throw new IllegalArgumentException("Side length must be greater than 2");
     }
     this.boardPositions = new HashMap<>();
-    this.sideLength = numRings;
+    this.sideLength = sideLength;
   }
 
   @Override

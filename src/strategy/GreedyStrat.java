@@ -15,13 +15,13 @@ public class GreedyStrat implements Strategy{
 
   /**
    * Constructor for a GreedyStrat. Takes in a color for the player.
-   * @param color
+   * @param color the color of the player.
    */
   public GreedyStrat(Color color) {
     this.color = color;
   }
 
-  
+
   @Override
   public List<ICell> chooseMove(ROModel model, List<ICell> filteredMoves) {
     List<ICell> choices = (filteredMoves.isEmpty()) ? model.createBoardCopy().validMovesLeft(color) : filteredMoves;

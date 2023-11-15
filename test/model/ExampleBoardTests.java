@@ -1,15 +1,10 @@
-
+package model;
 
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.List;
 import java.util.Optional;
-
-import model.HexagonBoard;
-import model.HexagonCell;
-import model.IBoard;
-import model.Color;
 
 
 /**

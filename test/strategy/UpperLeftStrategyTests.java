@@ -1,4 +1,4 @@
-package StrategyTests;
+package strategy;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -8,20 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import controller.Controller;
 import model.Color;
 import model.HexagonBoard;
 import model.HexagonCell;
-import model.HexagonReversi;
 import model.IBoard;
 import model.ICell;
-import model.IReversiModel;
 import model.ROModel;
-import strategy.Strategy;
-import strategy.UpperLeftStrat;
-import view.BasicReversiView;
-import view.ReversiTextView;
-import view.ReversiView;
 
 public class UpperLeftStrategyTests {
   private ROModel mockModel;

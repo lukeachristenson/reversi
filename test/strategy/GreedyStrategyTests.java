@@ -1,4 +1,4 @@
-package StrategyTests;
+package strategy;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -14,8 +14,6 @@ import model.HexagonCell;
 import model.IBoard;
 import model.ICell;
 import model.ROModel;
-import strategy.GreedyStrat;
-import strategy.Strategy;
 
 public class GreedyStrategyTests {
   private ROModel mockModel;
