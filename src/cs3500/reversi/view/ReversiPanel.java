@@ -40,7 +40,8 @@ public class ReversiPanel extends JPanel {
 
   /**
    * Constructs a ReversiPanel with the given model and frameColor.
-   * @param roModel the read only model to be used.
+   *
+   * @param roModel    the read only model to be used.
    * @param frameColor the color of the frame.
    */
   public ReversiPanel(ROModel roModel, cs3500.reversi.model.Color frameColor) {
@@ -130,6 +131,7 @@ public class ReversiPanel extends JPanel {
 
   /**
    * Adds a ViewFeatures listener to the list of listeners.
+   *
    * @param features the ViewFeatures listener to be added.
    */
   public void addFeaturesListener(ViewFeatures features) {
@@ -216,6 +218,10 @@ public class ReversiPanel extends JPanel {
     drawHexagons(g2d, drawMap);
     placeTokensOnBoard(g2d, drawMap);
     highlightActiveCell(g2d, drawMap);
+    if(this.getCellFromCartesianPosn(this.activeCell).isPresent()){
+      System.out.println("Highlighted Cell: " +
+              this.getCellFromCartesianPosn(this.activeCell).get().getCoordinates());
+    }
   }
 
   // Creates a map of cartesian positions to the color of the token at that position.
@@ -226,6 +232,18 @@ public class ReversiPanel extends JPanel {
       drawMap.put(this.cellToCartesianPosnMap.get(cell), boardCopy.getCellOccupant(cell));
     }
     return drawMap;
+  }
+
+  //
+  private Optional<ICell> getCellFromCartesianPosn(Optional<CartesianPosn> posn) {
+    if (posn.isPresent()) {
+      for (ICell cell : this.cellToCartesianPosnMap.keySet()) {
+        if (this.cellToCartesianPosnMap.get(cell).equals(posn.get())) {
+          return Optional.of(cell);
+        }
+      }
+    }
+    return Optional.empty();
   }
 
   // Draws the hexagons on the board.
@@ -339,6 +357,7 @@ public class ReversiPanel extends JPanel {
       }
       ReversiPanel.this.repaint();
     }
+
 
     @Override
     public void mouseDragged(MouseEvent e) {
