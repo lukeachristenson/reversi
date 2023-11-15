@@ -7,10 +7,12 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.Color;
-import model.HexagonCell;
-import model.ICell;
-import model.ROModel;
+import cs3500.reversi.model.Color;
+import cs3500.reversi.model.HexagonCell;
+import cs3500.reversi.model.ICell;
+import cs3500.reversi.model.ROModel;
+import cs3500.reversi.strategy.AvoidEdges;
+import cs3500.reversi.strategy.Strategy;
 
 public class AvoidEdgesTests {
   private ROModel mockModel;

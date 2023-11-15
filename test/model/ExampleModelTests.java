@@ -5,8 +5,16 @@ import org.junit.Test;
 
 import java.util.Optional;
 
-import view.ReversiTextView;
-import view.TextView;
+import cs3500.reversi.model.Color;
+import cs3500.reversi.model.HexagonBoard;
+import cs3500.reversi.model.HexagonCell;
+import cs3500.reversi.model.HexagonReversi;
+import cs3500.reversi.model.HumanPlayer;
+import cs3500.reversi.model.IBoard;
+import cs3500.reversi.model.IPlayer;
+import cs3500.reversi.model.IReversiModel;
+import cs3500.reversi.view.ReversiTextView;
+import cs3500.reversi.view.TextView;
 
 
 /**
@@ -26,7 +34,7 @@ public class ExampleModelTests {
     basicModelFour = new HexagonReversi(4);
 
     riggedBoard = new HexagonBoard(3);
-    riggedBoard.newCellOwner(new HexagonCell(0,0,0), Optional.empty());
+    riggedBoard.newCellOwner(new HexagonCell(0, 0, 0), Optional.empty());
     riggedBoard.newCellOwner(new HexagonCell(1, -1, 0), Optional.of(Color.BLACK));
     riggedBoard.newCellOwner(new HexagonCell(1, 0, -1), Optional.of(Color.BLACK));
     riggedBoard.newCellOwner(new HexagonCell(0, 1, -1), Optional.of(Color.BLACK));
@@ -38,7 +46,7 @@ public class ExampleModelTests {
     riggedBoard.newCellOwner(new HexagonCell(-1, 2, -1), Optional.of(Color.WHITE));
     riggedBoard.newCellOwner(new HexagonCell(0, 2, -2), Optional.of(Color.WHITE));
     riggedBoard.newCellOwner(new HexagonCell(-2, 1, 1), Optional.of(Color.WHITE));
-    riggedBoard.newCellOwner(new HexagonCell(-2, 0 , 2), Optional.of(Color.WHITE));
+    riggedBoard.newCellOwner(new HexagonCell(-2, 0, 2), Optional.of(Color.WHITE));
     riggedBoard.newCellOwner(new HexagonCell(-1, -1, 2), Optional.of(Color.WHITE));
     riggedBoard.newCellOwner(new HexagonCell(1, 1, -2), Optional.of(Color.WHITE));
     riggedBoard.newCellOwner(new HexagonCell(2, 0, -2), Optional.of(Color.WHITE));
@@ -71,7 +79,7 @@ public class ExampleModelTests {
             Optional.empty());
     Assert.assertEquals(this.basicModelThree.getCellState(new HexagonCell(-1, -1, 2)),
             Optional.empty());
-    Assert.assertEquals(this.basicModelThree.getCellState(new HexagonCell(0,0,0)),
+    Assert.assertEquals(this.basicModelThree.getCellState(new HexagonCell(0, 0, 0)),
             Optional.empty());
   }
 
@@ -90,12 +98,12 @@ public class ExampleModelTests {
   public void testGetScore() {
     this.init();
     // Before a move.
-    Assert.assertEquals(this.basicModelThree.getScore(Color.WHITE),3);
+    Assert.assertEquals(this.basicModelThree.getScore(Color.WHITE), 3);
     Assert.assertEquals(this.basicModelThree.getScore(Color.BLACK), 3);
     //fixme this might not work
     this.basicModelThree.placeCurrentPlayerPiece(new HexagonCell(-1, -1, 2));
     // After a move.
-    Assert.assertEquals(this.basicModelThree.getScore(Color.WHITE),2);
+    Assert.assertEquals(this.basicModelThree.getScore(Color.WHITE), 2);
     Assert.assertEquals(this.basicModelThree.getScore(Color.BLACK), 5);
   }
 
@@ -127,7 +135,7 @@ public class ExampleModelTests {
     Assert.assertFalse(this.basicModelThree.isGameOver());
     //to switch to white player
     this.basicModelThree.passTurn(false);
-    this.basicModelThree.placeCurrentPlayerPiece(new HexagonCell(0,0,0));
+    this.basicModelThree.placeCurrentPlayerPiece(new HexagonCell(0, 0, 0));
     Assert.assertTrue(this.basicModelThree.isGameOver());
   }
 

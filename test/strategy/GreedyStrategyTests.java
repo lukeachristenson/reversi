@@ -8,13 +8,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import model.Color;
-import model.HexagonBoard;
-import model.HexagonCell;
-import model.IBoard;
-import model.ICell;
-import model.ROModel;
+import cs3500.reversi.model.Color;
+import cs3500.reversi.model.HexagonBoard;
+import cs3500.reversi.model.HexagonCell;
+import cs3500.reversi.model.IBoard;
+import cs3500.reversi.model.ICell;
+import cs3500.reversi.model.ROModel;
+import cs3500.reversi.strategy.GreedyStrat;
+import cs3500.reversi.strategy.Strategy;
 
+/**
+ * This class tests the Greedy Strategy.
+ */
 public class GreedyStrategyTests {
   private ROModel mockModel;
   private Strategy strategy;
@@ -31,7 +36,8 @@ public class GreedyStrategyTests {
     this.mockModel = new MockModel(3, log);
   }
 
-  protected void createModel(IBoard board, int sideLength, StringBuilder log) {
+  // helper to initialize the model for integration tests
+  private void createModel(IBoard board, int sideLength, StringBuilder log) {
     this.mockModel = new MockModel(board, sideLength, log);
   }
 
@@ -69,8 +75,6 @@ public class GreedyStrategyTests {
     List<Integer> expected = List.of(-1, -1, 2);
     List<Integer> observed = this.strategy.chooseMove(this.mockModel, new ArrayList<>()).get(0).getCoordinates();
     Assert.assertEquals(expected, observed);
-//    System.out.println(this.strategy.chooseMove(this.mockModel, new ArrayList<>()).get(0).getCoordinates());
-//    System.out.println(log);
   }
 
   @Test
@@ -81,8 +85,6 @@ public class GreedyStrategyTests {
     List<Integer> observed = this.strategy.chooseMove(this.mockModel,
             List.of(new HexagonCell(1, 1, -2))).get(0).getCoordinates();
     Assert.assertEquals(expected, observed);
-//    System.out.println(this.strategy.chooseMove(this.mockModel, List.of(new HexagonCell(1, 1, -2))).get(0).getCoordinates());
-//    System.out.println(log);
   }
 
   @Test
@@ -93,10 +95,6 @@ public class GreedyStrategyTests {
             List.of(new HexagonCell(1, 1, -2), new HexagonCell(-2, 1, 1),
                     new HexagonCell(-1, -1, 2))).get(0).getCoordinates();
     Assert.assertEquals(expected, observed);
-//    System.out.println(this.strategy.chooseMove(this.mockModel,
-//            List.of(new HexagonCell(1, 1, -2), new HexagonCell(-2, 1, 1),
-//                    new HexagonCell(-1, -1, 2))).get(0).getCoordinates());
-//    System.out.println(log);
   }
 
   @Test
@@ -110,13 +108,9 @@ public class GreedyStrategyTests {
     List<Integer> expected = List.of(1, 1, -2);
     List<Integer> observed = this.strategy.chooseMove(this.mockModel,
             //these are all the possible moves for white in this situation
-            List.of(new HexagonCell(  1, 1,-2), new HexagonCell(2,-1,-1),
-                    new HexagonCell(-3, 1, 2), new HexagonCell (-1,-1,2))).get(0).getCoordinates();
+            List.of(new HexagonCell(1, 1, -2), new HexagonCell(2, -1, -1),
+                    new HexagonCell(-3, 1, 2), new HexagonCell(-1, -1, 2))).get(0).getCoordinates();
     Assert.assertEquals(expected, observed);
-//    System.out.println(this.strategy.chooseMove(this.mockModel,
-//            //these are all the possible moves for white in this situation
-//            List.of(new HexagonCell(  1, 1,-2), new HexagonCell(2,-1,-1),
-//                    new HexagonCell(-3, 1, 2), new HexagonCell (-1,-1,2))).get(0).getCoordinates());
-//    System.out.println(log);
+    System.out.println(log);
   }
 }

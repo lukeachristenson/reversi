@@ -8,12 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import model.Color;
-import model.HexagonBoard;
-import model.HexagonCell;
-import model.IBoard;
-import model.ICell;
-import model.ROModel;
+import cs3500.reversi.model.Color;
+import cs3500.reversi.model.HexagonBoard;
+import cs3500.reversi.model.HexagonCell;
+import cs3500.reversi.model.IBoard;
+import cs3500.reversi.model.ICell;
+import cs3500.reversi.model.ROModel;
+import cs3500.reversi.strategy.Strategy;
+import cs3500.reversi.strategy.UpperLeftStrat;
 
 public class UpperLeftStrategyTests {
   private ROModel mockModel;

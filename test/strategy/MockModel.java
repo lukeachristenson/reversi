@@ -4,24 +4,24 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import model.Color;
-import model.HexagonBoard;
-import model.HexagonCell;
-import model.HumanPlayer;
-import model.IBoard;
-import model.ICell;
-import model.IPlayer;
-import model.ROModel;
+import cs3500.reversi.model.Color;
+import cs3500.reversi.model.HexagonBoard;
+import cs3500.reversi.model.HexagonCell;
+import cs3500.reversi.model.HumanPlayer;
+import cs3500.reversi.model.IBoard;
+import cs3500.reversi.model.ICell;
+import cs3500.reversi.model.IPlayer;
+import cs3500.reversi.model.ROModel;
 
 /**
  * This class represents a game of HexagonReversi. It implements the IReversiModel interface.
  * HexReversi is a hexagonal version of the game Reversi.
  */
-public class MockModel  implements ROModel {
+public class MockModel implements ROModel {
   private final IBoard board;
-  private IPlayer currentPlayer;
   private final int sideLength;
   private final StringBuilder log;
+  private IPlayer currentPlayer;
 //  private final List<ICell>
 
   /**
@@ -137,7 +137,7 @@ public class MockModel  implements ROModel {
     log.append("cellsFlipped called with cell: " + cell.getCoordinates() + " and color: " + color.toString() + "\n");
     int initialScore = this.board.getColorCount(color);
     int finalScore = 0;
-    if(this.board.validMove(cell, color, false)) {
+    if (this.board.validMove(cell, color, false)) {
       IBoard boardCopy = this.createBoardCopy();
       boardCopy.validMove(cell, color, true);
       finalScore = boardCopy.getColorCount(color);

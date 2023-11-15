@@ -5,8 +5,14 @@ import org.junit.Test;
 
 import java.util.Arrays;
 
-import view.ReversiTextView;
-import view.TextView;
+import cs3500.reversi.model.Color;
+import cs3500.reversi.model.HexagonCell;
+import cs3500.reversi.model.HexagonReversi;
+import cs3500.reversi.model.IBoard;
+import cs3500.reversi.model.ICell;
+import cs3500.reversi.model.IReversiModel;
+import cs3500.reversi.view.ReversiTextView;
+import cs3500.reversi.view.TextView;
 
 
 /**
@@ -26,36 +32,36 @@ public class ExampleAuxillaryTests {
 
     Assert.assertTrue(tv3.toString().contains(
             "       - - - \n" +
-            "      - B W - \n" +
-            "     - W - B - \n" +
-            "      - B W -   \n" +
-            "       - - -     \n"));
+                    "      - B W - \n" +
+                    "     - W - B - \n" +
+                    "      - B W -   \n" +
+                    "       - - -     \n"));
 
     Assert.assertTrue(tv4.toString().contains(
             "         - - - - \n" +
-            "        - - - - - \n" +
-            "       - - B W - - \n" +
-            "      - - W - B - - \n" +
-            "       - - B W - -   \n" +
-            "        - - - - -     \n" +
-            "         - - - -       \n"));
+                    "        - - - - - \n" +
+                    "       - - B W - - \n" +
+                    "      - - W - B - - \n" +
+                    "       - - B W - -   \n" +
+                    "        - - - - -     \n" +
+                    "         - - - -       \n"));
   }
 
   @Test
   public void testCellReturnsCoordinatesCorrectly() {
-    ICell hex0 = new HexagonCell(0,0,0);
+    ICell hex0 = new HexagonCell(0, 0, 0);
     ICell hex1 = new HexagonCell(1, -1, 0);
     ICell hex2 = new HexagonCell(10, -6, -4);
 
-    Assert.assertEquals(hex0.getCoordinates(), Arrays.asList(0,0,0));
+    Assert.assertEquals(hex0.getCoordinates(), Arrays.asList(0, 0, 0));
     Assert.assertEquals(hex1.getCoordinates(), Arrays.asList(1, -1, 0));
     Assert.assertEquals(hex2.getCoordinates(), Arrays.asList(10, -6, -4));
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testInvalidCellCoordinatesSumNotZero() {
-    ICell hex0 = new HexagonCell(0,1,0);
-    ICell hex1 = new HexagonCell(-1,1,1);
+    ICell hex0 = new HexagonCell(0, 1, 0);
+    ICell hex1 = new HexagonCell(-1, 1, 1);
   }
 
   @Test

@@ -7,7 +7,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import strategy.GreedyStrat;
+import cs3500.reversi.model.Color;
+import cs3500.reversi.model.HexagonBoard;
+import cs3500.reversi.model.HexagonCell;
+import cs3500.reversi.model.HexagonReversi;
+import cs3500.reversi.model.IBoard;
+import cs3500.reversi.model.ICell;
+import cs3500.reversi.model.IReversiModel;
+import cs3500.reversi.strategy.GreedyStrat;
 
 
 /**
@@ -50,7 +57,7 @@ public class ExampleATests {
   @Test
   public void testIfBoardMapDeeoCopyWorks() {
     this.init();
-    Map< ICell, Optional<Color>> mapCopy = this.hexagonBoardThree.getPositionsMapCopy();
+    Map<ICell, Optional<Color>> mapCopy = this.hexagonBoardThree.getPositionsMapCopy();
     for (ICell cell : mapCopy.keySet()) {
       Assert.assertEquals(mapCopy.get(cell), this.hexagonBoardThree.getCellOccupant(cell));
     }
@@ -65,7 +72,7 @@ public class ExampleATests {
     // that createBoardCopy() was called on.
     this.init();
     IBoard copyBoard = reversiModel.createBoardCopy();
-    Assert.assertFalse(copyBoard == hexagonBoardThree);
+    Assert.assertNotSame(copyBoard, hexagonBoardThree);
   }
 
   @Test

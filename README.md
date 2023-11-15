@@ -140,3 +140,54 @@ It has an invariant that limits the coordinates such that their sum is 0.
         ├── ReversiTextView.java
         └── TextView.java
 ```
+
+
+## Changes for Part 2
+- Removed a method called `placePiece(Color color, ICell cell)` from the model that
+  gave excessive control on changing the game state irrespective of the current player,
+  going against the rules of the game.
+- Added a method called `placeCurrentPiece(ICell cell)` that places **only** the current player's
+  piece in the cell if the move is valid. This limits the model's visibility and external  control
+  over the game state.
+- Added a method called `getCellsFlipped(ICell cell)` that returns the number  of cells that will
+  be flipped if the current player places a piece in the given cell.
+- Added a method called `getScore()` that returns the score of the current player.
+- Made a read-only interface for the model so that the view cannot make changes to the game state.
+
+## Graphical View
+The view for this game is made in an interface called `ReversiView`. The interface is
+further implemented in the concrete class `BasicReversiView` which extends the `JFrame` class to use
+[Swing](https://docs.oracle.com/javase/tutorial/uiswing/components/index.html) components and
+features. The view works with a [JPanel](https://docs.oracle.com/javase%2F7%2Fdocs%2Fapi%2F%2F/javax/swing/JPanel.html) class
+called `ReversiPanel` which is responsible for rendering the game board on the view(frame).
+
+### ReversiPanel Class
+The `ReversiPanel` class extends the `JPanel` class and renders the game board. Furthermore, it
+handles mouse and keyboard inputs using `MouseEventListener` and `KeyAdapeter`
+interfaces respectively.
+
+### CartesianPosn
+The `CartesianPosn` class represents a cartesian coordinate on the view. The class is used to get
+the cartesian coordinates of the center of the cells on the panel using its cube coordinates.
+It has two fields, `x` and `y` which represent the x and y coordinates of the cartesian coordinate
+in doubles.
+
+### Mouse Inputs
+The `ReversiPanel` class handles mouse inputs using the `MouseEventListener` interface. A cell on
+the board is highlighted in <span style="color:cyan">**cyan**</span> when the mouse clicks it and
+the same cell is deselected when one of four things happen:
+- The mouse clicks on the same cell again.
+- The mouse clicks on a different cell.
+- The mouse clicks outside the board
+- A key is pressed on the keyboard(*Note: nothing changes on the board in this case
+  since a controller has not been made for the final version*).
+
+The highlighted cell's coordinates in the
+[cube coordinate system](https://www.redblobgames.com/grids/hexagons/#coordinates-cube)
+are printed in the console when a cell is highlighted.
+
+### Keyboard Inputs
+The `ReversiPanel` class handles keyboard inputs using the `KeyAdapter` interface. The following
+keys are used to control the game:
+- `Space`: Places the current player's piece in the highlighted cell if the move is valid.
+- `P` or `p`: Passes the turn to the next player.
