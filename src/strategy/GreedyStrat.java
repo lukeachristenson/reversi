@@ -7,13 +7,21 @@ import model.Color;
 import model.ICell;
 import model.ROModel;
 
+/**
+ * This class represents a greedy strategy for the game of HexReversi.
+ */
 public class GreedyStrat implements Strategy{
   private final model.Color color;
 
+  /**
+   * Constructor for a GreedyStrat. Takes in a color for the player.
+   * @param color
+   */
   public GreedyStrat(Color color) {
     this.color = color;
   }
 
+  
   @Override
   public List<ICell> chooseMove(ROModel model, List<ICell> filteredMoves) {
     List<ICell> choices = (filteredMoves.isEmpty()) ? model.createBoardCopy().validMovesLeft(color) : filteredMoves;

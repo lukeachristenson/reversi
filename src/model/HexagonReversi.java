@@ -118,11 +118,7 @@ public class HexagonReversi implements IReversiModel {
     } else {
       throw new IllegalStateException("Invalid move");
     }
-    if (this.currentPlayer.equals(player1)) {
-      this.currentPlayer = player2;
-    } else {
-      this.currentPlayer = player1;
-    }
+    this.passTurn(false);
   }
 
   @Override
@@ -211,6 +207,21 @@ public class HexagonReversi implements IReversiModel {
       finalScore = boardCopy.getColorCount(color);
     }
     return finalScore - initialScore;
+  }
+
+  @Override
+  public Optional<Color> getWinner() {
+    if(!this.isGameOver()) {
+      throw new IllegalStateException("Game is not over");
+    }
+    int blackScore = this.getScore(Color.BLACK);
+    int whiteScore = this.getScore(Color.WHITE);
+    if(blackScore > whiteScore) {
+      return Optional.of(Color.BLACK);
+    } else if (whiteScore > blackScore) {
+      return Optional.of(Color.WHITE);
+    }
+    return Optional.empty();
   }
 
   @Override

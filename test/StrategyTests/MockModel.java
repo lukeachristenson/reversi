@@ -147,6 +147,11 @@ public class MockModel  implements ROModel {
   }
 
   @Override
+  public Optional<Color> getWinner() {
+    return Optional.of(Color.BLACK);
+  }
+
+  @Override
   public boolean validMove(ICell cell) throws IllegalArgumentException {
     log.append("validMove called\n");
     return false;

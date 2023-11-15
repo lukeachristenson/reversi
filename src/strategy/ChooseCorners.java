@@ -8,9 +8,16 @@ import model.IBoard;
 import model.ICell;
 import model.ROModel;
 
+/**
+ * This class represents a strategy that chooses the corners of the board if possible.
+ */
 public class ChooseCorners implements Strategy {
   private final model.Color color;
 
+  /**
+   * Constructor for a ChooseCorners strategy.
+   * @param color the color of the player using this strategy.
+   */
   public ChooseCorners(Color color) {
     this.color = color;
   }
@@ -38,7 +45,6 @@ public class ChooseCorners implements Strategy {
     if (retList.isEmpty()) {
       return choices;
     }
-    System.out.println("Corners: " + retList);
     return retList;
   }
 }
