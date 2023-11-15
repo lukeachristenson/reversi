@@ -124,21 +124,67 @@ It has an invariant that limits the coordinates such that their sum is 0.
 ## Source Organization
 
 ```
+.
 ├── README.md
+├── cubeCoordinatesSystem.jpg
+├── img.png
+├── img_1.png
+├── img_2.png
+├── reversi.jar
 ├── src
-    ├── model
-    │   ├── Color.java
-    │   ├── HexagonBoard.java
-    │   ├── HexagonCell.java
-    │   ├── HexagonReversi.java
-    │   ├── HumanPlayer.java
-    │   ├── IBoard.java
-    │   ├── ICell.java
-    │   ├── IPlayer.java
-    │   └── IReversiModel.java
-    └── view
-        ├── ReversiTextView.java
-        └── TextView.java
+│   └── cs3500
+│       └── reversi
+│           ├── Archive.zip
+│           ├── META-INF
+│           │   └── MANIFEST.MF
+│           ├── Reversi.java
+│           ├── TestingReversiRunner.java
+│           ├── controller
+│           │   └── Controller.java
+│           ├── model
+│           │   ├── Color.java
+│           │   ├── HexagonBoard.java
+│           │   ├── HexagonCell.java
+│           │   ├── HexagonReversi.java
+│           │   ├── HumanPlayer.java
+│           │   ├── IBoard.java
+│           │   ├── ICell.java
+│           │   ├── IPlayer.java
+│           │   ├── IReversiModel.java
+│           │   ├── ROHexagonModel.java
+│           │   └── ROModel.java
+│           ├── strategy
+│           │   ├── AvoidEdges.java
+│           │   ├── ChooseCorners.java
+│           │   ├── GreedyStrat.java
+│           │   ├── MiniMaxStrategy.java
+│           │   ├── OurAlgorithm.java
+│           │   ├── Sandwich.java
+│           │   ├── Strategy.java
+│           │   └── UpperLeftStrat.java
+│           └── view
+│               ├── BasicReversiView.java
+│               ├── CartesianPosn.java
+│               ├── CoordUtilities.java
+│               ├── ReversiPanel.java
+│               ├── ReversiTextView.java
+│               ├── ReversiView.java
+│               ├── TextView.java
+│               └── ViewFeatures.java
+├── strategy-transcript.txt
+└── test
+    ├── model
+    │   ├── ExampleATests.java
+    │   ├── ExampleAuxillaryTests.java
+    │   ├── ExampleBoardTests.java
+    │   └── ExampleModelTests.java
+    └── strategy
+        ├── AvoidEdgesTests.java
+        ├── ChooseCornersTests.java
+        ├── GreedyStrategyTests.java
+        ├── MinimaxTests.java
+        ├── MockModel.java
+        └── UpperLeftStrategyTests.java
 ```
 
 

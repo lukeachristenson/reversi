@@ -16,6 +16,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.event.MouseInputAdapter;
 
+import cs3500.reversi.model.HexagonCell;
 import cs3500.reversi.model.IBoard;
 import cs3500.reversi.model.ICell;
 import cs3500.reversi.model.ROModel;
@@ -188,43 +190,28 @@ public class ReversiPanel extends JPanel {
     AffineTransform ret = new AffineTransform();
     Dimension preferred = getPreferredLogicalSize();
     ret.translate(getWidth() / 2., super.getHeight() / 2.);
-    ret.scale(super.getWidth() / preferred.getWidth(), super.getHeight() / preferred.getHeight());
+    ret.scale(super.getWidth() / preferred.getWidth(), super.getHeight()
+            / preferred.getHeight());
     ret.scale(1, -1);
     return ret;
   }
 
   /**
    * Generates a transformation from the physical coordinate system to the logical coordinate
-   * system.
-   * This transformation is used when interpreting physical mouse events in terms of the game's
-   * logical layout.
+   * system. This transformation is used when interpreting physical mouse events in terms of the
+   * game's logical layout.
    *
    * @return An AffineTransform object representing the necessary transformation from physical to
-   *         logical coordinates.
+   * logical coordinates.
    */
   private AffineTransform transformPhysicalToLogical() {
     AffineTransform ret = new AffineTransform();
     Dimension preferred = getPreferredLogicalSize();
     ret.scale(1, -1);
-    ret.scale(preferred.getWidth() / super.getWidth(), preferred.getHeight() / super.getHeight());
+    ret.scale(preferred.getWidth() / super.getWidth(), preferred.getHeight()
+            / super.getHeight());
     ret.translate(-super.getWidth() / 2., -super.getHeight() / 2.);
     return ret;
-  }
-
-  // Returns the nearest cartesian position to the given cartesian position from
-  // the given list of cartesian positions.
-  private CartesianPosn nearestCartPosn(CartesianPosn posn, List<CartesianPosn> cartesianPosnList) {
-    double minDistance = Double.MAX_VALUE;
-    CartesianPosn minPosn = null;
-    for (CartesianPosn cartesianPosn : cartesianPosnList) {
-      double distance = Math.sqrt(Math.pow(posn.getX() - cartesianPosn.getX(), 2)
-              + Math.pow(posn.getY() - cartesianPosn.getY(), 2));
-      if (distance < minDistance) {
-        minDistance = distance;
-        minPosn = cartesianPosn;
-      }
-    }
-    return Objects.requireNonNull(minPosn);
   }
 
   @Override
@@ -237,10 +224,10 @@ public class ReversiPanel extends JPanel {
     drawHexagons(g2d, drawMap);
     placeTokensOnBoard(g2d, drawMap);
     highlightActiveCell(g2d, drawMap);
-    if (this.getCellFromCartesianPosn(this.activeCell).isPresent()) {
-      System.out.println("Highlighted Cell: " +
-              this.getCellFromCartesianPosn(this.activeCell).get().getCoordinates());
-    }
+    Optional<ICell> chosenCell = CoordUtilities.getCellFromCartesianPosn(this.activeCell
+            , Collections.unmodifiableMap(this.cellToCartesianPosnMap));
+    chosenCell.ifPresent(iCell -> System.out.println("Highlighted Cell: " +
+            iCell.getCoordinates()));
   }
 
   // Creates a map of cartesian positions to the color of the token at that position.
@@ -251,18 +238,6 @@ public class ReversiPanel extends JPanel {
       drawMap.put(this.cellToCartesianPosnMap.get(cell), boardCopy.getCellOccupant(cell));
     }
     return drawMap;
-  }
-
-  //
-  private Optional<ICell> getCellFromCartesianPosn(Optional<CartesianPosn> posn) {
-    if (posn.isPresent()) {
-      for (ICell cell : this.cellToCartesianPosnMap.keySet()) {
-        if (this.cellToCartesianPosnMap.get(cell).equals(posn.get())) {
-          return Optional.of(cell);
-        }
-      }
-    }
-    return Optional.empty();
   }
 
   // Draws the hexagons on the board.
@@ -335,16 +310,6 @@ public class ReversiPanel extends JPanel {
     g.draw(mainPath);
   }
 
-  // Returns the ICell at the given cartesian position.
-  private ICell getICell(CartesianPosn posn) {
-    for (ICell cell : this.cellToCartesianPosnMap.keySet()) {
-      if (this.cellToCartesianPosnMap.get(cell).equals(posn)) {
-        return cell;
-      }
-    }
-    return null;
-  }
-
   // Returns the cartesian position of the given ICell.
   private class MouseEventListener extends MouseInputAdapter {
     @Override
@@ -354,7 +319,7 @@ public class ReversiPanel extends JPanel {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-      CartesianPosn nearestPosn = ReversiPanel.this.nearestCartPosn(ReversiPanel.this.mousePosn,
+      CartesianPosn nearestPosn = CoordUtilities.nearestCartPosn(ReversiPanel.this.mousePosn,
               new ArrayList<>(ReversiPanel.this.cellToCartesianPosnMap.values()));
 
       if (nearestPosn.isWithinCell(ReversiPanel.this.mousePosn)) {
@@ -388,7 +353,11 @@ public class ReversiPanel extends JPanel {
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
           for (ViewFeatures listener : ReversiPanel.this.featureListeners) {
             ReversiPanel.this.activeCell.ifPresent(cartesianPosn
-                -> listener.playMove(ReversiPanel.this.getICell(cartesianPosn)));
+                    -> listener.playMove(
+                    CoordUtilities.getCellFromCartesianPosn(
+                            ReversiPanel.this.activeCell,
+                            Collections.unmodifiableMap(
+                                    ReversiPanel.this.cellToCartesianPosnMap)).get()));
           }
         } else if (e.getKeyCode() == KeyEvent.VK_P) {
           for (ViewFeatures listener : ReversiPanel.this.featureListeners) {
