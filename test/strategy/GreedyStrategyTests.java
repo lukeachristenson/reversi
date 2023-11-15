@@ -78,6 +78,17 @@ public class GreedyStrategyTests {
   }
 
   @Test
+  public void testGreedyFiltersThroughPosibleMovesWhenEmptyListIsPassedToIt() {
+    // Test if the greedy strategy goes through each of the possible moves if no moves are given to
+    // it.
+    this.init();
+    List<Integer> expected = List.of(-1, -1, 2);
+    List<Integer> observed = this.strategy.chooseMove(this.mockModel, new ArrayList<>()).get(0).getCoordinates();
+    Assert.assertEquals(expected, observed);
+    Assert.assertTrue(log.toString().contains("getValidMoves called with color: B"));
+  }
+
+  @Test
   public void testGreedyWhenOnlyOneMoveIsFiltered() {
     // Test that the strategy returns the single move when only one move is filtered.
     this.init();

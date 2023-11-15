@@ -45,16 +45,16 @@ public class Main {
    IllegalArgumentException is thrown if the sum of the coordinates that are passed into the
    constructor of the HexagonCell is not zero(**i.e. q+r+s != 0**).
 
-3. The player passed into the `placePiece` method cannot be null since the model cannot place a null or empty 
+3. The player passed into the `placePiece` method cannot be null since the model cannot place a null or empty
    player into a cell.
 
 ## Key Components
 
 ### Game Model
 
-The `HexagonReversi` class is the core game model that implements the `IReversiModel` interface, 
+The `HexagonReversi` class is the core game model that implements the `IReversiModel` interface,
 responsible for managing game mechanics, including player moves, turn passing, scoring, and game state. It is built on top of the HexagonalBoard class,
-representing the game board. 
+representing the game board.
 
 ### Text-based View for Reversi
 

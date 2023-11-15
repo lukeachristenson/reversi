@@ -134,7 +134,7 @@ public class MockModel implements ROModel {
 
   @Override
   public int cellsFlipped(ICell cell, Color color) {
-    log.append("cellsFlipped called with cell: " + cell.getCoordinates() + " and color: " + color.toString() + "\n");
+    log.append("cellsFlipped called with cell: " + cell.getCoordinates() + " and color: " + color.toString());
     int initialScore = this.board.getColorCount(color);
     int finalScore = 0;
     if (this.board.validMove(cell, color, false)) {
@@ -142,7 +142,7 @@ public class MockModel implements ROModel {
       boardCopy.validMove(cell, color, true);
       finalScore = boardCopy.getColorCount(color);
     }
-
+    log.append("  ---------Advantage: " + (finalScore - initialScore) + "\n");
     return finalScore - initialScore;
   }
 
