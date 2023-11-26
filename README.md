@@ -336,3 +336,12 @@ the player to have a chance at winnning in the next move and aims to increase it
 This strategy analyzes all the possible move combinations starting from the strategy player's moves 
 to the subsequent opponent's moves, assigning a weight to each possible move the strategy player 
 while doing so. 
+
+
+# Checklist
+- [ ] Make a command line configurator for the game.
+- [ ] Remove the HumanPlayer class since it is being replaced by a player class with Human Strategy.
+- [ ] Test the controller
+- [ ] Update the main method.
+- [ ] Clean up the code.
+- [ ] Update the README file.
