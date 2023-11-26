@@ -139,6 +139,10 @@ public class HexagonReversi implements IReversiModel {
       throw new IllegalStateException("Invalid move");
     }
     this.passTurn(false);
+    for (ModelFeature listener : this.modelFeatures) {
+      listener.advanceFrame();
+      listener.emitMoveColor(this.getCurrentColor());
+    }
   }
 
   @Override
@@ -159,6 +163,7 @@ public class HexagonReversi implements IReversiModel {
 
     System.out.println("Model features is null in PassTurn: " + (this.modelFeatures == null));
     for (ModelFeature listener : this.modelFeatures) {
+      listener.advanceFrame();
       listener.emitMoveColor(this.getCurrentColor());
     }
   }

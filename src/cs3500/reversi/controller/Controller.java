@@ -42,16 +42,15 @@ public class Controller implements ViewFeatures, ModelFeature {
    * Constructs a Controller with the given model and views.
    */
   public void controllerGo() {
-    view.display(true);
     this.emitMoveColor(this.model.getCurrentColor());
   }
+
 
   @Override
   public void playMove(ICell cell) {
     boolean validate = this.model.getValidMoves(this.model.getCurrentColor()).contains(cell);
     if (validate) {
       this.model.placeCurrentPlayerPiece(cell);
-      view.advance();
     } else {
       view.error();
     }
@@ -62,7 +61,6 @@ public class Controller implements ViewFeatures, ModelFeature {
   public void pass() {
     this.model.passTurn(true);
     this.emitMoveColor(this.model.getCurrentColor());
-    view.advance();
   }
 
   // gets the highest score of the opponent color player for a given
@@ -87,5 +85,11 @@ public class Controller implements ViewFeatures, ModelFeature {
     System.out.println("Model current color: " + this.model.getCurrentColor().toString());
     this.player.listenForMove(color, this.model);
     this.view.listenToMove(color, this.model);
+  }
+
+  @Override
+  public void advanceFrame() {
+    this.view.display(true);
+    this.view.advance();
   }
 }

@@ -1,7 +1,8 @@
 package cs3500.reversi.view;
 
 import java.awt.HeadlessException;
-import javax.swing.JFrame;
+
+import javax.swing.*;
 
 import cs3500.reversi.model.Color;
 import cs3500.reversi.model.IReversiModel;
@@ -28,11 +29,11 @@ public class BasicReversiView extends JFrame implements ReversiView {
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.add(panel); // Add the panel to the frame
     this.pack(); // Resize the frame to fit the panel
+    setTitle(frameColor.toString() + " player view");
   }
 
   @Override
   public void addFeatureListener(ViewFeatures feature) {
-
     this.panel.addFeaturesListener(feature);
   }
 

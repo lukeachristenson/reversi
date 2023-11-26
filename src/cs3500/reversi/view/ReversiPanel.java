@@ -23,10 +23,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 
 import cs3500.reversi.model.IBoard;
@@ -155,15 +152,14 @@ public class ReversiPanel extends JPanel {
    * Displays the given message on the screen.
    */
   public void advance() {
-    this.repaint();
-    this.southLabel.repaint();
-    if (roModel.isGameOver()) {
-      activeCell = Optional.empty();
-      String message = "Game Over! " + roModel.getWinner().get().toString() + " wins!";
-      JOptionPane.showMessageDialog(this, message
-              , "Game Over", JOptionPane.INFORMATION_MESSAGE);
-      System.exit(0);
-    }
+      this.repaint();
+      this.southLabel.repaint();
+      if (roModel.isGameOver()) {
+        activeCell = Optional.empty();
+        String message = "Game Over! " + roModel.getWinner().get().toString() + " wins!";
+        JOptionPane.showMessageDialog(this, message, "Game Over", JOptionPane.INFORMATION_MESSAGE);
+        System.exit(0);
+      }
   }
 
   /**
