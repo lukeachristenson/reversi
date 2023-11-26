@@ -9,9 +9,9 @@ import cs3500.reversi.model.Color;
 import cs3500.reversi.model.HexagonBoard;
 import cs3500.reversi.model.HexagonCell;
 import cs3500.reversi.model.HexagonReversi;
-import cs3500.reversi.model.HumanPlayer;
+import cs3500.reversi.player.HumanPlayer;
 import cs3500.reversi.model.IBoard;
-import cs3500.reversi.model.IPlayer;
+import cs3500.reversi.player.IPlayer;
 import cs3500.reversi.model.IReversiModel;
 
 

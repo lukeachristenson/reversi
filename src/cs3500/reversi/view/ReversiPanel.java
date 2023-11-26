@@ -29,7 +29,6 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.event.MouseInputAdapter;
 
-import cs3500.reversi.model.HexagonCell;
 import cs3500.reversi.model.IBoard;
 import cs3500.reversi.model.ICell;
 import cs3500.reversi.model.ROModel;
@@ -202,7 +201,7 @@ public class ReversiPanel extends JPanel {
    * game's logical layout.
    *
    * @return An AffineTransform object representing the necessary transformation from physical to
-   * logical coordinates.
+   *         logical coordinates.
    */
   private AffineTransform transformPhysicalToLogical() {
     AffineTransform ret = new AffineTransform();
@@ -353,7 +352,7 @@ public class ReversiPanel extends JPanel {
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
           for (ViewFeatures listener : ReversiPanel.this.featureListeners) {
             ReversiPanel.this.activeCell.ifPresent(cartesianPosn
-                    -> listener.playMove(
+                -> listener.playMove(
                     CoordUtilities.getCellFromCartesianPosn(
                             ReversiPanel.this.activeCell,
                             Collections.unmodifiableMap(

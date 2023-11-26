@@ -1,6 +1,7 @@
 package cs3500.reversi.view;
 
 import cs3500.reversi.model.Color;
+import cs3500.reversi.model.IReversiModel;
 
 /**
  * A view for the Reversi game.
@@ -36,5 +37,7 @@ public interface ReversiView {
    * @return the frame color of the view
    */
   Color getFrameColor();
+
+  void listenToMove(Color color, IReversiModel model);
 
 }

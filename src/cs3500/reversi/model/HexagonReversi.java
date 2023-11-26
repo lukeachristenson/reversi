@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import cs3500.reversi.player.HumanPlayer;
+import cs3500.reversi.player.IPlayer;
+
 /**
  * This class represents a game of HexagonReversi. It implements the IReversiModel interface.
  * HexReversi is a hexagonal version of the game Reversi.

@@ -12,12 +12,7 @@ import cs3500.reversi.model.ICell;
  * and enable the view to interact with the board correctly.
  */
 public class CoordUtilities {
-  /**
-   * Constructor for the CoordUtilities class.
-   */
-  public CoordUtilities() {
-    // Empty constructor.
-  }
+
   /**
    * Converts a hexagonal position to a cartesian position.
    * @param posn  the hexagonal position

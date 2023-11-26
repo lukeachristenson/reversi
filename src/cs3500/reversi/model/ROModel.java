@@ -3,6 +3,8 @@ package cs3500.reversi.model;
 import java.util.List;
 import java.util.Optional;
 
+import cs3500.reversi.player.IPlayer;
+
 /**
  * This interface represents a read-only model for a game of Reversi.
  */

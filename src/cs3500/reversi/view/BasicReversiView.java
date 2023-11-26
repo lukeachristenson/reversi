@@ -4,6 +4,7 @@ import java.awt.HeadlessException;
 import javax.swing.JFrame;
 
 import cs3500.reversi.model.Color;
+import cs3500.reversi.model.IReversiModel;
 import cs3500.reversi.model.ROModel;
 
 /**
@@ -55,4 +56,8 @@ public class BasicReversiView extends JFrame implements ReversiView {
     return frameColor;
   }
 
+  @Override
+  public void listenToMove(Color color, IReversiModel model) {
+
+  }
 }
