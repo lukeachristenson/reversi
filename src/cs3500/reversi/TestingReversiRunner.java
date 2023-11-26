@@ -30,7 +30,8 @@ public class TestingReversiRunner {
     ReversiView black_view = new BasicReversiView(model, Color.BLACK);
     ReversiView white_view = new BasicReversiView(model, Color.WHITE);
     IPlayer aiPlayer = new AIPlayer(Color.BLACK, new MiniMaxStrategy(Color.BLACK));
-    IPlayer humanPlayer = new HumanPlayer(Color.WHITE);
+    IPlayer humanPlayer = new AIPlayer(Color.WHITE, new UpperLeftStrat(Color.WHITE));
+//    IPlayer humanPlayer = new HumanPlayer(Color.WHITE);
     Controller controller1 = new Controller(model, black_view, aiPlayer);
     Controller controller2 = new Controller(model, white_view, humanPlayer);
     model.addListener(controller1);

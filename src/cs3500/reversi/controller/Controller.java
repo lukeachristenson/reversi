@@ -42,8 +42,8 @@ public class Controller implements ViewFeatures, ModelFeature {
    * Constructs a Controller with the given model and views.
    */
   public void controllerGo() {
-    this.emitMoveColor(this.model.getCurrentColor());
     view.display(true);
+    this.emitMoveColor(this.model.getCurrentColor());
   }
 
   @Override

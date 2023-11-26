@@ -159,7 +159,7 @@ public class ReversiPanel extends JPanel {
     this.southLabel.repaint();
     if (roModel.isGameOver()) {
       activeCell = Optional.empty();
-      String message = "Game Over! ";
+      String message = "Game Over! " + roModel.getWinner().get().toString() + " wins!";
       JOptionPane.showMessageDialog(this, message
               , "Game Over", JOptionPane.INFORMATION_MESSAGE);
       System.exit(0);

@@ -252,7 +252,6 @@ public class HexagonReversi implements IReversiModel {
     for (ICell cell : mapCopy.keySet()) {
       copyBoard.newCellOwner(cell, mapCopy.get(cell));
     }
-
     return copyBoard;
   }
 
