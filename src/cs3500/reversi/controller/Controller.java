@@ -7,7 +7,7 @@ import java.util.Optional;
 import cs3500.reversi.model.Color;
 import cs3500.reversi.model.ICell;
 import cs3500.reversi.model.IReversiModel;
-import cs3500.reversi.model.ModelFeatures;
+import cs3500.reversi.model.ModelFeature;
 import cs3500.reversi.player.IPlayer;
 import cs3500.reversi.view.CartesianPosn;
 import cs3500.reversi.view.ReversiView;
@@ -19,7 +19,7 @@ import cs3500.reversi.view.ViewFeatures;
  * NOTE: The constructor was made only to manually test the game, and, in particular, the view and
  * the strategies(Highlighting the valid moves, and the strategies themselves).
  */
-public class Controller implements ViewFeatures, ModelFeatures {
+public class Controller implements ViewFeatures, ModelFeature {
   private final IReversiModel model;
   private final ReversiView view;
   private final IPlayer player;

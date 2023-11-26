@@ -1,5 +1,6 @@
 package cs3500.reversi.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -19,6 +20,7 @@ public class HexagonReversi implements IReversiModel {
   private final IPlayer player2;
   private int passCount;
   private boolean gameRunning;
+  private List<ModelFeature> modelFeatures;
 
 
   /**
@@ -42,6 +44,7 @@ public class HexagonReversi implements IReversiModel {
     this.passCount = 0;
     this.board = this.initBoard(sideLength); // rings excluding the center cell = sideLength - 1
     this.addStartingMoves();
+    this.modelFeatures = new ArrayList<>();
   }
 
   /**
@@ -60,9 +63,17 @@ public class HexagonReversi implements IReversiModel {
     this.player1 = new HumanPlayer(Color.BLACK);
     this.player2 = new HumanPlayer(Color.WHITE);
     this.currentPlayer = this.player1;
-    this.gameRunning = true;
     this.passCount = 0;
     this.board = hexBoard;
+    this.modelFeatures = new ArrayList<>();
+    this.gameRunning = true;
+  }
+
+  @Override
+  public void startGame() {
+    System.out.println("Starting game");
+    this.gameRunning = true;
+    System.out.println("Game started: " + this.gameRunning);
   }
 
   //helper to check if the game is started before running any other command.
@@ -103,6 +114,11 @@ public class HexagonReversi implements IReversiModel {
     return this.board.validMove(cell, getCurrentColor(), false);
   }
 
+  @Override
+  public void addListener(ModelFeature listener) {
+    this.modelFeatures.add(listener);
+  }
+
 
   /**
    * Places the current player on the given cell.
@@ -140,6 +156,11 @@ public class HexagonReversi implements IReversiModel {
     } else {
       this.currentPlayer = this.player1;
     }
+
+    System.out.println("Model features is null in PassTurn: " + (this.modelFeatures == null));
+    for (ModelFeature listener : this.modelFeatures) {
+      listener.emitMoveColor(this.getCurrentColor());
+    }
   }
 
 
@@ -163,13 +184,13 @@ public class HexagonReversi implements IReversiModel {
 
   @Override
   public Color getCurrentColor() throws IllegalStateException {
-    this.gameStartedChecker();
+//    this.gameStartedChecker();
     return this.currentPlayer.getColor();
   }
 
   @Override
   public boolean isGameOver() throws IllegalStateException {
-    this.gameStartedChecker();
+//    this.gameStartedChecker();
     if (this.passCount >= Color.values().length) {
       this.gameRunning = false;
       return true;
@@ -234,4 +255,6 @@ public class HexagonReversi implements IReversiModel {
 
     return copyBoard;
   }
+
+
 }

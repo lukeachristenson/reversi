@@ -77,5 +77,9 @@ public interface IReversiModel extends ROModel {
 
 
   boolean validMove(ICell cell) throws IllegalArgumentException;
+
+  void addListener(ModelFeature listener);
+
+  void startGame();
 }
 

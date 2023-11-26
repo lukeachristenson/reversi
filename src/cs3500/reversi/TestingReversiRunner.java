@@ -7,7 +7,10 @@ import cs3500.reversi.model.IReversiModel;
 import cs3500.reversi.player.AIPlayer;
 import cs3500.reversi.player.HumanPlayer;
 import cs3500.reversi.player.IPlayer;
+import cs3500.reversi.strategy.AvoidEdges;
 import cs3500.reversi.strategy.GreedyStrat;
+import cs3500.reversi.strategy.MiniMaxStrategy;
+import cs3500.reversi.strategy.UpperLeftStrat;
 import cs3500.reversi.view.BasicReversiView;
 import cs3500.reversi.view.ReversiView;
 
@@ -26,11 +29,13 @@ public class TestingReversiRunner {
     IReversiModel model = new HexagonReversi(6);// Feel free to customize this as desired
     ReversiView black_view = new BasicReversiView(model, Color.BLACK);
     ReversiView white_view = new BasicReversiView(model, Color.WHITE);
-    IPlayer aiPlayer = new AIPlayer(Color.BLACK, new GreedyStrat(Color.BLACK));
+    IPlayer aiPlayer = new AIPlayer(Color.BLACK, new MiniMaxStrategy(Color.BLACK));
     IPlayer humanPlayer = new HumanPlayer(Color.WHITE);
     Controller controller1 = new Controller(model, black_view, aiPlayer);
     Controller controller2 = new Controller(model, white_view, humanPlayer);
-
+    model.addListener(controller1);
+    model.addListener(controller2);
+    model.startGame();
     controller1.controllerGo();
     controller2.controllerGo();
   }

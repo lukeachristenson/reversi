@@ -1,6 +1,6 @@
 package cs3500.reversi.model;
 
-public interface ModelFeatures {
+public interface ModelFeature {
 
   void emitMoveColor(Color color);
 }
