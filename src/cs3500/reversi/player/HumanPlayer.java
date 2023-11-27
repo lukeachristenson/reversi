@@ -2,9 +2,6 @@ package cs3500.reversi.player;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.text.View;
-
 import cs3500.reversi.model.Color;
 import cs3500.reversi.model.IReversiModel;
 import cs3500.reversi.view.ViewFeatures;

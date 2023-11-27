@@ -1,18 +1,24 @@
 package cs3500.reversi;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
 import cs3500.reversi.controller.Controller;
 import cs3500.reversi.model.Color;
 import cs3500.reversi.model.HexagonReversi;
 import cs3500.reversi.model.IReversiModel;
 import cs3500.reversi.player.AIPlayer;
+import cs3500.reversi.player.HumanPlayer;
 import cs3500.reversi.player.IPlayer;
 import cs3500.reversi.strategy.AvoidEdges;
 import cs3500.reversi.strategy.ChooseCorners;
 import cs3500.reversi.strategy.GreedyStrat;
-import cs3500.reversi.strategy.HumanStrat;
 import cs3500.reversi.strategy.MiniMaxStrategy;
 import cs3500.reversi.strategy.OurAlgorithm;
 import cs3500.reversi.strategy.RandomStrat;
+import cs3500.reversi.strategy.Sandwich;
 import cs3500.reversi.strategy.Strategy;
 import cs3500.reversi.strategy.UpperLeftStrat;
 import cs3500.reversi.view.BasicReversiView;
@@ -30,36 +36,37 @@ public class TestingReversiRunner {
    * @param args the arguments to run the game with
    */
   public static void main(String[] args) {
-      int size = 6;
-      Strategy strategy1 = new HumanStrat(Color.BLACK);
-      Strategy strategy2 = new HumanStrat(Color.WHITE);
+    int size = 6;
+    Optional<Strategy> strategy1 = Optional.empty();
+    Optional<Strategy> strategy2 = Optional.empty();
 
-      for (int i = 0; i < args.length; i++) {
-        switch (args[i]) {
-          case "-s":
-            case "--size":
-            size = Integer.parseInt(args[i + 1]);
-            break;
+    for (int i = 0; i < args.length; i++) {
+      switch (args[i]) {
+        case "-s":
+        case "--size":
+          size = Integer.parseInt(args[i + 1]);
+          break;
 
-          case "-p1":
-            case "--player1":
-            System.out.println(args[i + 1]);
-            strategy1 = getStrategy(args[i + 1], Color.BLACK);
-            break;
+        case "-p1":
+        case "--player1":
+          System.out.println(args[i + 1]);
+          strategy1 = getStrategy(args[i + 1], Color.BLACK);
+          break;
 
-          case "-p2":
-            case "--player2":
-            strategy2 = getStrategy(args[i + 1], Color.WHITE);
-            break;
-
-        }
+        case "-p2":
+        case "--player2":
+          strategy2 = getStrategy(args[i + 1], Color.WHITE);
+          break;
       }
+    }
 
     IReversiModel model = new HexagonReversi(size);
     ReversiView black_view = new BasicReversiView(model, Color.BLACK);
     ReversiView white_view = new BasicReversiView(model, Color.WHITE);
-    IPlayer player1 = new AIPlayer(Color.BLACK, strategy1);
-    IPlayer player2 = new AIPlayer(Color.WHITE, strategy2);
+
+    IPlayer player1 = (strategy1.isPresent()) ? new AIPlayer(Color.BLACK, strategy1.get()) : new HumanPlayer(Color.BLACK);
+    IPlayer player2 = (strategy2.isPresent()) ? new AIPlayer(Color.WHITE, strategy2.get()) : new HumanPlayer(Color.WHITE);
+
 
     Controller controller1 = new Controller(model, black_view, player1);
     Controller controller2 = new Controller(model, white_view, player2);
@@ -68,30 +75,30 @@ public class TestingReversiRunner {
     model.startGame();
     controller1.controllerGo();
     controller2.controllerGo();
-
   }
 
-  private static Strategy getStrategy(String arg, Color color) {
-    switch (arg) {
-      case "h":
-        return new HumanStrat(color);
-      case "g":
-        return new GreedyStrat(color);
-      case "u":
-        return new UpperLeftStrat(color);
-      case "a":
-        return new AvoidEdges(color);
-      case "cc":
-        return new ChooseCorners(color);
-      case "mm":
-        return new MiniMaxStrategy(color);
-      case "oa":
-        return new OurAlgorithm(color);
-      case "r":
-        return new RandomStrat(color);
+  private static Optional<Strategy> getStrategy(String arg, Color color) {
+    Map<String, Strategy> strategyMap = new HashMap<>();
+    strategyMap.put("g", new GreedyStrat(color));
+    strategyMap.put("u", new UpperLeftStrat(color));
+    strategyMap.put("a", new AvoidEdges(color));
+    strategyMap.put("cc", new ChooseCorners(color));
+    strategyMap.put("mm", new MiniMaxStrategy(color));
+    strategyMap.put("oa", new OurAlgorithm(color));
+    strategyMap.put("r", new RandomStrat(color));
+    strategyMap.put("san1", new Sandwich(color, List.of(strategyMap.get("g"),
+            strategyMap.get("a"), strategyMap.get("cc"))));
+    strategyMap.put("san2", new Sandwich(color, List.of(strategyMap.get("mm"),
+            strategyMap.get("g"))));
+    strategyMap.put("san3", new Sandwich(color, List.of(strategyMap.get("mm"),
+            strategyMap.get("g"), strategyMap.get("a"))));
+    strategyMap.put("san4", new Sandwich(color, List.of(strategyMap.get("mm"), strategyMap.get("g"), strategyMap.get("a"), strategyMap.get("cc"))));
 
-      default:
-        throw new IllegalArgumentException("Invalid strategy: " + arg);
+    if(strategyMap.containsKey(arg)){
+      return Optional.of(strategyMap.get(arg));
+    }
+    else {
+      throw new IllegalArgumentException("Invalid strategy: " + arg);
     }
   }
 }

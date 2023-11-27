@@ -34,9 +34,6 @@ public class AIPlayer implements IPlayer {
   @Override
   public void playMove(IReversiModel model) {
     List<ICell> moves = this.strategy.chooseMove(model, model.getValidMoves(this.color));
-    if(moves == null) {
-      return; // Do nothing
-    }
 
     if (!model.isGameOver()) {
       // If passing is the best move, the strategy returns an empty list.

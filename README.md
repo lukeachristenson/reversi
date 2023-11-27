@@ -37,7 +37,8 @@ public class Main {
 ## Class Invariant(s)
 
 1. One of the recognized class invariants for the game was the fact that the sideLength of the board
-   cannot be less than 3. This is due to the fact that a standard game of hexagon reversi cannot have less than 3 sides since there
+   cannot be less than 3. This is due to the fact that a standard game of hexagon reversi cannot
+   have less than 3 sides since there
    would be no valid move that can be played by either colored token.
 
 2. Another invariant that is enforced in the code pertains to the
@@ -45,7 +46,8 @@ public class Main {
    IllegalArgumentException is thrown if the sum of the coordinates that are passed into the
    constructor of the HexagonCell is not zero(**i.e. q+r+s != 0**).
 
-3. The player passed into the `placePiece` method cannot be null since the model cannot place a null or empty
+3. The player passed into the `placePiece` method cannot be null since the model cannot place a null
+   or empty
    player into a cell.
 
 ## Key Components
@@ -53,13 +55,15 @@ public class Main {
 ### Game Model
 
 The `HexagonReversi` class is the core game model that implements the `IReversiModel` interface,
-responsible for managing game mechanics, including player moves, turn passing, scoring, and game state. It is built on top of the HexagonalBoard class,
+responsible for managing game mechanics, including player moves, turn passing, scoring, and game
+state. It is built on top of the HexagonalBoard class,
 representing the game board.
 
 ### Text-based View for Reversi
 
 The `TextView` interface serves as a marker interface for text-based views in the Reversi game. The
-`ReversiTextView` class implements this interface and provides a text-based representation of the game
+`ReversiTextView` class implements this interface and provides a text-based representation of the
+game
 state. It uses the IReversiModel instance to render the game state in text format.
 
 ### Game Board Representation
@@ -75,7 +79,7 @@ toString, and validMovesLeft.
 
 ### Coordinate System
 
-![Cube Coordinate System](cubeCoordinatesSystem.jpg)
+![Cube Coordinate System](images/cubeCoordinatesSystem.jpg)
 
 The [cube coordinates system](https://www.redblobgames.com/grids/hexagons/#coordinates-cube)
 from [RedBlobGames](https://www.redblobgames.com/) was used to represent the location of each cell
@@ -91,14 +95,16 @@ and within a hexagonal shape or not.
 
 #### IPlayer Interface:
 
-`IPlayer` is a  marker interface for player representation. It includes a method to retrieve the player's color.
+`IPlayer` is a marker interface for player representation. It includes a method to retrieve the
+player's color.
 An IPlayer can be a human player or an AI(**not implemented yet**).
 A concrete class for Human players, called HumanPlayer is made which represents Human Players. The
 only field that the `HumanPlayer` class has is a `Color`.
 
 #### HumanPlayer Class:
 
-A concrete implementation of `IPlayer`, representing human players. It allows specifying the player's
+A concrete implementation of `IPlayer`, representing human players. It allows specifying the
+player's
 color upon instantiation, either `Color.BLACK` or `Color.WHITE`.
 
 #### Color Enum:
@@ -109,17 +115,19 @@ and provides a next() method for alternating turns.
 ### Representing Cells in the Board
 
 #### ICell Interface:
-An `ICell` represents the location of a cell in the game board grid. This interface was made with the
+
+An `ICell` represents the location of a cell in the game board grid. This interface was made with
+the
 intention of code extensibility so that the code can be extended to a new format of game board with
 a game cell. The ICell interface has only one method, `getCoordinates()` which returns a list of
 coordinates of the `ICell`.
 
 #### HexagonCell Class:
+
 The `HexagonCell` class implements the `ICell` interface and it represents the location of a cell in
 a `HexagonBoard`. The class is configured to work with a game of `Hexagon Reversi`. The cell's
 coordinates are based on the [cube coordinates system](#coordinate-system) mentioned above.
 It has an invariant that limits the coordinates such that their sum is 0.
-
 
 ## Source Organization
 
@@ -187,92 +195,47 @@ It has an invariant that limits the coordinates such that their sum is 0.
         └── UpperLeftStrategyTests.java
 ```
 
-
 ## Changes for Part 2
-- Removed a method called `placePiece(Color color, ICell cell)` from the model that 
-gave excessive control on changing the game state irrespective of the current player, 
-going against the rules of the game.
-- Added a method called `placeCurrentPiece(ICell cell)` that places **only** the current player's
-piece in the cell if the move is valid. This limits the model's visibility and external  control
-over the game state.
-- Added a method called `getCellsFlipped(ICell cell)` that returns the number  of cells that will 
-be flipped if the current player places a piece in the given cell.
-- Added a method called `getScore()` that returns the score of the current player.
-- Made a read-only interface for the model so that the view cannot make changes to the game state.
 
-## Graphical View
-The view for this game is made in an interface called `ReversiView`. The interface is 
-further implemented in the concrete class `BasicReversiView` which extends the `JFrame` class to use
-[Swing](https://docs.oracle.com/javase/tutorial/uiswing/components/index.html) components and
-features. The view works with a [JPanel](https://docs.oracle.com/javase%2F7%2Fdocs%2Fapi%2F%2F/javax/swing/JPanel.html) class
-called `ReversiPanel` which is responsible for rendering the game board on the view(frame). 
-
-### ReversiPanel Class
-The `ReversiPanel` class extends the `JPanel` class and renders the game board. Furthermore, it 
-handles mouse and keyboard inputs using `MouseEventListener` and `KeyAdapeter` 
-interfaces respectively.
-
-### CartesianPosn
-The `CartesianPosn` class represents a cartesian coordinate on the view. The class is used to get
-the cartesian coordinates of the center of the cells on the panel using its cube coordinates.
-It has two fields, `x` and `y` which represent the x and y coordinates of the cartesian coordinate
-in doubles.
-
-### Mouse Inputs
-The `ReversiPanel` class handles mouse inputs using the `MouseEventListener` interface. A cell on 
-the board is highlighted in <span style="color:cyan">**cyan**</span> when the mouse clicks it and 
-the same cell is deselected when one of four things happen:
-- The mouse clicks on the same cell again.
-- The mouse clicks on a different cell.
-- The mouse clicks outside the board
-- A key is pressed on the keyboard(*Note: nothing changes on the board in this case
-since a controller has not been made for the final version*).
-
-The highlighted cell's coordinates in the 
-[cube coordinate system](https://www.redblobgames.com/grids/hexagons/#coordinates-cube) 
-are printed in the console when a cell is highlighted.
-
-### Keyboard Inputs
-The `ReversiPanel` class handles keyboard inputs using the `KeyAdapter` interface. The following
-keys are used to control the game:
-- `Space`: Places the current player's piece in the highlighted cell if the move is valid.
-- `P` or `p`: Passes the turn to the next player.
-
-
-## Changes for Part 2
 - Removed a method called `placePiece(Color color, ICell cell)` from the model that
   gave excessive control on changing the game state irrespective of the current player,
   going against the rules of the game.
 - Added a method called `placeCurrentPiece(ICell cell)` that places **only** the current player's
-  piece in the cell if the move is valid. This limits the model's visibility and external  control
+  piece in the cell if the move is valid. This limits the model's visibility and external control
   over the game state.
-- Added a method called `getCellsFlipped(ICell cell)` that returns the number  of cells that will
+- Added a method called `getCellsFlipped(ICell cell)` that returns the number of cells that will
   be flipped if the current player places a piece in the given cell.
 - Added a method called `getScore()` that returns the score of the current player.
 - Made a read-only interface for the model so that the view cannot make changes to the game state.
 
 ## Graphical View
+
 The view for this game is made in an interface called `ReversiView`. The interface is
 further implemented in the concrete class `BasicReversiView` which extends the `JFrame` class to use
 [Swing](https://docs.oracle.com/javase/tutorial/uiswing/components/index.html) components and
-features. The view works with a [JPanel](https://docs.oracle.com/javase%2F7%2Fdocs%2Fapi%2F%2F/javax/swing/JPanel.html) class
+features. The view works with
+a [JPanel](https://docs.oracle.com/javase%2F7%2Fdocs%2Fapi%2F%2F/javax/swing/JPanel.html) class
 called `ReversiPanel` which is responsible for rendering the game board on the view(frame).
 
 ### ReversiPanel Class
+
 The `ReversiPanel` class extends the `JPanel` class and renders the game board. Furthermore, it
 handles mouse and keyboard inputs using `MouseEventListener` and `KeyAdapeter`
 interfaces respectively.
 
 ### CartesianPosn
+
 The `CartesianPosn` class represents a cartesian coordinate on the view. The class is used to get
 the cartesian coordinates of the center of the cells on the panel using its cube coordinates.
 It has two fields, `x` and `y` which represent the x and y coordinates of the cartesian coordinate
 in doubles.
 
 ### Mouse Inputs
+
 The `ReversiPanel` class handles mouse inputs using the `MouseEventListener` interface. A cell on
 the board is highlighted in <span style="color:cyan">**cyan**</span> when the mouse clicks it and
 the same cell is deselected when one of four things happen:
+
 - The mouse clicks on the same cell again.
 - The mouse clicks on a different cell.
 - The mouse clicks outside the board
@@ -284,12 +247,74 @@ The highlighted cell's coordinates in the
 are printed in the console when a cell is highlighted.
 
 ### Keyboard Inputs
+
 The `ReversiPanel` class handles keyboard inputs using the `KeyAdapter` interface. The following
 keys are used to control the game:
+
+- `Space`: Places the current player's piece in the highlighted cell if the move is valid.
+- `P` or `p`: Passes the turn to the next player.
+
+## Changes for Part 2
+
+- Removed a method called `placePiece(Color color, ICell cell)` from the model that
+  gave excessive control on changing the game state irrespective of the current player,
+  going against the rules of the game.
+- Added a method called `placeCurrentPiece(ICell cell)` that places **only** the current player's
+  piece in the cell if the move is valid. This limits the model's visibility and external control
+  over the game state.
+- Added a method called `getCellsFlipped(ICell cell)` that returns the number of cells that will
+  be flipped if the current player places a piece in the given cell.
+- Added a method called `getScore()` that returns the score of the current player.
+- Made a read-only interface for the model so that the view cannot make changes to the game state.
+
+## Graphical View
+
+The view for this game is made in an interface called `ReversiView`. The interface is
+further implemented in the concrete class `BasicReversiView` which extends the `JFrame` class to use
+[Swing](https://docs.oracle.com/javase/tutorial/uiswing/components/index.html) components and
+features. The view works with
+a [JPanel](https://docs.oracle.com/javase%2F7%2Fdocs%2Fapi%2F%2F/javax/swing/JPanel.html) class
+called `ReversiPanel` which is responsible for rendering the game board on the view(frame).
+
+### ReversiPanel Class
+
+The `ReversiPanel` class extends the `JPanel` class and renders the game board. Furthermore, it
+handles mouse and keyboard inputs using `MouseEventListener` and `KeyAdapeter`
+interfaces respectively.
+
+### CartesianPosn
+
+The `CartesianPosn` class represents a cartesian coordinate on the view. The class is used to get
+the cartesian coordinates of the center of the cells on the panel using its cube coordinates.
+It has two fields, `x` and `y` which represent the x and y coordinates of the cartesian coordinate
+in doubles.
+
+### Mouse Inputs
+
+The `ReversiPanel` class handles mouse inputs using the `MouseEventListener` interface. A cell on
+the board is highlighted in <span style="color:cyan">**cyan**</span> when the mouse clicks it and
+the same cell is deselected when one of four things happen:
+
+- The mouse clicks on the same cell again.
+- The mouse clicks on a different cell.
+- The mouse clicks outside the board
+- A key is pressed on the keyboard(*Note: nothing changes on the board in this case
+  since a controller has not been made for the final version*).
+
+The highlighted cell's coordinates in the
+[cube coordinate system](https://www.redblobgames.com/grids/hexagons/#coordinates-cube)
+are printed in the console when a cell is highlighted.
+
+### Keyboard Inputs
+
+The `ReversiPanel` class handles keyboard inputs using the `KeyAdapter` interface. The following
+keys are used to control the game:
+
 - `Space`: Places the current player's piece in the highlighted cell if the move is valid.
 - `P` or `p`: Passes the turn to the next player.
 
 ## Strategy
+
 For this assignment, we implemented 6 different "strategies" which were essentially algorithms to
 recommend moves within a game of a reversi, given a board state. The strategies were implemented
 using the Strategy design pattern. The method shared by all strategies in the strategy interface
@@ -300,29 +325,35 @@ returning a refined list. This approach allows the usage of multiple strategies 
 together. The strategies are as follows:
 
 ### UpperLeftStrat
-This strategy returns the uppermost and leftmost position that is valid or among the 
+
+This strategy returns the uppermost and leftmost position that is valid or among the
 list of moves passed into it.
 
 ### GreedyStrat
+
 This strategy implements the greedy algorithm and aims to maximize the strategy player's gain in the
 given move, i.e., it aims to conquer the most number of cells in the move. If two moves are deemed
-to be equal, then this strategy returns the uppermost leftmost move amongst the equal moves using 
+to be equal, then this strategy returns the uppermost leftmost move amongst the equal moves using
 the UpperLeftStrat.
 
 ## Extra Credit Strategies
 
 ### Sandwich
+
 We implemented the class sandwich which is a strategy that aims to sandwich other strategies
 together.
 
-### AvoidEdges 
+### AvoidEdges
+
 This strategy aims to avoid the edges(cells adjacent to a corner cell) in the board.
 
 ### ChooseCorners
+
 This Strategy aims to choose corners which give a positional advantage in the game because whoever
 claims a corner will keep that corner.
 
 ### OurAlgorithm
+
 This strategy uses a combination of other strategies. First, it considers every possible move, then
 it considers the most logical opponent responses to that move as determined by the opponent using a
 combination of strategies. The strategy searches for whichever move it can make, that will lead to
@@ -330,15 +361,16 @@ the opponents next best move being the lowest. It also ensures that if it can pl
 that it will do so.
 
 ### MiniMaxStrategy
-This strategy is inspired by the [minimax algorithm](https://en.wikipedia.org/wiki/Minimax) to 
-optimize the player's score gain against the opponent. Additionally, it avoids moves that will lead
-the player to have a chance at winnning in the next move and aims to increase its score gain. 
-This strategy analyzes all the possible move combinations starting from the strategy player's moves 
-to the subsequent opponent's moves, assigning a weight to each possible move the strategy player 
-while doing so. 
 
+This strategy is inspired by the [minimax algorithm](https://en.wikipedia.org/wiki/Minimax) to
+optimize the player's score gain against the opponent. Additionally, it avoids moves that will lead
+the player to have a chance at winnning in the next move and aims to increase its score gain.
+This strategy analyzes all the possible move combinations starting from the strategy player's moves
+to the subsequent opponent's moves, assigning a weight to each possible move the strategy player
+while doing so.
 
 # Checklist
+
 - [ ] Make a command line configurator for the game.
 - [ ] Remove the HumanPlayer class since it is being replaced by a player class with Human Strategy.
 - [ ] Test the controller
@@ -346,24 +378,22 @@ while doing so.
 - [ ] Clean up the code.
 - [ ] Update the README file.
 
-
 ## Commmand Line Configurator Commands
+
 - `--size` or `-s`: Specifies the size of the board. The default value is 6.
-- `--player1` or `-p1`: Specifies the strategy for player 1(Black). The default value is Human. 
+- `--player1` or `-p1`: Specifies the strategy for player 1(Black). The default value is Human.
 - `--player2` or `-p2`: Specifies the strategy for player 2(White). The default value is Human.
 - The strategies(arguments for `--player1` and `--player2`) are as follows:
-  - `h`: Human Player
-  - `g`: Greedy Strategy
-  - `u`: Upper Left Strategy
-  - `a`: Avoid Edges Strategy
-  - `cc`: Choose Corners Strategy
-  - `mm`: MiniMax Strategy
-  - `oa`: Our Algorithm Strategy
-  - `san`: Sandwich Strategy
-- 'Sandwich' enables more arguments to be passed in. The arguments are as follows:
-  - `--sandwich1` or `-s1`: Specifies the first strategy to be sandwiched.
-  - `--sandwich2` or `-s2`: Specifies the second strategy to be sandwiched.
-  - `--sandwich3` or `-s3`: Specifies the third strategy to be sandwiched.
-  - `--sandwich4` or `-s4`: Specifies the fourth strategy to be sandwiched.
-  - `--sandwich5` or `-s5`: Specifies the fifth strategy to be sandwiched.
-  - `--sandwich6` or `-s6`: Specifies the sixth strategy to be sandwiched.
+    - `h`: Human Player
+    - `g`: Greedy Strategy
+    - `u`: Upper Left Strategy
+    - `a`: Avoid Edges Strategy
+    - `cc`: Choose Corners Strategy
+    - `mm`: MiniMax Strategy
+    - `oa`: Our Algorithm Strategy
+    - `r` : Random Strategy
+    - `san1`: Sandwich Strategy comprising Greedy, Avoid Edges, and Choose Corners Strategies
+    - `san2`: Sandwich Strategy comprising Minimax and Greedy strategies.
+    - `san3`: Sandwich Strategy comprising Minimax, Greedy and Avoid Edges strategies.
+    - `san4`: Sandwich Strategy comprising Minimax, Greedy, Avoid Edges and Choose Corners
+      strategies.
