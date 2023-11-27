@@ -123,7 +123,7 @@ public class MockModel implements ROModel {
   @Override
   public IPlayer getCurrentPlayer() {
     log.append("getCurrentPlayer called\n");
-    return new HumanPlayer(this.currentPlayer.getColor());
+    return new HumanPlayer(this.getCurrentColor());
   }
 
   @Override

@@ -9,7 +9,7 @@ import cs3500.reversi.model.IReversiModel;
 import cs3500.reversi.strategy.Strategy;
 import cs3500.reversi.view.ViewFeatures;
 
-public class Player implements IPlayer {
+public class AIPlayer implements IPlayer {
   private final Color color;
   private List<ViewFeatures> listeners;
   private final Strategy strategy;
@@ -20,15 +20,10 @@ public class Player implements IPlayer {
    * @param color    the color of the player.
    * @param strategy the strategy of the player.
    */
-  public Player(Color color, Strategy strategy) {
+  public AIPlayer(Color color, Strategy strategy) {
     this.color = color;
     this.strategy = strategy;
     this.listeners = new ArrayList<>();
-  }
-
-  @Override
-  public Color getColor() {
-    return this.color;
   }
 
   @Override
@@ -47,18 +42,16 @@ public class Player implements IPlayer {
       // If passing is the best move, the strategy returns an empty list.
       if (moves.isEmpty()) {
         for (ViewFeatures listener : this.listeners) {
-          System.out.println("AI is passing");
           listener.pass();
         }
       } else { // Else, play the first move of the list of moves that the strategy returns.
         try {
           // Introduce a delay of half a second (500 milliseconds) before making a move.
-          Thread.sleep(500);
+          Thread.sleep(50);
         } catch (InterruptedException e) {
           Thread.currentThread().interrupt();
         }
         for (ViewFeatures listener : this.listeners) {
-          System.out.println("AI is playing move");
           listener.playMove(moves.get(0));
         }
       }

@@ -26,14 +26,6 @@ public class HumanPlayer implements IPlayer {
     this.listeners = new ArrayList<>();
   }
 
-  @Override
-  public Color getColor() {
-    if (this.color.toString().equals("B")) {
-      return Color.BLACK;
-    } else {
-      return Color.WHITE;
-    }
-  }
 
   @Override
   public void addListener(ViewFeatures listener) {

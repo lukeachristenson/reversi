@@ -15,9 +15,7 @@ import cs3500.reversi.player.IPlayer;
 public class HexagonReversi implements IReversiModel {
   private final IBoard board;
   private final int sideLength;
-  private IPlayer currentPlayer;
-  private final IPlayer player1;
-  private final IPlayer player2;
+  private Color currentColor;
   private int passCount;
   private boolean gameRunning;
   private List<ModelFeature> modelFeatures;
@@ -38,9 +36,8 @@ public class HexagonReversi implements IReversiModel {
     }
 
     this.gameRunning = true;
-    this.player1 = new HumanPlayer(Color.BLACK);
-    this.player2 = new HumanPlayer(Color.WHITE);
-    this.currentPlayer = this.player1;
+
+    this.currentColor = Color.BLACK;
     this.passCount = 0;
     this.board = this.initBoard(sideLength); // rings excluding the center cell = sideLength - 1
     this.addStartingMoves();
@@ -60,9 +57,8 @@ public class HexagonReversi implements IReversiModel {
     } else {
       this.sideLength = sideLength;
     }
-    this.player1 = new HumanPlayer(Color.BLACK);
-    this.player2 = new HumanPlayer(Color.WHITE);
-    this.currentPlayer = this.player1;
+
+    this.currentColor = Color.BLACK;
     this.passCount = 0;
     this.board = hexBoard;
     this.modelFeatures = new ArrayList<>();
@@ -71,6 +67,7 @@ public class HexagonReversi implements IReversiModel {
 
   @Override
   public void startGame() {
+    this.currentColor = Color.BLACK;
     this.gameRunning = true;
   }
 
@@ -129,9 +126,9 @@ public class HexagonReversi implements IReversiModel {
   public void placeCurrentPlayerPiece(ICell targetCell) throws IllegalStateException
           , IllegalArgumentException {
     this.gameStartedChecker();
-    if (this.board.validMove(targetCell, this.currentPlayer.getColor(), false)) {
-      this.board.validMove(targetCell, this.currentPlayer.getColor(), true);
-      this.board.newCellOwner(targetCell, Optional.of(this.currentPlayer.getColor()));
+    if (this.board.validMove(targetCell, this.currentColor, false)) {
+      this.board.validMove(targetCell, this.currentColor, true);
+      this.board.newCellOwner(targetCell, Optional.of(this.currentColor));
       this.passCount = 0;
     } else {
       throw new IllegalStateException("Invalid move");
@@ -152,10 +149,11 @@ public class HexagonReversi implements IReversiModel {
     if (increment) {
       this.passCount++;
     }
-    if (this.currentPlayer.equals(player1)) {
-      this.currentPlayer = this.player2;
+
+    if(this.currentColor.equals(Color.BLACK)) {
+      this.currentColor = Color.WHITE;
     } else {
-      this.currentPlayer = this.player1;
+      this.currentColor = Color.BLACK;
     }
 
     for (ModelFeature listener : this.modelFeatures) {
@@ -185,7 +183,7 @@ public class HexagonReversi implements IReversiModel {
   @Override
   public Color getCurrentColor() throws IllegalStateException {
 //    this.gameStartedChecker();
-    return this.currentPlayer.getColor();
+    return this.currentColor;
   }
 
   @Override
@@ -212,7 +210,7 @@ public class HexagonReversi implements IReversiModel {
 
   @Override
   public IPlayer getCurrentPlayer() {
-    return new HumanPlayer(this.currentPlayer.getColor());
+    return new HumanPlayer(this.currentColor);
   }
 
   @Override
