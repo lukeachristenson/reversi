@@ -81,14 +81,16 @@ public class Controller implements ViewFeatures, ModelFeature {
 
   @Override
   public void emitMoveColor(Color color) {
-    System.out.println("emitMoveColor: " + color.toString());
-    System.out.println("Model current color: " + this.model.getCurrentColor().toString());
+    this.advanceFrame();
+    System.out.println("emitMoveColor to player");
     this.player.listenForMove(color, this.model);
+    System.out.println("emitMoveColor to view");
     this.view.listenToMove(color, this.model);
   }
 
   @Override
   public void advanceFrame() {
+    System.out.println("advanceFrame called");
     this.view.display(true);
     this.view.advance();
   }

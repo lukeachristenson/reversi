@@ -53,7 +53,7 @@ public class Player implements IPlayer {
       } else { // Else, play the first move of the list of moves that the strategy returns.
         try {
           // Introduce a delay of half a second (500 milliseconds) before making a move.
-          Thread.sleep(50);
+          Thread.sleep(500);
         } catch (InterruptedException e) {
           Thread.currentThread().interrupt();
         }
@@ -69,7 +69,6 @@ public class Player implements IPlayer {
   public void listenForMove(Color color, IReversiModel model) {
     // Play the move if it is the AI's turn.
     if (color == this.color) {
-      System.out.println("AI has detected for a move");
       this.playMove(model);
     }
   }

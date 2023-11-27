@@ -345,3 +345,25 @@ while doing so.
 - [ ] Update the main method.
 - [ ] Clean up the code.
 - [ ] Update the README file.
+
+
+## Commmand Line Configurator Commands
+- `--size` or `-s`: Specifies the size of the board. The default value is 6.
+- `--player1` or `-p1`: Specifies the strategy for player 1(Black). The default value is Human. 
+- `--player2` or `-p2`: Specifies the strategy for player 2(White). The default value is Human.
+- The strategies(arguments for `--player1` and `--player2`) are as follows:
+  - `h`: Human Player
+  - `g`: Greedy Strategy
+  - `u`: Upper Left Strategy
+  - `a`: Avoid Edges Strategy
+  - `cc`: Choose Corners Strategy
+  - `mm`: MiniMax Strategy
+  - `oa`: Our Algorithm Strategy
+  - `san`: Sandwich Strategy
+- 'Sandwich' enables more arguments to be passed in. The arguments are as follows:
+  - `--sandwich1` or `-s1`: Specifies the first strategy to be sandwiched.
+  - `--sandwich2` or `-s2`: Specifies the second strategy to be sandwiched.
+  - `--sandwich3` or `-s3`: Specifies the third strategy to be sandwiched.
+  - `--sandwich4` or `-s4`: Specifies the fourth strategy to be sandwiched.
+  - `--sandwich5` or `-s5`: Specifies the fifth strategy to be sandwiched.
+  - `--sandwich6` or `-s6`: Specifies the sixth strategy to be sandwiched.

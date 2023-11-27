@@ -16,6 +16,8 @@ public final class Reversi {
    * @param args the command line arguments
    */
   public static void main(String[] args) {
+    int numSides = 6; // Default value.
+
     IReversiModel model = new HexagonReversi(6);
     BasicReversiView view = new BasicReversiView(model, model.getCurrentColor());
     view.setVisible(true);

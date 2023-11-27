@@ -71,9 +71,7 @@ public class HexagonReversi implements IReversiModel {
 
   @Override
   public void startGame() {
-    System.out.println("Starting game");
     this.gameRunning = true;
-    System.out.println("Game started: " + this.gameRunning);
   }
 
   //helper to check if the game is started before running any other command.
@@ -140,7 +138,6 @@ public class HexagonReversi implements IReversiModel {
     }
     this.passTurn(false);
     for (ModelFeature listener : this.modelFeatures) {
-      listener.advanceFrame();
       listener.emitMoveColor(this.getCurrentColor());
     }
   }
@@ -161,9 +158,7 @@ public class HexagonReversi implements IReversiModel {
       this.currentPlayer = this.player1;
     }
 
-    System.out.println("Model features is null in PassTurn: " + (this.modelFeatures == null));
     for (ModelFeature listener : this.modelFeatures) {
-      listener.advanceFrame();
       listener.emitMoveColor(this.getCurrentColor());
     }
   }
