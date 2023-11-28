@@ -37,13 +37,6 @@ public class ExampleMockPlayerViewTests {
     controller = new Controller(model, view, player1, TokenColor.BLACK);
   }
 
-  @Test
-  public void testOne() {
-    this.init();
-    this.model.startGame();
-    System.out.println(playerLog.toString());
-    System.out.println(viewLog.toString());
-  }
 
   @Test
   public void testPlayerFeatureAddListenerCalled() {
