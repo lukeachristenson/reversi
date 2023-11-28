@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import java.util.Optional;
 
-import cs3500.reversi.model.Color;
+import cs3500.reversi.model.TokenColor;
 import cs3500.reversi.model.HexagonBoard;
 import cs3500.reversi.model.HexagonCell;
 import cs3500.reversi.model.HexagonReversi;
@@ -33,28 +33,28 @@ public class ExampleModelTests {
 
     riggedBoard = new HexagonBoard(3);
     riggedBoard.newCellOwner(new HexagonCell(0, 0, 0), Optional.empty());
-    riggedBoard.newCellOwner(new HexagonCell(1, -1, 0), Optional.of(Color.BLACK));
-    riggedBoard.newCellOwner(new HexagonCell(1, 0, -1), Optional.of(Color.BLACK));
-    riggedBoard.newCellOwner(new HexagonCell(0, 1, -1), Optional.of(Color.BLACK));
-    riggedBoard.newCellOwner(new HexagonCell(-1, 1, 0), Optional.of(Color.BLACK));
-    riggedBoard.newCellOwner(new HexagonCell(-1, 0, 1), Optional.of(Color.BLACK));
-    riggedBoard.newCellOwner(new HexagonCell(0, -1, 1), Optional.of(Color.BLACK));
+    riggedBoard.newCellOwner(new HexagonCell(1, -1, 0), Optional.of(TokenColor.BLACK));
+    riggedBoard.newCellOwner(new HexagonCell(1, 0, -1), Optional.of(TokenColor.BLACK));
+    riggedBoard.newCellOwner(new HexagonCell(0, 1, -1), Optional.of(TokenColor.BLACK));
+    riggedBoard.newCellOwner(new HexagonCell(-1, 1, 0), Optional.of(TokenColor.BLACK));
+    riggedBoard.newCellOwner(new HexagonCell(-1, 0, 1), Optional.of(TokenColor.BLACK));
+    riggedBoard.newCellOwner(new HexagonCell(0, -1, 1), Optional.of(TokenColor.BLACK));
 
-    riggedBoard.newCellOwner(new HexagonCell(-2, 2, 0), Optional.of(Color.WHITE));
-    riggedBoard.newCellOwner(new HexagonCell(-1, 2, -1), Optional.of(Color.WHITE));
-    riggedBoard.newCellOwner(new HexagonCell(0, 2, -2), Optional.of(Color.WHITE));
-    riggedBoard.newCellOwner(new HexagonCell(-2, 1, 1), Optional.of(Color.WHITE));
-    riggedBoard.newCellOwner(new HexagonCell(-2, 0, 2), Optional.of(Color.WHITE));
-    riggedBoard.newCellOwner(new HexagonCell(-1, -1, 2), Optional.of(Color.WHITE));
-    riggedBoard.newCellOwner(new HexagonCell(1, 1, -2), Optional.of(Color.WHITE));
-    riggedBoard.newCellOwner(new HexagonCell(2, 0, -2), Optional.of(Color.WHITE));
-    riggedBoard.newCellOwner(new HexagonCell(2, -1, -1), Optional.of(Color.WHITE));
-    riggedBoard.newCellOwner(new HexagonCell(0, -2, 2), Optional.of(Color.WHITE));
-    riggedBoard.newCellOwner(new HexagonCell(1, -2, 1), Optional.of(Color.WHITE));
-    riggedBoard.newCellOwner(new HexagonCell(2, -2, 0), Optional.of(Color.WHITE));
+    riggedBoard.newCellOwner(new HexagonCell(-2, 2, 0), Optional.of(TokenColor.WHITE));
+    riggedBoard.newCellOwner(new HexagonCell(-1, 2, -1), Optional.of(TokenColor.WHITE));
+    riggedBoard.newCellOwner(new HexagonCell(0, 2, -2), Optional.of(TokenColor.WHITE));
+    riggedBoard.newCellOwner(new HexagonCell(-2, 1, 1), Optional.of(TokenColor.WHITE));
+    riggedBoard.newCellOwner(new HexagonCell(-2, 0, 2), Optional.of(TokenColor.WHITE));
+    riggedBoard.newCellOwner(new HexagonCell(-1, -1, 2), Optional.of(TokenColor.WHITE));
+    riggedBoard.newCellOwner(new HexagonCell(1, 1, -2), Optional.of(TokenColor.WHITE));
+    riggedBoard.newCellOwner(new HexagonCell(2, 0, -2), Optional.of(TokenColor.WHITE));
+    riggedBoard.newCellOwner(new HexagonCell(2, -1, -1), Optional.of(TokenColor.WHITE));
+    riggedBoard.newCellOwner(new HexagonCell(0, -2, 2), Optional.of(TokenColor.WHITE));
+    riggedBoard.newCellOwner(new HexagonCell(1, -2, 1), Optional.of(TokenColor.WHITE));
+    riggedBoard.newCellOwner(new HexagonCell(2, -2, 0), Optional.of(TokenColor.WHITE));
 
-    this.blackPlayer = new HumanPlayer(Color.BLACK);
-    this.whitePlayer = new HumanPlayer(Color.WHITE);
+    this.blackPlayer = new HumanPlayer(TokenColor.BLACK);
+    this.whitePlayer = new HumanPlayer(TokenColor.WHITE);
   }
 
   @Test
@@ -85,33 +85,33 @@ public class ExampleModelTests {
   public void testGetCellStateNonEmptyCell() {
     this.init();
     Assert.assertEquals(this.basicModelThree.getCellState(new HexagonCell(-1, 1, 0)),
-            Optional.of(Color.BLACK));
+            Optional.of(TokenColor.BLACK));
     Assert.assertEquals(this.basicModelThree.getCellState(new HexagonCell(1, -1, 0)),
-            Optional.of(Color.WHITE));
+            Optional.of(TokenColor.WHITE));
     Assert.assertEquals(this.basicModelThree.getCellState(new HexagonCell(0, -1, 1)),
-            Optional.of(Color.BLACK));
+            Optional.of(TokenColor.BLACK));
   }
 
   @Test
   public void testGetScore() {
     this.init();
     // Before a move.
-    Assert.assertEquals(this.basicModelThree.getScore(Color.WHITE), 3);
-    Assert.assertEquals(this.basicModelThree.getScore(Color.BLACK), 3);
+    Assert.assertEquals(this.basicModelThree.getScore(TokenColor.WHITE), 3);
+    Assert.assertEquals(this.basicModelThree.getScore(TokenColor.BLACK), 3);
     //fixme this might not work
     this.basicModelThree.placeCurrentPlayerPiece(new HexagonCell(-1, -1, 2));
     // After a move.
-    Assert.assertEquals(this.basicModelThree.getScore(Color.WHITE), 2);
-    Assert.assertEquals(this.basicModelThree.getScore(Color.BLACK), 5);
+    Assert.assertEquals(this.basicModelThree.getScore(TokenColor.WHITE), 2);
+    Assert.assertEquals(this.basicModelThree.getScore(TokenColor.BLACK), 5);
   }
 
   @Test
   public void testGetCurrentPlayer() {
     this.init();
     // Initially before a move
-    Assert.assertEquals(this.basicModelThree.getCurrentColor(), Color.BLACK);
+    Assert.assertEquals(this.basicModelThree.getCurrentColor(), TokenColor.BLACK);
     this.basicModelThree.passTurn(true);
-    Assert.assertEquals(this.basicModelThree.getCurrentColor(), Color.WHITE);
+    Assert.assertEquals(this.basicModelThree.getCurrentColor(), TokenColor.WHITE);
   }
 
   @Test
@@ -182,9 +182,9 @@ public class ExampleModelTests {
   @Test
   public void testValidPassTurnChangesCurrentPlayer() {
     this.init();
-    Assert.assertEquals(this.basicModelThree.getCurrentColor(), Color.BLACK);
+    Assert.assertEquals(this.basicModelThree.getCurrentColor(), TokenColor.BLACK);
     this.basicModelThree.passTurn(true);
-    Assert.assertEquals(this.basicModelThree.getCurrentColor(), Color.WHITE);
+    Assert.assertEquals(this.basicModelThree.getCurrentColor(), TokenColor.WHITE);
   }
 
   @Test(expected = IllegalStateException.class)
@@ -208,6 +208,6 @@ public class ExampleModelTests {
     basicModelFour.placeCurrentPlayerPiece(new HexagonCell(-1, -1, 2));
     basicModelFour.placeCurrentPlayerPiece(new HexagonCell(-2, 1, 1));
     Assert.assertEquals(basicModelFour.getCellState(new HexagonCell(-1, -1, 2)),
-            Optional.of(Color.BLACK));
+            Optional.of(TokenColor.BLACK));
   }
 }

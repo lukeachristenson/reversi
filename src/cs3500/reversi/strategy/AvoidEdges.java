@@ -3,7 +3,7 @@ package cs3500.reversi.strategy;
 import java.util.ArrayList;
 import java.util.List;
 
-import cs3500.reversi.model.Color;
+import cs3500.reversi.model.TokenColor;
 import cs3500.reversi.model.HexagonCell;
 import cs3500.reversi.model.ICell;
 import cs3500.reversi.model.ROModel;
@@ -12,25 +12,25 @@ import cs3500.reversi.model.ROModel;
  * A class that represents a strategy that avoids edges(cells adjacent to corners).
  */
 public class AvoidEdges implements Strategy {
-  private final Color color;
+  private final TokenColor tokenColor;
 
   /**
    * Constructs a new AvoidEdges strategy.
    *
-   * @param color the color of the player using this strategy.
+   * @param tokenColor the color of the player using this strategy.
    */
-  public AvoidEdges(Color color) {
-    this.color = color;
+  public AvoidEdges(TokenColor tokenColor) {
+    this.tokenColor = tokenColor;
   }
 
   @Override
   public List<ICell> chooseMove(ROModel model, List<ICell> filteredMoves) {
     List<ICell> choices = (filteredMoves.isEmpty())
-            ? model.createBoardCopy().validMovesLeft(color) : filteredMoves;
+            ? model.createBoardCopy().validMovesLeft(tokenColor) : filteredMoves;
     List<ICell> retList = new ArrayList<>(choices);
     List<ICell> entireBoard =
             new ArrayList<>(model.createBoardCopy().getPositionsMapCopy().keySet());
-    List<ICell> corners = new ArrayList<>(new ChooseCorners(color).chooseMove(model, entireBoard));
+    List<ICell> corners = new ArrayList<>(new ChooseCorners(tokenColor).chooseMove(model, entireBoard));
 
     // difference in q direction
     int[] dq = {1, -1, 0, 0, -1, 1};

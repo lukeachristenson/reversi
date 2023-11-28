@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import cs3500.reversi.model.Color;
+import cs3500.reversi.model.TokenColor;
 import cs3500.reversi.model.HexagonBoard;
 import cs3500.reversi.model.HexagonCell;
 import cs3500.reversi.model.IBoard;
@@ -16,6 +16,7 @@ import cs3500.reversi.model.ICell;
 import cs3500.reversi.model.ROModel;
 import cs3500.reversi.strategy.GreedyStrat;
 import cs3500.reversi.strategy.Strategy;
+import model.MockModel;
 
 /**
  * This class tests the Greedy Strategy.
@@ -28,9 +29,9 @@ public class GreedyStrategyTests {
   @Before
   public void init() {
     this.log = new StringBuilder();
-    Color testColor = Color.BLACK;
+    TokenColor testTokenColor = TokenColor.BLACK;
     List<ICell> mockFilteredMoves = List.of();
-    this.strategy = new GreedyStrat(testColor);
+    this.strategy = new GreedyStrat(testTokenColor);
     this.mockModel = new MockModel(3, log);
   }
 
@@ -57,12 +58,12 @@ public class GreedyStrategyTests {
   //helper to add the starting moves of each player
   private void addBasicStartingMoves(IBoard board) {
 
-    board.newCellOwner(new HexagonCell(-1, 1, 0), Optional.of(Color.BLACK));
-    board.newCellOwner(new HexagonCell(-1, 0, 1), Optional.of(Color.WHITE));
-    board.newCellOwner(new HexagonCell(1, 0, -1), Optional.of(Color.BLACK));
-    board.newCellOwner(new HexagonCell(1, -1, 0), Optional.of(Color.WHITE));
-    board.newCellOwner(new HexagonCell(0, -1, 1), Optional.of(Color.BLACK));
-    board.newCellOwner(new HexagonCell(0, 1, -1), Optional.of(Color.WHITE));
+    board.newCellOwner(new HexagonCell(-1, 1, 0), Optional.of(TokenColor.BLACK));
+    board.newCellOwner(new HexagonCell(-1, 0, 1), Optional.of(TokenColor.WHITE));
+    board.newCellOwner(new HexagonCell(1, 0, -1), Optional.of(TokenColor.BLACK));
+    board.newCellOwner(new HexagonCell(1, -1, 0), Optional.of(TokenColor.WHITE));
+    board.newCellOwner(new HexagonCell(0, -1, 1), Optional.of(TokenColor.BLACK));
+    board.newCellOwner(new HexagonCell(0, 1, -1), Optional.of(TokenColor.WHITE));
   }
 
   @Test
@@ -111,10 +112,10 @@ public class GreedyStrategyTests {
   @Test
   public void testGreedyChoosesBestMoveMultipleMoves() {
     this.init();
-    this.strategy = new GreedyStrat(Color.WHITE);
+    this.strategy = new GreedyStrat(TokenColor.WHITE);
     IBoard board = this.initBoard(6);
     this.addBasicStartingMoves(board);
-    board.validMove(new HexagonCell(-2, 1, 1), Color.BLACK, true);
+    board.validMove(new HexagonCell(-2, 1, 1), TokenColor.BLACK, true);
     this.createModel(board, 6, log);
     List<Integer> expected = List.of(1, 1, -2);
     List<Integer> observed = this.strategy.chooseMove(this.mockModel,

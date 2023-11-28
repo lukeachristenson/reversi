@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import cs3500.reversi.model.Color;
+import cs3500.reversi.model.TokenColor;
 import cs3500.reversi.model.HexagonBoard;
 import cs3500.reversi.model.HexagonCell;
 import cs3500.reversi.model.IBoard;
@@ -16,6 +16,7 @@ import cs3500.reversi.model.ICell;
 import cs3500.reversi.model.ROModel;
 import cs3500.reversi.strategy.Strategy;
 import cs3500.reversi.strategy.UpperLeftStrat;
+import model.MockModel;
 
 /**
  * This class tests the UpperLeft Strategy.
@@ -27,9 +28,9 @@ public class UpperLeftStrategyTests {
   @Before
   public void init() {
     StringBuilder log = new StringBuilder();
-    Color testColor = Color.BLACK;
+    TokenColor testTokenColor = TokenColor.BLACK;
     List<ICell> mockFilteredMoves = List.of();
-    this.strategy = new UpperLeftStrat(testColor);
+    this.strategy = new UpperLeftStrat(testTokenColor);
     this.mockModel = new MockModel(6, log);
   }
 
@@ -54,12 +55,12 @@ public class UpperLeftStrategyTests {
 
   //helper to add the starting moves of each player
   private void addBasicStartingMoves(IBoard board) {
-    board.newCellOwner(new HexagonCell(-1, 1, 0), Optional.of(Color.BLACK));
-    board.newCellOwner(new HexagonCell(-1, 0, 1), Optional.of(Color.WHITE));
-    board.newCellOwner(new HexagonCell(1, 0, -1), Optional.of(Color.BLACK));
-    board.newCellOwner(new HexagonCell(1, -1, 0), Optional.of(Color.WHITE));
-    board.newCellOwner(new HexagonCell(0, -1, 1), Optional.of(Color.BLACK));
-    board.newCellOwner(new HexagonCell(0, 1, -1), Optional.of(Color.WHITE));
+    board.newCellOwner(new HexagonCell(-1, 1, 0), Optional.of(TokenColor.BLACK));
+    board.newCellOwner(new HexagonCell(-1, 0, 1), Optional.of(TokenColor.WHITE));
+    board.newCellOwner(new HexagonCell(1, 0, -1), Optional.of(TokenColor.BLACK));
+    board.newCellOwner(new HexagonCell(1, -1, 0), Optional.of(TokenColor.WHITE));
+    board.newCellOwner(new HexagonCell(0, -1, 1), Optional.of(TokenColor.BLACK));
+    board.newCellOwner(new HexagonCell(0, 1, -1), Optional.of(TokenColor.WHITE));
   }
 
   @Test

@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import cs3500.reversi.model.Color;
+import cs3500.reversi.model.TokenColor;
 import cs3500.reversi.model.HexagonBoard;
 import cs3500.reversi.model.HexagonCell;
 import cs3500.reversi.model.HexagonReversi;
@@ -30,25 +30,25 @@ public class ExampleATests {
     this.hexagonBoardThree = new HexagonBoard(5);
     {
       hexagonBoardThree.newCellOwner(new HexagonCell(0, 0, 0), Optional.empty());
-      hexagonBoardThree.newCellOwner(new HexagonCell(1, -1, 0), Optional.of(Color.BLACK));
-      hexagonBoardThree.newCellOwner(new HexagonCell(1, 0, -1), Optional.of(Color.BLACK));
-      hexagonBoardThree.newCellOwner(new HexagonCell(0, 1, -1), Optional.of(Color.BLACK));
-      hexagonBoardThree.newCellOwner(new HexagonCell(-1, 1, 0), Optional.of(Color.BLACK));
-      hexagonBoardThree.newCellOwner(new HexagonCell(-1, 0, 1), Optional.of(Color.BLACK));
-      hexagonBoardThree.newCellOwner(new HexagonCell(0, -1, 1), Optional.of(Color.BLACK));
+      hexagonBoardThree.newCellOwner(new HexagonCell(1, -1, 0), Optional.of(TokenColor.BLACK));
+      hexagonBoardThree.newCellOwner(new HexagonCell(1, 0, -1), Optional.of(TokenColor.BLACK));
+      hexagonBoardThree.newCellOwner(new HexagonCell(0, 1, -1), Optional.of(TokenColor.BLACK));
+      hexagonBoardThree.newCellOwner(new HexagonCell(-1, 1, 0), Optional.of(TokenColor.BLACK));
+      hexagonBoardThree.newCellOwner(new HexagonCell(-1, 0, 1), Optional.of(TokenColor.BLACK));
+      hexagonBoardThree.newCellOwner(new HexagonCell(0, -1, 1), Optional.of(TokenColor.BLACK));
 
-      hexagonBoardThree.newCellOwner(new HexagonCell(-2, 2, 0), Optional.of(Color.WHITE));
-      hexagonBoardThree.newCellOwner(new HexagonCell(-1, 2, -1), Optional.of(Color.WHITE));
-      hexagonBoardThree.newCellOwner(new HexagonCell(0, 2, -2), Optional.of(Color.WHITE));
-      hexagonBoardThree.newCellOwner(new HexagonCell(-2, 1, 1), Optional.of(Color.WHITE));
-      hexagonBoardThree.newCellOwner(new HexagonCell(-2, 0, 2), Optional.of(Color.WHITE));
-      hexagonBoardThree.newCellOwner(new HexagonCell(-1, -1, 2), Optional.of(Color.WHITE));
-      hexagonBoardThree.newCellOwner(new HexagonCell(1, 1, -2), Optional.of(Color.WHITE));
-      hexagonBoardThree.newCellOwner(new HexagonCell(2, 0, -2), Optional.of(Color.WHITE));
-      hexagonBoardThree.newCellOwner(new HexagonCell(2, -1, -1), Optional.of(Color.WHITE));
-      hexagonBoardThree.newCellOwner(new HexagonCell(0, -2, 2), Optional.of(Color.WHITE));
-      hexagonBoardThree.newCellOwner(new HexagonCell(1, -2, 1), Optional.of(Color.WHITE));
-      hexagonBoardThree.newCellOwner(new HexagonCell(2, -2, 0), Optional.of(Color.WHITE));
+      hexagonBoardThree.newCellOwner(new HexagonCell(-2, 2, 0), Optional.of(TokenColor.WHITE));
+      hexagonBoardThree.newCellOwner(new HexagonCell(-1, 2, -1), Optional.of(TokenColor.WHITE));
+      hexagonBoardThree.newCellOwner(new HexagonCell(0, 2, -2), Optional.of(TokenColor.WHITE));
+      hexagonBoardThree.newCellOwner(new HexagonCell(-2, 1, 1), Optional.of(TokenColor.WHITE));
+      hexagonBoardThree.newCellOwner(new HexagonCell(-2, 0, 2), Optional.of(TokenColor.WHITE));
+      hexagonBoardThree.newCellOwner(new HexagonCell(-1, -1, 2), Optional.of(TokenColor.WHITE));
+      hexagonBoardThree.newCellOwner(new HexagonCell(1, 1, -2), Optional.of(TokenColor.WHITE));
+      hexagonBoardThree.newCellOwner(new HexagonCell(2, 0, -2), Optional.of(TokenColor.WHITE));
+      hexagonBoardThree.newCellOwner(new HexagonCell(2, -1, -1), Optional.of(TokenColor.WHITE));
+      hexagonBoardThree.newCellOwner(new HexagonCell(0, -2, 2), Optional.of(TokenColor.WHITE));
+      hexagonBoardThree.newCellOwner(new HexagonCell(1, -2, 1), Optional.of(TokenColor.WHITE));
+      hexagonBoardThree.newCellOwner(new HexagonCell(2, -2, 0), Optional.of(TokenColor.WHITE));
     }
 
     reversiModel = new HexagonReversi(hexagonBoardThree, 6);
@@ -57,7 +57,7 @@ public class ExampleATests {
   @Test
   public void testIfBoardMapDeeoCopyWorks() {
     this.init();
-    Map<ICell, Optional<Color>> mapCopy = this.hexagonBoardThree.getPositionsMapCopy();
+    Map<ICell, Optional<TokenColor>> mapCopy = this.hexagonBoardThree.getPositionsMapCopy();
     for (ICell cell : mapCopy.keySet()) {
       Assert.assertEquals(mapCopy.get(cell), this.hexagonBoardThree.getCellOccupant(cell));
     }
@@ -80,7 +80,7 @@ public class ExampleATests {
     // Write a test for the basic strategy using the basic model.
     // This test should check that the basic strategy returns the correct move for the basic model.
     IReversiModel model = new HexagonReversi(6);
-    Assert.assertEquals(new GreedyStrat(Color.BLACK)
+    Assert.assertEquals(new GreedyStrat(TokenColor.BLACK)
                     .chooseMove(model, List.of()).get(0).getCoordinates(), List.of(-1, -1, 2));
   }
 }

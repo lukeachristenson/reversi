@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import java.util.Arrays;
 
-import cs3500.reversi.model.Color;
+import cs3500.reversi.model.TokenColor;
 import cs3500.reversi.model.HexagonCell;
 import cs3500.reversi.model.HexagonReversi;
 import cs3500.reversi.model.IBoard;
@@ -66,16 +66,16 @@ public class ExampleAuxillaryTests {
 
   @Test
   public void testPlayerNextWorks() {
-    Assert.assertEquals(Color.WHITE.next(), Color.BLACK);
-    Assert.assertEquals(Color.WHITE.next().next(), Color.WHITE);
-    Assert.assertEquals(Color.BLACK.next(), Color.WHITE);
-    Assert.assertEquals(Color.BLACK.next().next(), Color.BLACK);
+    Assert.assertEquals(TokenColor.WHITE.next(), TokenColor.BLACK);
+    Assert.assertEquals(TokenColor.WHITE.next().next(), TokenColor.WHITE);
+    Assert.assertEquals(TokenColor.BLACK.next(), TokenColor.WHITE);
+    Assert.assertEquals(TokenColor.BLACK.next().next(), TokenColor.BLACK);
   }
 
   @Test
   public void testPlayerDoesNotChangePlayerButReturnsNewPlayer() {
-    Color p1 = Color.WHITE;
-    Color p2 = p1.next();
-    Assert.assertEquals(p1, Color.WHITE);
+    TokenColor p1 = TokenColor.WHITE;
+    TokenColor p2 = p1.next();
+    Assert.assertEquals(p1, TokenColor.WHITE);
   }
 }

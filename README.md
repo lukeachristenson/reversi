@@ -14,8 +14,8 @@ To get started with this codebase and play a game of Hexagonal Reversi, follow t
 ```java
 import model.HexagonReversi;
 import model.IReversiModel;
-import view.ReversiTextView;
-import view.TextView;
+import mockplayerview.ReversiTextView;
+import mockplayerview.TextView;
 
 public class Main {
   public static void main(String[] args) {
@@ -96,7 +96,7 @@ and within a hexagonal shape or not.
 #### IPlayer Interface:
 
 `IPlayer` is a marker interface for player representation. It includes a method to retrieve the
-player's color.
+player's tokenColor.
 An IPlayer can be a human player or an AI(**not implemented yet**).
 A concrete class for Human players, called HumanPlayer is made which represents Human Players. The
 only field that the `HumanPlayer` class has is a `Color`.
@@ -105,7 +105,7 @@ only field that the `HumanPlayer` class has is a `Color`.
 
 A concrete implementation of `IPlayer`, representing human players. It allows specifying the
 player's
-color upon instantiation, either `Color.BLACK` or `Color.WHITE`.
+tokenColor upon instantiation, either `Color.BLACK` or `Color.WHITE`.
 
 #### Color Enum:
 
@@ -147,7 +147,7 @@ It has an invariant that limits the coordinates such that their sum is 0.
 │           │   └── MANIFEST.MF
 │           ├── Reversi.java
 │           ├── TestingReversiRunner.java
-│           ├── controller
+│           ├── modelfeatures
 │           │   └── Controller.java
 │           ├── model
 │           │   ├── Color.java
@@ -170,7 +170,7 @@ It has an invariant that limits the coordinates such that their sum is 0.
 │           │   ├── Sandwich.java
 │           │   ├── Strategy.java
 │           │   └── UpperLeftStrat.java
-│           └── view
+│           └── mockplayerview
 │               ├── BasicReversiView.java
 │               ├── CartesianPosn.java
 │               ├── CoordUtilities.java
@@ -197,7 +197,7 @@ It has an invariant that limits the coordinates such that their sum is 0.
 
 ## Changes for Part 2
 
-- Removed a method called `placePiece(Color color, ICell cell)` from the model that
+- Removed a method called `placePiece(Color tokenColor, ICell cell)` from the model that
   gave excessive control on changing the game state irrespective of the current player,
   going against the rules of the game.
 - Added a method called `placeCurrentPiece(ICell cell)` that places **only** the current player's
@@ -206,16 +206,16 @@ It has an invariant that limits the coordinates such that their sum is 0.
 - Added a method called `getCellsFlipped(ICell cell)` that returns the number of cells that will
   be flipped if the current player places a piece in the given cell.
 - Added a method called `getScore()` that returns the score of the current player.
-- Made a read-only interface for the model so that the view cannot make changes to the game state.
+- Made a read-only interface for the model so that the mockplayerview cannot make changes to the game state.
 
 ## Graphical View
 
-The view for this game is made in an interface called `ReversiView`. The interface is
+The mockplayerview for this game is made in an interface called `ReversiView`. The interface is
 further implemented in the concrete class `BasicReversiView` which extends the `JFrame` class to use
 [Swing](https://docs.oracle.com/javase/tutorial/uiswing/components/index.html) components and
-features. The view works with
+features. The mockplayerview works with
 a [JPanel](https://docs.oracle.com/javase%2F7%2Fdocs%2Fapi%2F%2F/javax/swing/JPanel.html) class
-called `ReversiPanel` which is responsible for rendering the game board on the view(frame).
+called `ReversiPanel` which is responsible for rendering the game board on the mockplayerview(frame).
 
 ### ReversiPanel Class
 
@@ -225,7 +225,7 @@ interfaces respectively.
 
 ### CartesianPosn
 
-The `CartesianPosn` class represents a cartesian coordinate on the view. The class is used to get
+The `CartesianPosn` class represents a cartesian coordinate on the mockplayerview. The class is used to get
 the cartesian coordinates of the center of the cells on the panel using its cube coordinates.
 It has two fields, `x` and `y` which represent the x and y coordinates of the cartesian coordinate
 in doubles.
@@ -233,14 +233,14 @@ in doubles.
 ### Mouse Inputs
 
 The `ReversiPanel` class handles mouse inputs using the `MouseEventListener` interface. A cell on
-the board is highlighted in <span style="color:cyan">**cyan**</span> when the mouse clicks it and
+the board is highlighted in <span style="tokenColor:cyan">**cyan**</span> when the mouse clicks it and
 the same cell is deselected when one of four things happen:
 
 - The mouse clicks on the same cell again.
 - The mouse clicks on a different cell.
 - The mouse clicks outside the board
 - A key is pressed on the keyboard(*Note: nothing changes on the board in this case
-  since a controller has not been made for the final version*).
+  since a modelfeatures has not been made for the final version*).
 
 The highlighted cell's coordinates in the
 [cube coordinate system](https://www.redblobgames.com/grids/hexagons/#coordinates-cube)
@@ -256,7 +256,7 @@ keys are used to control the game:
 
 ## Changes for Part 2
 
-- Removed a method called `placePiece(Color color, ICell cell)` from the model that
+- Removed a method called `placePiece(Color tokenColor, ICell cell)` from the model that
   gave excessive control on changing the game state irrespective of the current player,
   going against the rules of the game.
 - Added a method called `placeCurrentPiece(ICell cell)` that places **only** the current player's
@@ -265,16 +265,16 @@ keys are used to control the game:
 - Added a method called `getCellsFlipped(ICell cell)` that returns the number of cells that will
   be flipped if the current player places a piece in the given cell.
 - Added a method called `getScore()` that returns the score of the current player.
-- Made a read-only interface for the model so that the view cannot make changes to the game state.
+- Made a read-only interface for the model so that the mockplayerview cannot make changes to the game state.
 
 ## Graphical View
 
-The view for this game is made in an interface called `ReversiView`. The interface is
+The mockplayerview for this game is made in an interface called `ReversiView`. The interface is
 further implemented in the concrete class `BasicReversiView` which extends the `JFrame` class to use
 [Swing](https://docs.oracle.com/javase/tutorial/uiswing/components/index.html) components and
-features. The view works with
+features. The mockplayerview works with
 a [JPanel](https://docs.oracle.com/javase%2F7%2Fdocs%2Fapi%2F%2F/javax/swing/JPanel.html) class
-called `ReversiPanel` which is responsible for rendering the game board on the view(frame).
+called `ReversiPanel` which is responsible for rendering the game board on the mockplayerview(frame).
 
 ### ReversiPanel Class
 
@@ -284,7 +284,7 @@ interfaces respectively.
 
 ### CartesianPosn
 
-The `CartesianPosn` class represents a cartesian coordinate on the view. The class is used to get
+The `CartesianPosn` class represents a cartesian coordinate on the mockplayerview. The class is used to get
 the cartesian coordinates of the center of the cells on the panel using its cube coordinates.
 It has two fields, `x` and `y` which represent the x and y coordinates of the cartesian coordinate
 in doubles.
@@ -292,14 +292,14 @@ in doubles.
 ### Mouse Inputs
 
 The `ReversiPanel` class handles mouse inputs using the `MouseEventListener` interface. A cell on
-the board is highlighted in <span style="color:cyan">**cyan**</span> when the mouse clicks it and
+the board is highlighted in <span style="tokenColor:cyan">**cyan**</span> when the mouse clicks it and
 the same cell is deselected when one of four things happen:
 
 - The mouse clicks on the same cell again.
 - The mouse clicks on a different cell.
 - The mouse clicks outside the board
 - A key is pressed on the keyboard(*Note: nothing changes on the board in this case
-  since a controller has not been made for the final version*).
+  since a modelfeatures has not been made for the final version*).
 
 The highlighted cell's coordinates in the
 [cube coordinate system](https://www.redblobgames.com/grids/hexagons/#coordinates-cube)
@@ -373,7 +373,7 @@ while doing so.
 
 - [ ] Make a command line configurator for the game.
 - [ ] Remove the HumanPlayer class since it is being replaced by a player class with Human Strategy.
-- [ ] Test the controller
+- [ ] Test the modelfeatures
 - [ ] Update the main method.
 - [ ] Clean up the code.
 - [ ] Update the README file.

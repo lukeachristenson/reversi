@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import cs3500.reversi.model.Color;
+import cs3500.reversi.model.TokenColor;
 import cs3500.reversi.model.HexagonReversi;
 import cs3500.reversi.model.ICell;
 import cs3500.reversi.model.IReversiModel;
@@ -17,15 +17,15 @@ import cs3500.reversi.model.ROModel;
  * the strategy's color and the opponent's color.
  */
 public class MiniMaxStrategy implements Strategy {
-  private final Color color;
+  private final TokenColor tokenColor;
 
   /**
    * Constructor for a MiniMaxStrategy. Takes in the color of the strategy.
    *
-   * @param color the color of the strategy.
+   * @param tokenColor the color of the strategy.
    */
-  public MiniMaxStrategy(Color color) {
-    this.color = color;
+  public MiniMaxStrategy(TokenColor tokenColor) {
+    this.tokenColor = tokenColor;
   }
 
   @Override
@@ -42,7 +42,7 @@ public class MiniMaxStrategy implements Strategy {
 
   // Get a list of valid moves, either from filteredMoves or by calculating.
   private List<ICell> getValidChoices(ROModel model, List<ICell> filteredMoves) {
-    return filteredMoves.isEmpty() ? model.createBoardCopy().validMovesLeft(color) : filteredMoves;
+    return filteredMoves.isEmpty() ? model.createBoardCopy().validMovesLeft(tokenColor) : filteredMoves;
   }
 
   // Evaluate each possible move and calculate the score difference.
@@ -59,9 +59,9 @@ public class MiniMaxStrategy implements Strategy {
   // Calculate the score difference between the player's color and the opponent.
   private int calculateScoreDifference(IReversiModel modelCopy) {
     if (modelCopy.isGameOver()) {
-      return modelCopy.getWinner().map(winner -> winner == color ? 10000 : -10000).orElse(0);
+      return modelCopy.getWinner().map(winner -> winner == tokenColor ? 10000 : -10000).orElse(0);
     }
-    return modelCopy.getScore(color) - modelCopy.getScore(getOtherColor(color));
+    return modelCopy.getScore(tokenColor) - modelCopy.getScore(getOtherColor(tokenColor));
   }
 
   // Determine the best move based on score differences and check if passing is a better option.
@@ -92,7 +92,7 @@ public class MiniMaxStrategy implements Strategy {
   }
 
   // Utility method to get the color opposite to the one provided.
-  private Color getOtherColor(Color color) {
-    return color == Color.BLACK ? Color.WHITE : Color.BLACK;
+  private TokenColor getOtherColor(TokenColor tokenColor) {
+    return tokenColor == TokenColor.BLACK ? TokenColor.WHITE : TokenColor.BLACK;
   }
 }

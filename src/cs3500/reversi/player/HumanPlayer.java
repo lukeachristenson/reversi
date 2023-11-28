@@ -2,40 +2,43 @@ package cs3500.reversi.player;
 
 import java.util.ArrayList;
 import java.util.List;
-import cs3500.reversi.model.Color;
+
+import cs3500.reversi.controller.PlayerFeatures;
+import cs3500.reversi.model.ROModel;
+import cs3500.reversi.model.TokenColor;
 import cs3500.reversi.model.IReversiModel;
-import cs3500.reversi.view.ViewFeatures;
 
 /**
  * A class to represent a human player.
  */
 public class HumanPlayer implements IPlayer {
-  private final Color color;
-  private  List<ViewFeatures> listeners;
+  private final TokenColor tokenColor;
+  private  List<PlayerFeatures> listeners;
 
   /**
    * Constructor for a HumanPlayer. Takes in a color and makes a player who will play that color.
    *
-   * @param color the color of the player.
+   * @param tokenColor the color of the player.
    */
-  public HumanPlayer(Color color) {
-    this.color = color;
+  public HumanPlayer(TokenColor tokenColor) {
+    this.tokenColor = tokenColor;
     this.listeners = new ArrayList<>();
   }
 
 
   @Override
-  public void addListener(ViewFeatures listener) {
+  public void addListener(PlayerFeatures listener) {
     this.listeners.add(listener);
   }
 
   @Override
-  public void playMove(IReversiModel model) {
+  public void playMove() {
     // Do nothing
   }
 
   @Override
-  public void listenForMove(Color color, IReversiModel model) {
+  public void listenForMove(TokenColor tokenColor) {
     // Do nothing
   }
 }
+

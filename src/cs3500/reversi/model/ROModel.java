@@ -34,18 +34,18 @@ public interface ROModel {
   /**
    * Returns the score of the given color.
    *
-   * @param color the color to get the score of.
+   * @param tokenColor the color to get the score of.
    * @return the score of the given color.
    * @throws IllegalStateException if the game has not yet started.
    */
-  int getScore(Color color) throws IllegalStateException;
+  int getScore(TokenColor tokenColor) throws IllegalStateException;
 
   /**
    * Returns the current color.
    *
    * @return the current color.
    */
-  Color getCurrentColor();
+  TokenColor getCurrentColor();
 
   /**
    * Returns the dimensions of the board.
@@ -57,26 +57,26 @@ public interface ROModel {
   /**
    * Returns the cell at the given coordinates.
    *
-   * @param color the number of valid moves for this color.
+   * @param tokenColor the number of valid moves for this color.
    * @return the cell at the given coordinates.
    */
-  List<ICell> getValidMoves(Color color);
+  List<ICell> getValidMoves(TokenColor tokenColor);
 
   /**
    * Returns the number of cells flipped by the given move.
    *
    * @param cell  the cell to make the move at.
-   * @param color the color to make the move with.
+   * @param tokenColor the color to make the move with.
    * @return the number of cells flipped by the given move.
    */
-  int cellsFlipped(ICell cell, Color color);
+  int cellsFlipped(ICell cell, TokenColor tokenColor);
 
   /**
    * Returns the winner of the game.
    *
    * @return the winner of the game.
    */
-  Optional<Color> getWinner();
+  Optional<TokenColor> getWinner();
 
   /**
    * Returns whether the given move is valid.

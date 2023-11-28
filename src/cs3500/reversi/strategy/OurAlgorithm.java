@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import cs3500.reversi.model.Color;
+import cs3500.reversi.model.TokenColor;
 import cs3500.reversi.model.HexagonReversi;
 import cs3500.reversi.model.IBoard;
 import cs3500.reversi.model.ICell;
@@ -22,15 +22,15 @@ import cs3500.reversi.model.ROModel;
  * first place.
  */
 public class OurAlgorithm implements Strategy {
-  private final Color color;
+  private final TokenColor tokenColor;
 
   /**
    * Constructor for a MiniMaxStrategyV2. Takes in a color for the player.
    *
-   * @param color the color of the player.
+   * @param tokenColor the color of the player.
    */
-  public OurAlgorithm(Color color) {
-    this.color = color;
+  public OurAlgorithm(TokenColor tokenColor) {
+    this.tokenColor = tokenColor;
   }
 
   @Override
@@ -43,7 +43,7 @@ public class OurAlgorithm implements Strategy {
 
   // gets the move choices of strategy colors player
   private List<ICell> getChoices(ROModel model, List<ICell> filteredMoves) {
-    return filteredMoves.isEmpty() ? model.createBoardCopy().validMovesLeft(color) : filteredMoves;
+    return filteredMoves.isEmpty() ? model.createBoardCopy().validMovesLeft(tokenColor) : filteredMoves;
   }
 
   // evaluates the moves of the strategy color player, and opponents highest scoring response
@@ -82,28 +82,28 @@ public class OurAlgorithm implements Strategy {
     IReversiModel newModelCopy =
             new HexagonReversi(modelCopy.createBoardCopy(), modelCopy.getDimensions());
     newModelCopy.passTurn(false);
-    System.out.println("This color: " + color);
+    System.out.println("This color: " + tokenColor);
     newModelCopy.placeCurrentPlayerPiece(opponentMove);
-    return newModelCopy.getScore(getOtherColor(color)) - newModelCopy.getScore(color);
+    return newModelCopy.getScore(getOtherColor(tokenColor)) - newModelCopy.getScore(tokenColor);
   }
 
   // gets the moves of the opponent color player
   private List<ICell> opponentMoves(IReversiModel modelCopy) {
-    Color otherColor = getOtherColor(color);
+    TokenColor otherTokenColor = getOtherColor(tokenColor);
     List<Strategy> opponentStrats = Arrays.asList(
-            new AvoidEdges(otherColor),
-            new ChooseCorners(otherColor),
-            new GreedyStrat(otherColor)
+            new AvoidEdges(otherTokenColor),
+            new ChooseCorners(otherTokenColor),
+            new GreedyStrat(otherTokenColor)
     );
     // Changed to pass in otherColor instead of color
-    return new Sandwich(otherColor, opponentStrats)
-            .chooseMove(modelCopy, modelCopy.getValidMoves(otherColor));
+    return new Sandwich(otherTokenColor, opponentStrats)
+            .chooseMove(modelCopy, modelCopy.getValidMoves(otherTokenColor));
   }
 
   // returns whether strategy player has won the game
   private boolean playerWonGame(IReversiModel modelCopy) {
     return modelCopy.isGameOver() && modelCopy.getWinner()
-            .filter(winner -> winner.equals(color))
+            .filter(winner -> winner.equals(tokenColor))
             .isPresent();
   }
 
@@ -117,7 +117,7 @@ public class OurAlgorithm implements Strategy {
   }
 
   // gets the other color
-  private Color getOtherColor(Color color) {
-    return color == Color.BLACK ? Color.WHITE : Color.BLACK;
+  private TokenColor getOtherColor(TokenColor tokenColor) {
+    return tokenColor == TokenColor.BLACK ? TokenColor.WHITE : TokenColor.BLACK;
   }
 }

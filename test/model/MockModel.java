@@ -1,10 +1,10 @@
-package strategy;
+package model;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import cs3500.reversi.model.Color;
+import cs3500.reversi.model.TokenColor;
 import cs3500.reversi.model.HexagonBoard;
 import cs3500.reversi.model.HexagonCell;
 import cs3500.reversi.player.HumanPlayer;
@@ -38,7 +38,7 @@ public class MockModel implements ROModel {
     }
 
     this.log = log;
-    this.currentPlayer = new HumanPlayer(Color.BLACK);
+    this.currentPlayer = new HumanPlayer(TokenColor.BLACK);
     // rings excluding the center cell = sideLength - 1
     this.board = this.initBoard(sideLength - 1);
     this.addStartingMoves();
@@ -80,12 +80,12 @@ public class MockModel implements ROModel {
   //helper to add the starting moves of each player
   private void addStartingMoves() {
 
-    this.board.newCellOwner(new HexagonCell(-1, 1, 0), Optional.of(Color.BLACK));
-    this.board.newCellOwner(new HexagonCell(-1, 0, 1), Optional.of(Color.WHITE));
-    this.board.newCellOwner(new HexagonCell(1, 0, -1), Optional.of(Color.BLACK));
-    this.board.newCellOwner(new HexagonCell(1, -1, 0), Optional.of(Color.WHITE));
-    this.board.newCellOwner(new HexagonCell(0, -1, 1), Optional.of(Color.BLACK));
-    this.board.newCellOwner(new HexagonCell(0, 1, -1), Optional.of(Color.WHITE));
+    this.board.newCellOwner(new HexagonCell(-1, 1, 0), Optional.of(TokenColor.BLACK));
+    this.board.newCellOwner(new HexagonCell(-1, 0, 1), Optional.of(TokenColor.WHITE));
+    this.board.newCellOwner(new HexagonCell(1, 0, -1), Optional.of(TokenColor.BLACK));
+    this.board.newCellOwner(new HexagonCell(1, -1, 0), Optional.of(TokenColor.WHITE));
+    this.board.newCellOwner(new HexagonCell(0, -1, 1), Optional.of(TokenColor.BLACK));
+    this.board.newCellOwner(new HexagonCell(0, 1, -1), Optional.of(TokenColor.WHITE));
   }
 
 
@@ -96,15 +96,15 @@ public class MockModel implements ROModel {
   }
 
   @Override
-  public int getScore(Color color) throws IllegalStateException {
+  public int getScore(TokenColor tokenColor) throws IllegalStateException {
     log.append("getScore called\n");
-    return this.board.getColorCount(color);
+    return this.board.getColorCount(tokenColor);
   }
 
   @Override
-  public Color getCurrentColor() throws IllegalStateException {
+  public TokenColor getCurrentColor() throws IllegalStateException {
     log.append("getCurrentColor called\n");
-    return Color.BLACK;
+    return TokenColor.BLACK;
   }
 
   @Override
@@ -127,29 +127,29 @@ public class MockModel implements ROModel {
   }
 
   @Override
-  public List<ICell> getValidMoves(Color color) throws IllegalStateException {
-    log.append("getValidMoves called with color: " + color.toString() + "\n");
-    return this.board.validMovesLeft(color);
+  public List<ICell> getValidMoves(TokenColor tokenColor) throws IllegalStateException {
+    log.append("getValidMoves called with color: " + tokenColor.toString() + "\n");
+    return this.board.validMovesLeft(tokenColor);
   }
 
   @Override
-  public int cellsFlipped(ICell cell, Color color) {
+  public int cellsFlipped(ICell cell, TokenColor tokenColor) {
     log.append("cellsFlipped called with cell: " + cell.getCoordinates()
-            + " and color: " + color.toString());
-    int initialScore = this.board.getColorCount(color);
+            + " and color: " + tokenColor.toString());
+    int initialScore = this.board.getColorCount(tokenColor);
     int finalScore = 0;
-    if (this.board.validMove(cell, color, false)) {
+    if (this.board.validMove(cell, tokenColor, false)) {
       IBoard boardCopy = this.createBoardCopy();
-      boardCopy.validMove(cell, color, true);
-      finalScore = boardCopy.getColorCount(color);
+      boardCopy.validMove(cell, tokenColor, true);
+      finalScore = boardCopy.getColorCount(tokenColor);
     }
     log.append("  ---------Advantage: " + (finalScore - initialScore) + "\n");
     return finalScore - initialScore;
   }
 
   @Override
-  public Optional<Color> getWinner() {
-    return Optional.of(Color.BLACK);
+  public Optional<TokenColor> getWinner() {
+    return Optional.of(TokenColor.BLACK);
   }
 
   @Override
@@ -160,7 +160,7 @@ public class MockModel implements ROModel {
 
   @Override
   public IBoard createBoardCopy() {
-    Map<ICell, Optional<Color>> mapCopy = this.board.getPositionsMapCopy();
+    Map<ICell, Optional<TokenColor>> mapCopy = this.board.getPositionsMapCopy();
     IBoard copyBoard = new HexagonBoard(this.sideLength);
 
     for (ICell cell : mapCopy.keySet()) {

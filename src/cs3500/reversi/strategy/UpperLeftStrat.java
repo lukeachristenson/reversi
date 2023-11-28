@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import cs3500.reversi.model.Color;
+import cs3500.reversi.model.TokenColor;
 import cs3500.reversi.model.HexagonCell;
 import cs3500.reversi.model.ICell;
 import cs3500.reversi.model.ROModel;
@@ -13,30 +13,30 @@ import cs3500.reversi.model.ROModel;
  * Represents a strategy that chooses the uppermost-leftmost move.
  */
 public class UpperLeftStrat implements Strategy {
-  private final Color color;
+  private final TokenColor tokenColor;
 
   /**
    * Constructs a new UpperLeftStrat object.
    *
-   * @param color the color of the player using this strategy
+   * @param tokenColor the color of the player using this strategy
    */
-  public UpperLeftStrat(Color color) {
-    this.color = color;
+  public UpperLeftStrat(TokenColor tokenColor) {
+    this.tokenColor = tokenColor;
   }
 
   @Override
   public List<ICell> chooseMove(ROModel model, List<ICell> filteredMoves) {
     if(!model.isGameOver()) {
       boolean allValidFilteredMoves =
-              filteredMoves.stream().allMatch(c -> model.getValidMoves(color).contains(c))
+              filteredMoves.stream().allMatch(c -> model.getValidMoves(tokenColor).contains(c))
                       && !filteredMoves.isEmpty();
 
       ICell returnCell = new HexagonCell(0, -model.getDimensions(), model.getDimensions());
       List<ICell> choices =
-              new ArrayList<>(allValidFilteredMoves ? filteredMoves : model.getValidMoves(color));
+              new ArrayList<>(allValidFilteredMoves ? filteredMoves : model.getValidMoves(tokenColor));
 
       // Sort based on (s - r)
-      if (model.getCurrentColor().equals(color)) {
+      if (model.getCurrentColor().equals(tokenColor)) {
         choices.sort(new UpperLeftComparator());
       }
       return choices;

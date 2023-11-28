@@ -15,7 +15,7 @@ import cs3500.reversi.player.IPlayer;
 public class HexagonReversi implements IReversiModel {
   private final IBoard board;
   private final int sideLength;
-  private Color currentColor;
+  private TokenColor currentTokenColor;
   private int passCount;
   private boolean gameRunning;
   private List<ModelFeature> modelFeatures;
@@ -37,7 +37,7 @@ public class HexagonReversi implements IReversiModel {
 
     this.gameRunning = true;
 
-    this.currentColor = Color.BLACK;
+    this.currentTokenColor = TokenColor.BLACK;
     this.passCount = 0;
     this.board = this.initBoard(sideLength); // rings excluding the center cell = sideLength - 1
     this.addStartingMoves();
@@ -58,7 +58,7 @@ public class HexagonReversi implements IReversiModel {
       this.sideLength = sideLength;
     }
 
-    this.currentColor = Color.BLACK;
+    this.currentTokenColor = TokenColor.BLACK;
     this.passCount = 0;
     this.board = hexBoard;
     this.modelFeatures = new ArrayList<>();
@@ -67,8 +67,8 @@ public class HexagonReversi implements IReversiModel {
 
   @Override
   public void startGame() {
-    this.currentColor = Color.BLACK;
     this.gameRunning = true;
+    this.emitMessage();
   }
 
   //helper to check if the game is started before running any other command.
@@ -96,12 +96,12 @@ public class HexagonReversi implements IReversiModel {
 
   //helper to add the starting moves of each player
   private void addStartingMoves() {
-    this.board.newCellOwner(new HexagonCell(-1, 1, 0), Optional.of(Color.BLACK));
-    this.board.newCellOwner(new HexagonCell(-1, 0, 1), Optional.of(Color.WHITE));
-    this.board.newCellOwner(new HexagonCell(1, 0, -1), Optional.of(Color.BLACK));
-    this.board.newCellOwner(new HexagonCell(1, -1, 0), Optional.of(Color.WHITE));
-    this.board.newCellOwner(new HexagonCell(0, -1, 1), Optional.of(Color.BLACK));
-    this.board.newCellOwner(new HexagonCell(0, 1, -1), Optional.of(Color.WHITE));
+    this.board.newCellOwner(new HexagonCell(-1, 1, 0), Optional.of(TokenColor.BLACK));
+    this.board.newCellOwner(new HexagonCell(-1, 0, 1), Optional.of(TokenColor.WHITE));
+    this.board.newCellOwner(new HexagonCell(1, 0, -1), Optional.of(TokenColor.BLACK));
+    this.board.newCellOwner(new HexagonCell(1, -1, 0), Optional.of(TokenColor.WHITE));
+    this.board.newCellOwner(new HexagonCell(0, -1, 1), Optional.of(TokenColor.BLACK));
+    this.board.newCellOwner(new HexagonCell(0, 1, -1), Optional.of(TokenColor.WHITE));
   }
 
   @Override
@@ -126,14 +126,18 @@ public class HexagonReversi implements IReversiModel {
   public void placeCurrentPlayerPiece(ICell targetCell) throws IllegalStateException
           , IllegalArgumentException {
     this.gameStartedChecker();
-    if (this.board.validMove(targetCell, this.currentColor, false)) {
-      this.board.validMove(targetCell, this.currentColor, true);
-      this.board.newCellOwner(targetCell, Optional.of(this.currentColor));
+    if (this.board.validMove(targetCell, this.currentTokenColor, false)) {
+      this.board.validMove(targetCell, this.currentTokenColor, true);
+      this.board.newCellOwner(targetCell, Optional.of(this.currentTokenColor));
       this.passCount = 0;
     } else {
       throw new IllegalStateException("Invalid move");
     }
     this.passTurn(false);
+    emitMessage();
+  }
+
+  private void emitMessage() {
     for (ModelFeature listener : this.modelFeatures) {
       listener.emitMoveColor(this.getCurrentColor());
     }
@@ -141,8 +145,8 @@ public class HexagonReversi implements IReversiModel {
 
   @Override
   public void passTurn(boolean increment) throws IllegalStateException {
-    if (this.passCount > Color.values().length) {
-      throw new IllegalStateException("cannot pass more than " + Color.values().length
+    if (this.passCount > TokenColor.values().length) {
+      throw new IllegalStateException("cannot pass more than " + TokenColor.values().length
               + " times, game should be over");
     }
     this.gameStartedChecker();
@@ -150,15 +154,13 @@ public class HexagonReversi implements IReversiModel {
       this.passCount++;
     }
 
-    if(this.currentColor.equals(Color.BLACK)) {
-      this.currentColor = Color.WHITE;
+    if(this.currentTokenColor.equals(TokenColor.BLACK)) {
+      this.currentTokenColor = TokenColor.WHITE;
     } else {
-      this.currentColor = Color.BLACK;
+      this.currentTokenColor = TokenColor.BLACK;
     }
 
-    for (ModelFeature listener : this.modelFeatures) {
-      listener.emitMoveColor(this.getCurrentColor());
-    }
+    emitMessage();
   }
 
 
@@ -169,33 +171,33 @@ public class HexagonReversi implements IReversiModel {
   }
 
   @Override
-  public Optional<Color> getCellState(ICell cell) throws IllegalArgumentException
+  public Optional<TokenColor> getCellState(ICell cell) throws IllegalArgumentException
           , IllegalStateException {
     this.gameStartedChecker();
     return this.board.getCellOccupant(cell);
   }
 
   @Override
-  public int getScore(Color color) throws IllegalStateException {
-    return this.board.getColorCount(color);
+  public int getScore(TokenColor tokenColor) throws IllegalStateException {
+    return this.board.getColorCount(tokenColor);
   }
 
   @Override
-  public Color getCurrentColor() throws IllegalStateException {
+  public TokenColor getCurrentColor() throws IllegalStateException {
 //    this.gameStartedChecker();
-    return this.currentColor;
+    return this.currentTokenColor;
   }
 
   @Override
   public boolean isGameOver() throws IllegalStateException {
 //    this.gameStartedChecker();
-    if (this.passCount >= Color.values().length) {
+    if (this.passCount >= TokenColor.values().length) {
       this.gameRunning = false;
       return true;
     }
 
-    if (this.board.validMovesLeft(Color.WHITE).isEmpty() &&
-            this.board.validMovesLeft(Color.BLACK).isEmpty()) {
+    if (this.board.validMovesLeft(TokenColor.WHITE).isEmpty() &&
+            this.board.validMovesLeft(TokenColor.BLACK).isEmpty()) {
       this.gameRunning = false;
       return true;
     }
@@ -210,41 +212,41 @@ public class HexagonReversi implements IReversiModel {
 
   @Override
   public IPlayer getCurrentPlayer() {
-    return new HumanPlayer(this.currentColor);
+    return new HumanPlayer(this.currentTokenColor);
   }
 
   @Override
-  public List<ICell> getValidMoves(Color color) throws IllegalStateException {
-    return this.board.validMovesLeft(color);
+  public List<ICell> getValidMoves(TokenColor tokenColor) throws IllegalStateException {
+    return this.board.validMovesLeft(tokenColor);
   }
 
   @Override
-  public int cellsFlipped(ICell cell, Color color) {
-    int initialScore = this.getScore(color);
+  public int cellsFlipped(ICell cell, TokenColor tokenColor) {
+    int initialScore = this.getScore(tokenColor);
     int finalScore = 0;
-    if (this.board.validMove(cell, color, false)) {
+    if (this.board.validMove(cell, tokenColor, false)) {
       IBoard boardCopy = this.createBoardCopy();
-      boardCopy.validMove(cell, color, true);
-      finalScore = boardCopy.getColorCount(color);
+      boardCopy.validMove(cell, tokenColor, true);
+      finalScore = boardCopy.getColorCount(tokenColor);
     }
     return finalScore - initialScore;
   }
 
   @Override
-  public Optional<Color> getWinner() {
-    int blackScore = this.getScore(Color.BLACK);
-    int whiteScore = this.getScore(Color.WHITE);
+  public Optional<TokenColor> getWinner() {
+    int blackScore = this.getScore(TokenColor.BLACK);
+    int whiteScore = this.getScore(TokenColor.WHITE);
     if (blackScore > whiteScore) {
-      return Optional.of(Color.BLACK);
+      return Optional.of(TokenColor.BLACK);
     } else if (whiteScore > blackScore) {
-      return Optional.of(Color.WHITE);
+      return Optional.of(TokenColor.WHITE);
     }
     return Optional.empty();
   }
 
   @Override
   public IBoard createBoardCopy() {
-    Map<ICell, Optional<Color>> mapCopy = this.board.getPositionsMapCopy();
+    Map<ICell, Optional<TokenColor>> mapCopy = this.board.getPositionsMapCopy();
     IBoard copyBoard = new HexagonBoard(this.sideLength);
 
     for (ICell cell : mapCopy.keySet()) {

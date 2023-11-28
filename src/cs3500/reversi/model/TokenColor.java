@@ -3,7 +3,7 @@ package cs3500.reversi.model;
 /**
  * An Enum for different colors to be placed by players.
  */
-public enum Color {
+public enum TokenColor {
   BLACK, WHITE;
 
   /**
@@ -11,7 +11,7 @@ public enum Color {
    *
    * @return next player in sequence
    */
-  public Color next() {
+  public TokenColor next() {
     return values()[(this.ordinal() + 1) % values().length];
   }
 

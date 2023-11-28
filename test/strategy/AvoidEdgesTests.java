@@ -7,12 +7,13 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import cs3500.reversi.model.Color;
+import cs3500.reversi.model.TokenColor;
 import cs3500.reversi.model.HexagonCell;
 import cs3500.reversi.model.ICell;
 import cs3500.reversi.model.ROModel;
 import cs3500.reversi.strategy.AvoidEdges;
 import cs3500.reversi.strategy.Strategy;
+import model.MockModel;
 
 /**
  * Tests for the AvoidEdges strategy.
@@ -24,9 +25,9 @@ public class AvoidEdgesTests {
   @Before
   public void init() {
     StringBuilder log = new StringBuilder();
-    Color testColor = Color.BLACK;
+    TokenColor testTokenColor = TokenColor.BLACK;
     List<ICell> mockFilteredMoves = List.of();
-    this.strategy = new AvoidEdges(testColor);
+    this.strategy = new AvoidEdges(testTokenColor);
     this.mockModel = new MockModel(4, log);
   }
 

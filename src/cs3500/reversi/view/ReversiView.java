@@ -1,6 +1,7 @@
 package cs3500.reversi.view;
 
-import cs3500.reversi.model.Color;
+import cs3500.reversi.controller.PlayerFeatures;
+import cs3500.reversi.model.TokenColor;
 import cs3500.reversi.model.IReversiModel;
 
 /**
@@ -12,7 +13,7 @@ public interface ReversiView {
    *
    * @param features the feature listener to be added
    */
-  void addFeatureListener(ViewFeatures features);
+  void addFeatureListener(PlayerFeatures features);
 
   /**
    * Displays the view.
@@ -29,15 +30,12 @@ public interface ReversiView {
   /**
    * Displays an error message.
    */
-  void error();
+  void error(String error);
 
   /**
-   * Gets the frame color of the view.
-   *
-   * @return the frame color of the view
+   * Emits the move color.
+   * @param tokenColor
+   * @param model
    */
-  Color getFrameColor();
-
-  void listenToMove(Color color, IReversiModel model);
-
+  void listenToMove(TokenColor tokenColor);
 }

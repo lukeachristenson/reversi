@@ -21,16 +21,16 @@ public interface IReversiModel extends ROModel {
    * @return the cell at the given row and column.
    * @throws IllegalStateException if the game has not yet started.
    */
-  Optional<Color> getCellState(ICell cell) throws IllegalStateException;
+  Optional<TokenColor> getCellState(ICell cell) throws IllegalStateException;
 
   /**
    * Returns the current score of the given player.
    *
-   * @param color the player whose score to return
+   * @param tokenColor the player whose score to return
    * @return the current score of the given player
    * @throws IllegalStateException if the game has not yet started
    */
-  int getScore(Color color) throws IllegalStateException;
+  int getScore(TokenColor tokenColor) throws IllegalStateException;
 
   /**
    * Returns the current color for actions made in the model like placing a piece.
@@ -38,7 +38,7 @@ public interface IReversiModel extends ROModel {
    * @return the current color of the player whose turn it is.
    * @throws IllegalStateException if the game has not yet started.
    */
-  Color getCurrentColor() throws IllegalStateException;
+  TokenColor getCurrentColor() throws IllegalStateException;
 
   /**
    * Returns whether the game is over.

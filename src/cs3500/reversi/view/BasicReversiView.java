@@ -4,7 +4,8 @@ import java.awt.HeadlessException;
 
 import javax.swing.*;
 
-import cs3500.reversi.model.Color;
+import cs3500.reversi.controller.PlayerFeatures;
+import cs3500.reversi.model.TokenColor;
 import cs3500.reversi.model.IReversiModel;
 import cs3500.reversi.model.ROModel;
 
@@ -14,26 +15,29 @@ import cs3500.reversi.model.ROModel;
  */
 public class BasicReversiView extends JFrame implements ReversiView {
   private final ReversiPanel panel;
-  private final Color frameColor;
+  private final TokenColor frameTokenColor;
 
   /**
    * Constructs a BasicReversiView with the given model and frameColor.
    *
    * @param model      the model to be used
-   * @param frameColor the color of the frame
+   * @param frameTokenColor the color of the frame
    * @throws HeadlessException if the environment doesn't support a keyboard, display, or mouse
    */
-  public BasicReversiView(ROModel model, Color frameColor) throws HeadlessException {
-    this.frameColor = frameColor;
-    this.panel = new ReversiPanel(model, this.frameColor);
+  public BasicReversiView(ROModel model, TokenColor frameTokenColor) throws HeadlessException {
+    if(model == null || frameTokenColor == null) {
+      throw new IllegalArgumentException("Model and frameColor cannot be null");
+    }
+    this.frameTokenColor = frameTokenColor;
+    this.panel = new ReversiPanel(model, this.frameTokenColor);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.add(panel); // Add the panel to the frame
     this.pack(); // Resize the frame to fit the panel
-    setTitle(frameColor.toString() + " player view");
+    setTitle(frameTokenColor.toString() + " player view");
   }
 
   @Override
-  public void addFeatureListener(ViewFeatures feature) {
+  public void addFeatureListener(PlayerFeatures feature) {
     this.panel.addFeaturesListener(feature);
   }
 
@@ -48,17 +52,12 @@ public class BasicReversiView extends JFrame implements ReversiView {
   }
 
   @Override
-  public void error() {
-    this.panel.error();
+  public void error(String error) {
+    this.panel.error(error);
   }
 
   @Override
-  public Color getFrameColor() {
-    return frameColor;
-  }
-
-  @Override
-  public void listenToMove(Color color, IReversiModel model) {
+  public void listenToMove(TokenColor tokenColor) {
 
   }
 }

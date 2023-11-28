@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import cs3500.reversi.model.Color;
+import cs3500.reversi.model.TokenColor;
 import cs3500.reversi.model.HexagonBoard;
 import cs3500.reversi.model.HexagonCell;
 import cs3500.reversi.model.HexagonReversi;
@@ -18,6 +18,7 @@ import cs3500.reversi.model.ROModel;
 import cs3500.reversi.strategy.MiniMaxStrategy;
 import cs3500.reversi.strategy.Strategy;
 import cs3500.reversi.strategy.OurAlgorithm;
+import model.MockModel;
 
 /**
  * This class tests the Minimax Strategy.
@@ -25,7 +26,7 @@ import cs3500.reversi.strategy.OurAlgorithm;
 public class MinimaxTests {
   private ROModel mockModel;
   private Strategy strategy;
-  private Color testColor;
+  private TokenColor testTokenColor;
   private StringBuilder log;
   private IReversiModel model;
   private List<ICell> moves;
@@ -33,17 +34,17 @@ public class MinimaxTests {
 
   private void init() {
     this.log = new StringBuilder();
-    this.testColor = Color.BLACK;
+    this.testTokenColor = TokenColor.BLACK;
     List<ICell> mockFilteredMoves = List.of();
-    this.strategy = new OurAlgorithm(testColor);
+    this.strategy = new OurAlgorithm(testTokenColor);
     this.mockModel = new MockModel(3, log);
   }
 
   private void initForIntegrationTests() {
-    this.testColor = Color.BLACK;
+    this.testTokenColor = TokenColor.BLACK;
     this.moves = List.of();
-    this.strategy = new MiniMaxStrategy(testColor);
-    this.whiteStrategy = new MiniMaxStrategy(Color.WHITE);
+    this.strategy = new MiniMaxStrategy(testTokenColor);
+    this.whiteStrategy = new MiniMaxStrategy(TokenColor.WHITE);
   }
 
   protected void createModel(IBoard board, int sideLength, StringBuilder log) {
@@ -67,19 +68,19 @@ public class MinimaxTests {
 
   //helper to add the starting moves of each player
   private void addBasicStartingMoves(IBoard board) {
-    board.newCellOwner(new HexagonCell(-1, 1, 0), Optional.of(Color.BLACK));
-    board.newCellOwner(new HexagonCell(-1, 0, 1), Optional.of(Color.WHITE));
-    board.newCellOwner(new HexagonCell(1, 0, -1), Optional.of(Color.BLACK));
-    board.newCellOwner(new HexagonCell(1, -1, 0), Optional.of(Color.WHITE));
-    board.newCellOwner(new HexagonCell(0, -1, 1), Optional.of(Color.BLACK));
-    board.newCellOwner(new HexagonCell(0, 1, -1), Optional.of(Color.WHITE));
+    board.newCellOwner(new HexagonCell(-1, 1, 0), Optional.of(TokenColor.BLACK));
+    board.newCellOwner(new HexagonCell(-1, 0, 1), Optional.of(TokenColor.WHITE));
+    board.newCellOwner(new HexagonCell(1, 0, -1), Optional.of(TokenColor.BLACK));
+    board.newCellOwner(new HexagonCell(1, -1, 0), Optional.of(TokenColor.WHITE));
+    board.newCellOwner(new HexagonCell(0, -1, 1), Optional.of(TokenColor.BLACK));
+    board.newCellOwner(new HexagonCell(0, 1, -1), Optional.of(TokenColor.WHITE));
   }
 
   @Test
   public void testMinimaxMinimizesOpponentsBestMove() {
     initForIntegrationTests();
     this.model = new HexagonReversi(3);
-    List<ICell> validMoves = model.getValidMoves(testColor);
+    List<ICell> validMoves = model.getValidMoves(testTokenColor);
     List<ICell> chosenMoves = this.strategy.chooseMove(model, validMoves);
     System.out.println(this.model.toString());
     model.placeCurrentPlayerPiece(chosenMoves.get(0));
@@ -91,15 +92,15 @@ public class MinimaxTests {
   @Test
   public void testMinimaxMinimizesOpponentsBestMoveWithMock() {
     this.init();
-    this.testColor = Color.BLACK;
+    this.testTokenColor = TokenColor.BLACK;
     this.moves = List.of();
-    this.strategy = new MiniMaxStrategy(testColor);
+    this.strategy = new MiniMaxStrategy(testTokenColor);
     this.mockModel = new MockModel(3, log);
     IBoard boardCopy = this.mockModel.createBoardCopy();
-    List<ICell> validMoves = boardCopy.validMovesLeft(testColor);
+    List<ICell> validMoves = boardCopy.validMovesLeft(testTokenColor);
     List<ICell> chosenMoves = this.strategy.chooseMove(mockModel, validMoves);
     boardCopy = this.mockModel.createBoardCopy();
-    boardCopy.validMove(chosenMoves.get(0), testColor, true);
+    boardCopy.validMove(chosenMoves.get(0), testTokenColor, true);
     mockModel = new MockModel(boardCopy, 3, log);
     Assert.assertEquals(chosenMoves.get(0), new HexagonCell(-1, -1, 2));
     System.out.println(log);
@@ -141,13 +142,13 @@ public class MinimaxTests {
     initForIntegrationTests();
     this.model = new HexagonReversi(6);
 
-    List<ICell> validMoves = model.getValidMoves(testColor);
+    List<ICell> validMoves = model.getValidMoves(testTokenColor);
     List<ICell> chosenMoves = this.strategy.chooseMove(model, validMoves);
     model.placeCurrentPlayerPiece(chosenMoves.get(0));
     System.out.println(this.model.toString());
     Assert.assertEquals(chosenMoves.get(0), new HexagonCell(-1, -1, 2));
 
-    List<ICell> validMove = model.getValidMoves(Color.WHITE);
+    List<ICell> validMove = model.getValidMoves(TokenColor.WHITE);
     List<ICell> chosenMove = this.whiteStrategy.chooseMove(model, new ArrayList<>());
     model.placeCurrentPlayerPiece(chosenMove.get(0));
     Assert.assertEquals(chosenMove.get(0), new HexagonCell(-2, -1, 3));
