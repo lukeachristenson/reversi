@@ -60,7 +60,7 @@ public class HexagonBoard implements IBoard {
   }
 
   @Override
-  public boolean validMove(ICell cell, TokenColor tokenColorToAdd, boolean flip) {
+  public boolean validMove(ICell cell, TokenColor colorToAdd, boolean flip) {
     checkCellNotNull(cell);
     checkCellInBounds(cell);
 
@@ -68,52 +68,67 @@ public class HexagonBoard implements IBoard {
       throw new IllegalStateException("Cell is already occupied.");
     }
 
-    List<ICell> cellsFlip = calculateFlippableCells(cell, tokenColorToAdd);
+    List<ICell> cellsFlip = calculateFlippableCells(cell, colorToAdd);
     if (flip) {
-      flipMechanism(cellsFlip, tokenColorToAdd);
+      flipMechanism(cellsFlip, colorToAdd);
     }
     return !cellsFlip.isEmpty();
   }
 
-  private List<ICell> calculateFlippableCells(ICell cell, TokenColor tokenColorToAdd) {
+  private List<ICell> calculateFlippableCells(ICell cell, TokenColor colorToAdd) {
     List<ICell> cellsFlip = new ArrayList<>();
     int[] dq = {1, -1, 0, 0, -1, 1};
     int[] dr = {-1, 1, -1, 1, 0, 0};
     int[] ds = {0, 0, 1, -1, 1, -1};
 
     for (int direction = 0; direction < 6; direction++) {
-      cellsFlip.addAll(checkDirection(cell, dq[direction]
-              , dr[direction], ds[direction], tokenColorToAdd));
+      int qChange = dq[direction];
+      int rChange = dr[direction];
+      int sChange = ds[direction];
+
+      checkDirectionAddCells(cell, colorToAdd, qChange, rChange, sChange, cellsFlip);
     }
     return cellsFlip;
   }
 
-  private List<ICell> checkDirection(ICell cell, int qChange, int rChange
-          , int sChange, TokenColor tokenColorToAdd) {
+  private void checkDirectionAddCells(ICell cell, TokenColor colorToAdd,
+                                      int qChange, int rChange,
+                                      int sChange, List<ICell> cellsFlip) {
+    boolean foundOppositeColor = false;
     List<ICell> cellsFlipTemp = new ArrayList<>();
     int targetQ = cell.getCoordinates().get(0) + qChange;
     int targetR = cell.getCoordinates().get(1) + rChange;
     int targetS = cell.getCoordinates().get(2) + sChange;
-    boolean foundOppositeColor = false;
+    ICell firstCell = new HexagonCell(targetQ, targetR, targetS);
 
+    try{
+      if (getCellOccupant(firstCell).isEmpty() || getCellOccupant(firstCell).equals(Optional.of(colorToAdd))) {
+        return;
+      }
+    } catch (IllegalArgumentException ignored) {
+      return;
+    }
+
+    // First cell -> black
     while (isInBounds(targetQ, targetR, targetS)) {
       ICell targetCell = new HexagonCell(targetQ, targetR, targetS);
       Optional<TokenColor> cellOccupant = boardPositions.get(targetCell);
 
       if (cellOccupant.isEmpty()) {
         break;
-      } else if (!cellOccupant.equals(Optional.of(tokenColorToAdd))) {
-        cellsFlipTemp.add(targetCell);
-        foundOppositeColor = true;
+      } else if (!cellOccupant.equals(Optional.of(colorToAdd))) {
+        // If target cell is white then add it to the list of cells to be flipped
+          cellsFlipTemp.add(targetCell);
+          foundOppositeColor = true;
       } else if (foundOppositeColor) {
-        return cellsFlipTemp;
+        cellsFlip.addAll(cellsFlipTemp); // If opposite color is found add all the cells to be flipped
+        // to the list of cells to be flipped
+        break;
       }
-
       targetQ += qChange;
       targetR += rChange;
       targetS += sChange;
     }
-    return new ArrayList<>();
   }
 
   private boolean isInBounds(int targetQ, int targetR, int targetS) {
@@ -122,9 +137,9 @@ public class HexagonBoard implements IBoard {
   }
 
   //helper method to flip the cells
-  private void flipMechanism(List<ICell> cellsToBeFlipped, TokenColor tokenColorToAdd) {
+  private void flipMechanism(List<ICell> cellsToBeFlipped, TokenColor colorToAdd) {
     for (ICell cell : cellsToBeFlipped) {
-      this.newCellOwner(cell, Optional.of(tokenColorToAdd));
+      this.newCellOwner(cell, Optional.of(colorToAdd));
     }
   }
 
@@ -173,12 +188,12 @@ public class HexagonBoard implements IBoard {
   }
 
   @Override
-  public int getColorCount(TokenColor tokenColor) {
+  public int getColorCount(TokenColor color) {
     int score = 0;
     // Iterate through all the cells in the board
     for (ICell cell : this.boardPositions.keySet()) {
       // If the cell is occupied by the player, increment the score
-      if (this.boardPositions.get(cell).equals(Optional.of(tokenColor))) {
+      if (this.boardPositions.get(cell).equals(Optional.of(color))) {
         score++;
       }
     }
@@ -186,14 +201,14 @@ public class HexagonBoard implements IBoard {
   }
 
   @Override
-  public List<ICell> validMovesLeft(TokenColor tokenColorToAdd) {
+  public List<ICell> validMovesLeft(TokenColor colorToAdd) {
     // Create a list to store the valid moves
     List<ICell> validMoves = new ArrayList<>();
     // Iterate through all the cells in the board
     for (ICell cell : this.boardPositions.keySet()) {
       // If the move is a valid move, for the playerToAdd, add that cell to the return list
       if (this.getCellOccupant(cell).isEmpty()) {
-        if (validMove(cell, tokenColorToAdd, false)) {
+        if (validMove(cell, colorToAdd, false)) {
           validMoves.add(cell);
         }
       }

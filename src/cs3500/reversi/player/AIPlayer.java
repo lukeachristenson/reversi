@@ -50,8 +50,8 @@ public class AIPlayer implements IPlayer {
         }
       } else { // Else, play the first move of the list of moves that the strategy returns.
         try {
-          // Introduce a delay of half a second (500 milliseconds) before making a move.
-          Thread.sleep(50);
+          // Delay before move is made.
+          Thread.sleep(0);
         } catch (InterruptedException e) {
           Thread.currentThread().interrupt();
         }
