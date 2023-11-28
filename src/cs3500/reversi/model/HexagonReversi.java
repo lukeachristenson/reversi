@@ -5,8 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import cs3500.reversi.player.HumanPlayer;
-import cs3500.reversi.player.IPlayer;
+import cs3500.reversi.controller.ModelFeatures;
 
 /**
  * This class represents a game of HexagonReversi. It implements the IReversiModel interface.
@@ -18,7 +17,7 @@ public class HexagonReversi implements IReversiModel {
   private TokenColor currentTokenColor;
   private int passCount;
   private boolean gameRunning;
-  private List<ModelFeature> modelFeatures;
+  private final List<ModelFeatures> modelFeatures;
 
 
   /**
@@ -81,7 +80,7 @@ public class HexagonReversi implements IReversiModel {
   //helper to initialize a board based on sideLength
   private IBoard initBoard(int sideLength) throws IllegalStateException {
     IBoard hexReturn = new HexagonBoard(sideLength);
-    Integer rings = sideLength - 1;
+    int rings = sideLength - 1;
     for (int q = -rings; q <= rings; q++) {
       int r1 = Math.max(-rings, -q - rings);
       int r2 = Math.min(rings, -q + rings);
@@ -110,7 +109,7 @@ public class HexagonReversi implements IReversiModel {
   }
 
   @Override
-  public void addListener(ModelFeature listener) {
+  public void addListener(ModelFeatures listener) {
     this.modelFeatures.add(listener);
   }
 
@@ -138,7 +137,7 @@ public class HexagonReversi implements IReversiModel {
   }
 
   private void emitMessage() {
-    for (ModelFeature listener : this.modelFeatures) {
+    for (ModelFeatures listener : this.modelFeatures) {
       listener.emitMoveColor(this.getCurrentColor());
     }
   }
@@ -154,7 +153,7 @@ public class HexagonReversi implements IReversiModel {
       this.passCount++;
     }
 
-    if(this.currentTokenColor.equals(TokenColor.BLACK)) {
+    if (this.currentTokenColor.equals(TokenColor.BLACK)) {
       this.currentTokenColor = TokenColor.WHITE;
     } else {
       this.currentTokenColor = TokenColor.BLACK;

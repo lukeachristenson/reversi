@@ -2,22 +2,18 @@ package mockmodel;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
+import cs3500.reversi.controller.ModelFeatures;
 import cs3500.reversi.model.HexagonBoard;
-import cs3500.reversi.model.HexagonCell;
 import cs3500.reversi.model.IBoard;
 import cs3500.reversi.model.ICell;
 import cs3500.reversi.model.IReversiModel;
-import cs3500.reversi.model.ModelFeature;
 import cs3500.reversi.model.TokenColor;
-import cs3500.reversi.player.HumanPlayer;
-import cs3500.reversi.player.IPlayer;
 
 public class MockModel implements IReversiModel {
   private final StringBuilder log;
-  private final List<ModelFeature> modelFeatures;
+  private final List<ModelFeatures> modelFeatures;
 
   public MockModel(StringBuilder log) {
     this.log = log;
@@ -52,7 +48,7 @@ public class MockModel implements IReversiModel {
   }
 
   @Override
-  public void addListener(ModelFeature listener) {
+  public void addListener(ModelFeatures listener) {
     this.log.append("addListener called to add a ModelFeature\n");
     this.modelFeatures.add(listener);
   }
@@ -73,7 +69,7 @@ public class MockModel implements IReversiModel {
 
   private void emitMessage() {
     this.log.append("emitMessage called\n");
-    for (ModelFeature listener : this.modelFeatures) {
+    for (ModelFeatures listener : this.modelFeatures) {
       this.log.append("emitColor called on single listener\n");
       listener.emitMoveColor(this.getCurrentColor());
     }

@@ -30,9 +30,9 @@ public interface IBoard {
    * Returns whether a move is valid or not. If the boolean flip is true, then the move is made and
    * all the cells that are supposed to be flipped based on the move are flipped.
    *
-   * @param cell  the cell to be added.
+   * @param cell       the cell to be added.
    * @param tokenColor the color of the player.
-   * @param flip  whether to flip the cells or not.
+   * @param flip       whether to flip the cells or not.
    * @return whether the move is valid or not.
    * @throws IllegalArgumentException if the cell is null or the coordinates are out of bounds.
    * @throws IllegalStateException    if the cell is already occupied.

@@ -372,8 +372,6 @@ while doing so.
 # Checklist
 
 - [ ] Make a command line configurator for the game.
-- [ ] Remove the HumanPlayer class since it is being replaced by a player class with Human Strategy.
-- [ ] Test the modelfeatures
 - [ ] Update the main method.
 - [ ] Clean up the code.
 - [ ] Update the README file.

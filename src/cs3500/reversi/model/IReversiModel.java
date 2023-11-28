@@ -2,6 +2,8 @@ package cs3500.reversi.model;
 
 import java.util.Optional;
 
+import cs3500.reversi.controller.ModelFeatures;
+
 /**
  * This interface represents a model for a game of Reversi.
  */
@@ -78,7 +80,7 @@ public interface IReversiModel extends ROModel {
 
   boolean validMove(ICell cell) throws IllegalArgumentException;
 
-  void addListener(ModelFeature listener);
+  void addListener(ModelFeatures listener);
 
   void startGame();
 }
