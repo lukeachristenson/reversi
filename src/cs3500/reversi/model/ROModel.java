@@ -9,13 +9,7 @@ import cs3500.reversi.player.IPlayer;
  * This interface represents a read-only model for a game of Reversi.
  */
 public interface ROModel {
-  /**
-   * Returns the current player.
-   *
-   * @return The current player.
-   * @throws IllegalStateException if the game has not yet sta
-   */
-  IPlayer getCurrentPlayer() throws IllegalStateException;
+
 
   /**
    * Returns a copy of the board.

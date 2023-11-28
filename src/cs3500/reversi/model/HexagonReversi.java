@@ -210,10 +210,6 @@ public class HexagonReversi implements IReversiModel {
     return this.board.toString();
   }
 
-  @Override
-  public IPlayer getCurrentPlayer() {
-    return new HumanPlayer(this.currentTokenColor);
-  }
 
   @Override
   public List<ICell> getValidMoves(TokenColor tokenColor) throws IllegalStateException {
@@ -254,6 +250,4 @@ public class HexagonReversi implements IReversiModel {
     }
     return copyBoard;
   }
-
-
 }

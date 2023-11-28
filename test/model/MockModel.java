@@ -120,11 +120,6 @@ public class MockModel implements ROModel {
     return this.board.toString();
   }
 
-  @Override
-  public IPlayer getCurrentPlayer() {
-    log.append("getCurrentPlayer called\n");
-    return new HumanPlayer(this.getCurrentColor());
-  }
 
   @Override
   public List<ICell> getValidMoves(TokenColor tokenColor) throws IllegalStateException {
