@@ -27,7 +27,7 @@ public class Controller{
    * @param view  the view to be used
    */
   public Controller(IReversiModel model, ReversiView view, IPlayer player, TokenColor color) {
-    this.color = color;
+    this.color = Objects.requireNonNull(color);
     this.model = Objects.requireNonNull(model);
     this.view = Objects.requireNonNull(view);
     this.player = Objects.requireNonNull(player);

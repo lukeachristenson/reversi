@@ -16,7 +16,6 @@ import mockplayerview.MockPlayer;
 import mockplayerview.MockView;
 
 public class ExampleMockModelTests {
-
   private IReversiModel model;
 
   private MockView mockView;
