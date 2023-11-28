@@ -12,14 +12,10 @@ import cs3500.reversi.view.ReversiView;
 import mockplayerview.MockPlayer;
 import mockplayerview.MockView;
 
+/**
+ * A JUnit 4 test class to test the initialization and functions of the controller.
+ */
 public class ExampleControllerTests {
-  /**
-   * Cases to consider:
-   *  - Null model
-   *  - Null view
-   *  - Null player
-   *  - Null color
-   */
 
   private IReversiModel model;
 
@@ -30,6 +26,7 @@ public class ExampleControllerTests {
   private StringBuilder modelLog;
   private Controller controller;
 
+
   private void init() {
     // Initialize the model, players, and controller
     modelLog = new StringBuilder();
@@ -38,21 +35,22 @@ public class ExampleControllerTests {
     this.view = new BasicReversiView(model, TokenColor.BLACK);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void testNullModel() {
     this.controller = new Controller(null, view, player1, TokenColor.BLACK);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void testNullView() {
     this.controller = new Controller(model, null, player1, TokenColor.BLACK);
   }
-  @Test(expected = NullPointerException.class)
+
+  @Test(expected = IllegalArgumentException.class)
   public void testNullPlayer() {
     this.controller = new Controller(null, view, null, TokenColor.BLACK);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void testNullColor() {
     this.controller = new Controller(model, null, player1, null);
   }

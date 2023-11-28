@@ -209,7 +209,6 @@ public class HexagonReversi implements IReversiModel {
     return this.board.toString();
   }
 
-
   @Override
   public List<ICell> getValidMoves(TokenColor tokenColor) throws IllegalStateException {
     return this.board.validMovesLeft(tokenColor);

@@ -10,6 +10,11 @@ import cs3500.reversi.model.IReversiModel;
 import cs3500.reversi.player.IPlayer;
 import cs3500.reversi.view.ReversiView;
 
+/**
+ * A JUnit 4 test class that tests communications in the following directions:
+ * <p> Model -> Controller -> View </p>
+ * <p> Model -> Controller -> Player </p>
+ */
 public class ExampleMockPlayerViewTests {
 
   private IReversiModel model;

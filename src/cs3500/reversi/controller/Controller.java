@@ -32,10 +32,15 @@ public class Controller {
    * @param color  the color of the player that this controller controls.
    */
   public Controller(IReversiModel model, ReversiView view, IPlayer player, TokenColor color) {
-    this.color = Objects.requireNonNull(color);
-    this.model = Objects.requireNonNull(model);
-    this.view = Objects.requireNonNull(view);
-    this.player = Objects.requireNonNull(player);
+    try {
+      this.color = Objects.requireNonNull(color);
+      this.model = Objects.requireNonNull(model);
+      this.view = Objects.requireNonNull(view);
+      this.player = Objects.requireNonNull(player);
+    } catch(NullPointerException ex) {
+      throw new IllegalArgumentException("Null argument(s) given to controller constructor. " +
+              ex.getMessage());
+    }
     this.modelFeatures = new ModelFeatures(this.view, this.player);
     this.playerFeatures = new PlayerFeatures(this.model, this.view, this.color);
     view.addFeatureListener(this.playerFeatures);

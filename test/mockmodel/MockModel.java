@@ -11,10 +11,19 @@ import cs3500.reversi.model.ICell;
 import cs3500.reversi.model.IReversiModel;
 import cs3500.reversi.model.TokenColor;
 
+/**
+ * This class represents a mock model for testing purposes. Keeps a log of when the methods are
+ * called by the controller(s).
+ */
 public class MockModel implements IReversiModel {
   private final StringBuilder log;
   private final List<ModelFeatures> modelFeatures;
 
+  /**
+   * Constructs a mock model with the given log.
+   *
+   * @param log the log to keep track of when methods are called.
+   */
   public MockModel(StringBuilder log) {
     this.log = log;
     this.modelFeatures = new ArrayList<>();

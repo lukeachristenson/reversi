@@ -3,10 +3,7 @@ package mockmodel;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.awt.*;
-
 import cs3500.reversi.controller.Controller;
-import cs3500.reversi.model.HexagonReversi;
 import cs3500.reversi.model.IReversiModel;
 import cs3500.reversi.model.TokenColor;
 import cs3500.reversi.player.IPlayer;
@@ -15,6 +12,16 @@ import cs3500.reversi.view.ReversiView;
 import mockplayerview.MockPlayer;
 import mockplayerview.MockView;
 
+/**
+ * A JUnit 4 test class that tests communications in the following directions:
+ * <p> Player -> Controller -> Model </p>
+ * <p> View -> Controller -> Model </p>
+ * <p> </p>
+ * Tests whether the model methods are being called in the right order and whether they are
+ * being called at all when the player and view communicate with the controller about a move.
+ * Furthermore, test methods in this class test whether the actions are being separated between
+ * the times when the game is just set up and when the game is actually started.
+ */
 public class ExampleMockModelTests {
   private IReversiModel model;
 
