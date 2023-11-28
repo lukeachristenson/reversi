@@ -3,9 +3,9 @@ package cs3500.reversi.strategy;
 import java.util.ArrayList;
 import java.util.List;
 
-import cs3500.reversi.model.TokenColor;
 import cs3500.reversi.model.ICell;
 import cs3500.reversi.model.ROModel;
+import cs3500.reversi.model.TokenColor;
 
 /**
  * This class represents a greedy strategy for the game of HexReversi.
@@ -27,7 +27,6 @@ public class GreedyStrat implements Strategy {
   public List<ICell> chooseMove(ROModel model, List<ICell> filteredMoves) {
     List<ICell> choices = (filteredMoves.isEmpty())
             ? model.createBoardCopy().validMovesLeft(tokenColor) : filteredMoves;
-    ICell retCell = null;
     List<ICell> retList = new ArrayList<>();
     int minScoreDiff = 0;
 
@@ -36,7 +35,6 @@ public class GreedyStrat implements Strategy {
       int scoreDiff = model.cellsFlipped(cell, tokenColor);
       if (scoreDiff > minScoreDiff) {
         minScoreDiff = scoreDiff;
-        retCell = cell;
       }
     }
 

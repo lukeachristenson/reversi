@@ -11,9 +11,23 @@ import cs3500.reversi.model.IReversiModel;
  */
 public interface IPlayer {
 
+  /**
+   * Adds a listener to the player.
+   *
+   * @param listener the listener to be added.
+   */
   void addListener(PlayerFeatures listener);
 
+  /**
+   * Plays a move for the player. This method is called by listenForMove when the player gets
+   * notified of its turn.
+   */
   void playMove();
 
+  /**
+   * Sets the model for the player.
+   *
+   * @param tokenColor the color of the player.
+   */
   void listenForMove(TokenColor tokenColor);
 }

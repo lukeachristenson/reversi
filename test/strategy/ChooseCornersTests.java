@@ -11,7 +11,7 @@ import cs3500.reversi.model.TokenColor;
 import cs3500.reversi.model.HexagonCell;
 import cs3500.reversi.model.ICell;
 import cs3500.reversi.model.ROModel;
-import cs3500.reversi.strategy.ChooseCorners;
+import cs3500.reversi.strategy.ChooseCornersStrat;
 import cs3500.reversi.strategy.Strategy;
 import model.MockModel;
 
@@ -27,7 +27,7 @@ public class ChooseCornersTests {
     StringBuilder log = new StringBuilder();
     TokenColor testTokenColor = TokenColor.BLACK;
     List<ICell> mockFilteredMoves = List.of();
-    this.strategy = new ChooseCorners(testTokenColor);
+    this.strategy = new ChooseCornersStrat(testTokenColor);
     this.mockModel = new MockModel(4, log);
   }
 

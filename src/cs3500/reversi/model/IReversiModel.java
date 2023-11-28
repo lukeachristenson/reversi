@@ -78,10 +78,26 @@ public interface IReversiModel extends ROModel {
   String toString() throws IllegalStateException;
 
 
+  /**
+   * Returns whether the given cell is a valid move for the current player.
+   * @param cell the cell to make the move at.
+   * @return  whether the given cell is a valid move for the current player.
+   * @throws IllegalArgumentException
+   */
   boolean validMove(ICell cell) throws IllegalArgumentException;
 
+  /**
+   * Adds the given listener to the list of listeners for this model.
+   * @param listener  the listener to add.
+   */
   void addListener(ModelFeatures listener);
 
+  /**
+   * Starts the game. Note: This was added to allow the game to be set up, including adding
+   * listeners, before the game is started. This allows for a separation of actions that take place
+   * before the game starts and actions that take place after the game starts(e.g. AIPlayer playing
+   * a move).
+   */
   void startGame();
 }
 

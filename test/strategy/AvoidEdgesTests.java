@@ -11,7 +11,7 @@ import cs3500.reversi.model.TokenColor;
 import cs3500.reversi.model.HexagonCell;
 import cs3500.reversi.model.ICell;
 import cs3500.reversi.model.ROModel;
-import cs3500.reversi.strategy.AvoidEdges;
+import cs3500.reversi.strategy.AvoidEdgesStrat;
 import cs3500.reversi.strategy.Strategy;
 import model.MockModel;
 
@@ -27,7 +27,7 @@ public class AvoidEdgesTests {
     StringBuilder log = new StringBuilder();
     TokenColor testTokenColor = TokenColor.BLACK;
     List<ICell> mockFilteredMoves = List.of();
-    this.strategy = new AvoidEdges(testTokenColor);
+    this.strategy = new AvoidEdgesStrat(testTokenColor);
     this.mockModel = new MockModel(4, log);
   }
 

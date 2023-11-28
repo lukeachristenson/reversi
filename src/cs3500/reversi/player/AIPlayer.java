@@ -4,12 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cs3500.reversi.controller.PlayerFeatures;
+import cs3500.reversi.model.ICell;
 import cs3500.reversi.model.ROModel;
 import cs3500.reversi.model.TokenColor;
-import cs3500.reversi.model.ICell;
-import cs3500.reversi.model.IReversiModel;
 import cs3500.reversi.strategy.Strategy;
 
+/**
+ * Represents an AI player in a game of Reversi. The AI player has a color and a strategy. The AI
+ * player can play a move through the controller that is a part of its listeners when it is its
+ * turn. The AI player can also listen for moves from the controller.
+ */
 public class AIPlayer implements IPlayer {
   private final TokenColor tokenColor;
   private List<PlayerFeatures> listeners;
@@ -17,10 +21,10 @@ public class AIPlayer implements IPlayer {
   private final ROModel model;
 
   /**
-   * Constructor for a HumanPlayer. Takes in a color and makes a player who will play that color.
+   * Constructor for an AIPlayer. Takes in a color, a strategy, and a read only model.
    *
-   * @param tokenColor    the color of the player.
-   * @param strategy the strategy of the player.
+   * @param tokenColor the color of the player.
+   * @param strategy   the strategy of the player.
    */
   public AIPlayer(TokenColor tokenColor, Strategy strategy, ROModel model) {
     this.tokenColor = tokenColor;

@@ -56,4 +56,5 @@ public class ExampleControllerTests {
   public void testNullColor() {
     this.controller = new Controller(model, null, player1, null);
   }
+
 }

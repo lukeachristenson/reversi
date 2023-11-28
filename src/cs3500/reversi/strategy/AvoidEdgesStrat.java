@@ -11,7 +11,7 @@ import cs3500.reversi.model.ROModel;
 /**
  * A class that represents a strategy that avoids edges(cells adjacent to corners).
  */
-public class AvoidEdges implements Strategy {
+public class AvoidEdgesStrat implements Strategy {
   private final TokenColor tokenColor;
 
   /**
@@ -19,7 +19,7 @@ public class AvoidEdges implements Strategy {
    *
    * @param tokenColor the color of the player using this strategy.
    */
-  public AvoidEdges(TokenColor tokenColor) {
+  public AvoidEdgesStrat(TokenColor tokenColor) {
     this.tokenColor = tokenColor;
   }
 
@@ -30,7 +30,7 @@ public class AvoidEdges implements Strategy {
     List<ICell> retList = new ArrayList<>(choices);
     List<ICell> entireBoard =
             new ArrayList<>(model.createBoardCopy().getPositionsMapCopy().keySet());
-    List<ICell> corners = new ArrayList<>(new ChooseCorners(tokenColor).chooseMove(model, entireBoard));
+    List<ICell> corners = new ArrayList<>(new ChooseCornersStrat(tokenColor).chooseMove(model, entireBoard));
 
     // difference in q direction
     int[] dq = {1, -1, 0, 0, -1, 1};

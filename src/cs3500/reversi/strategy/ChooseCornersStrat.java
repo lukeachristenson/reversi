@@ -11,7 +11,7 @@ import cs3500.reversi.model.ROModel;
 /**
  * This class represents a strategy that chooses the corners of the board if possible.
  */
-public class ChooseCorners implements Strategy {
+public class ChooseCornersStrat implements Strategy {
   private final TokenColor tokenColor;
 
   /**
@@ -19,7 +19,7 @@ public class ChooseCorners implements Strategy {
    *
    * @param tokenColor the color of the player using this strategy.
    */
-  public ChooseCorners(TokenColor tokenColor) {
+  public ChooseCornersStrat(TokenColor tokenColor) {
     this.tokenColor = tokenColor;
   }
 

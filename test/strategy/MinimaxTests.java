@@ -17,7 +17,7 @@ import cs3500.reversi.model.IReversiModel;
 import cs3500.reversi.model.ROModel;
 import cs3500.reversi.strategy.MiniMaxStrategy;
 import cs3500.reversi.strategy.Strategy;
-import cs3500.reversi.strategy.OurAlgorithm;
+import cs3500.reversi.strategy.OurAlgorithmStrat;
 import model.MockModel;
 
 /**
@@ -36,7 +36,7 @@ public class MinimaxTests {
     this.log = new StringBuilder();
     this.testTokenColor = TokenColor.BLACK;
     List<ICell> mockFilteredMoves = List.of();
-    this.strategy = new OurAlgorithm(testTokenColor);
+    this.strategy = new OurAlgorithmStrat(testTokenColor);
     this.mockModel = new MockModel(3, log);
   }
 

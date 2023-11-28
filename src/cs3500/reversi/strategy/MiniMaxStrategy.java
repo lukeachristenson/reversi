@@ -4,11 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import cs3500.reversi.model.TokenColor;
 import cs3500.reversi.model.HexagonReversi;
 import cs3500.reversi.model.ICell;
 import cs3500.reversi.model.IReversiModel;
 import cs3500.reversi.model.ROModel;
+import cs3500.reversi.model.TokenColor;
 
 
 /**

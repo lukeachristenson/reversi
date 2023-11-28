@@ -6,12 +6,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import cs3500.reversi.model.TokenColor;
 import cs3500.reversi.model.HexagonReversi;
 import cs3500.reversi.model.IBoard;
 import cs3500.reversi.model.ICell;
 import cs3500.reversi.model.IReversiModel;
 import cs3500.reversi.model.ROModel;
+import cs3500.reversi.model.TokenColor;
 
 /**
  * This class represents a strategy for the game of HexagonReversi. This strategy will choose the
@@ -21,7 +21,7 @@ import cs3500.reversi.model.ROModel;
  * it prunes the number of situations to test by finding the logical moves of the opponent in the
  * first place.
  */
-public class OurAlgorithm implements Strategy {
+public class OurAlgorithmStrat implements Strategy {
   private final TokenColor tokenColor;
 
   /**
@@ -29,7 +29,7 @@ public class OurAlgorithm implements Strategy {
    *
    * @param tokenColor the color of the player.
    */
-  public OurAlgorithm(TokenColor tokenColor) {
+  public OurAlgorithmStrat(TokenColor tokenColor) {
     this.tokenColor = tokenColor;
   }
 
@@ -91,12 +91,12 @@ public class OurAlgorithm implements Strategy {
   private List<ICell> opponentMoves(IReversiModel modelCopy) {
     TokenColor otherTokenColor = getOtherColor(tokenColor);
     List<Strategy> opponentStrats = Arrays.asList(
-            new AvoidEdges(otherTokenColor),
-            new ChooseCorners(otherTokenColor),
+            new AvoidEdgesStrat(otherTokenColor),
+            new ChooseCornersStrat(otherTokenColor),
             new GreedyStrat(otherTokenColor)
     );
     // Changed to pass in otherColor instead of color
-    return new Sandwich(otherTokenColor, opponentStrats)
+    return new SandwichStrat(otherTokenColor, opponentStrats)
             .chooseMove(modelCopy, modelCopy.getValidMoves(otherTokenColor));
   }
 

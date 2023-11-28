@@ -10,5 +10,13 @@ import cs3500.reversi.model.ROModel;
  * single algorithm or a combination of algorithms(e.g. in Sandwich).
  */
 public interface Strategy {
+
+  /**
+   * Chooses a move from the given list of moves. If the list is empty, returns a list of moves
+   * where the first ICell is the best move for the given strategy.
+   * @param model the model to choose a move from
+   * @param filteredMoves the list of moves to choose from
+   * @return  a list of moves where the first ICell is the best move for the given strategy
+   */
   List<ICell> chooseMove(ROModel model, List<ICell> filteredMoves);
 }
