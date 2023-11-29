@@ -47,7 +47,16 @@ public class ExampleMockPlayerViewTests {
   public void testPlayerListenForMoveCalled() {
     this.init();
     this.model.startGame();
+    System.out.println(playerLog.toString());
     Assert.assertTrue(playerLog.toString().contains("Player: listenForMove called"));
+  }
+
+  @Test
+  public void testPlayMoveCalled() {
+    this.init();
+    this.model.startGame();
+    System.out.println(playerLog.toString());
+    Assert.assertTrue(playerLog.toString().contains("Player: playMove called"));
   }
 
 

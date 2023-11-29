@@ -7,7 +7,7 @@ import cs3500.reversi.view.ReversiView;
 /**
  * A class to represent the features of the model.
  */
-public class ModelFeatures {
+public class ModelFeatures implements IModelFeature{
   private final ReversiView view;
   private final IPlayer player;
 
@@ -22,20 +22,15 @@ public class ModelFeatures {
     this.player = player;
   }
 
-  /**
-   * Emits a move to both the player and the view of this feature.
-   *
-   * @param tokenColor the color of the token to be moved.
-   */
-  public void emitMoveColor(TokenColor tokenColor) {
+
+  @Override
+  public void notifyPlayerMove(TokenColor tokenColor) {
     this.advanceFrame();
     this.player.listenForMove(tokenColor);
     this.view.listenToMove(tokenColor);
   }
 
-  /**
-   * Advances the frame of the view and displays it.
-   */
+  @Override
   public void advanceFrame() {
     this.view.display(true);
     this.view.advance();

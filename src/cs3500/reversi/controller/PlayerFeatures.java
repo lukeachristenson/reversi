@@ -9,7 +9,7 @@ import cs3500.reversi.view.ReversiView;
  * A class to give functionalities that a player(Human or AI) can
  * access in the game (playing a move, passing, quitting).
  */
-public class PlayerFeatures {
+public class PlayerFeatures implements IPlayerFeature{
   private final IReversiModel model;
   private final ReversiView view;
   private final TokenColor color;
@@ -27,31 +27,25 @@ public class PlayerFeatures {
     this.color = color;
   }
 
-  /**
-   * A method that allows a player to play a move on a given cell.
-   *
-   * @param cell the cell that the player wants to play a move on.
-   */
+
+  @Override
   public void playMove(ICell cell) {
     try {
       this.model.placeCurrentPlayerPiece(cell);
+      System.out.println("*******HERE********");
     } catch (IllegalStateException ex) {
       view.error(ex.getMessage());
     }
   }
 
-  /**
-   * A method that allows a player to pass their turn.
-   */
+  @Override
   public void pass() {
     if (model.getCurrentColor().equals(this.color)) {
       this.model.passTurn(true);
     }
   }
 
-  /**
-   * A method that allows a player to quit the game.
-   */
+  @Override
   public void quit() {
     System.exit(0);
   }

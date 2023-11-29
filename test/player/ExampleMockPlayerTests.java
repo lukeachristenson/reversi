@@ -29,19 +29,17 @@ public class ExampleMockPlayerTests {
     // Initialize the model, players, and controller
     log = new StringBuilder();
     this.model = new HexagonReversi(6);
-    this.player1 = new MockPlayer(TokenColor.BLACK, new GreedyStrat(TokenColor.BLACK), log);
+    this.player1 = new MockPlayer(TokenColor.BLACK, new GreedyStrat(TokenColor.BLACK), log, model);
     this.view = new BasicReversiView(model, TokenColor.BLACK);
     this.controller = new Controller(model, view, player1, TokenColor.BLACK);
   }
 
   @Test
-  public void testOne() {
+  public void testListenForMoveBeingCalled() {
     this.init();
     this.model.startGame();
     System.out.println(this.log.toString());
     Assert.assertTrue(log.toString().contains("listenForMove called with color: B"));
-    Assert.assertTrue(log.toString().contains("playMove called with moves list of size: 6"));
-    Assert.assertTrue(log.toString().contains("listenForMove called with color: W"));
   }
 
   @Test

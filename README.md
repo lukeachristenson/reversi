@@ -428,6 +428,12 @@ and the view calls the method through the controller when the player is a HumanP
 inputs).
 
 ## Commmand Line Configurator Commands
+To play Reversi using the main method, use the command-line arguments to customize your game. 
+Set the board size with --size or -s (default is 6), and choose strategies for player 1 (Black) and 
+player 2 (White) with --player1 or -p1 and --player2 or -p2, respectively. Strategies include human 
+(h), various AI strategies like Greedy (g), MiniMax (mm), and several Sandwich combinations 
+(san1, san2, etc.). These arguments allow for a tailored game experience, ranging from human to AI 
+opponents.
 
 - `--size` or `-s`: Specifies the size of the board. The default value is 6.
 - `--player1` or `-p1`: Specifies the strategy for player 1(Black). The default value is Human.

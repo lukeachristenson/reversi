@@ -3,7 +3,9 @@ package mockplayerview;
 import java.util.ArrayList;
 import java.util.List;
 
+import cs3500.reversi.controller.IPlayerFeature;
 import cs3500.reversi.controller.PlayerFeatures;
+import cs3500.reversi.model.HexagonCell;
 import cs3500.reversi.model.TokenColor;
 import cs3500.reversi.model.IReversiModel;
 import cs3500.reversi.player.IPlayer;
@@ -40,6 +42,7 @@ public class MockPlayer implements IPlayer {
   @Override
   public void listenForMove(TokenColor tokenColor) {
     this.log.append("Player: listenForMove called\n");
+    this.playMove();
   }
 
 }

@@ -31,7 +31,7 @@ public class MockModel implements IReversiModel {
 
   public void startGame() {
     this.log.append("startGame called\n");
-    this.emitMessage();
+    this.emitMessage("startGame");
   }
 
   protected void gameStartedChecker() throws IllegalStateException {
@@ -73,22 +73,20 @@ public class MockModel implements IReversiModel {
   @Override
   public void placeCurrentPlayerPiece(ICell targetCell) {
     this.log.append("placeCurrentPlayerPiece called with ICell:" + targetCell.getCoordinates() + "\n");
-    emitMessage();
+    emitMessage("placeCurrentPlayerPiece");
   }
 
-  private void emitMessage() {
+  private void emitMessage(String caller) {
     this.log.append("emitMessage called\n");
-    for (ModelFeatures listener : this.modelFeatures) {
-      this.log.append("emitColor called on single listener\n");
-      listener.emitMoveColor(this.getCurrentColor());
+    for (IModelFeature listener : this.modelFeatures) {
+      this.log.append("notifyPlayerMove called on single listener through " + caller +  "\n");
+      listener.notifyPlayerMove(this.getCurrentColor());
     }
   }
 
   @Override
   public void passTurn(boolean increment) throws IllegalStateException {
-
-
-    emitMessage();
+    emitMessage("passTurn");
   }
 
 

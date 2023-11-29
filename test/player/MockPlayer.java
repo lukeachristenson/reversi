@@ -5,6 +5,7 @@ import java.util.List;
 
 import cs3500.reversi.controller.IPlayerFeature;
 import cs3500.reversi.controller.PlayerFeatures;
+import cs3500.reversi.model.ROModel;
 import cs3500.reversi.model.TokenColor;
 import cs3500.reversi.model.ICell;
 import cs3500.reversi.model.IReversiModel;
@@ -19,6 +20,7 @@ public class MockPlayer implements IPlayer {
   private List<IPlayerFeature> listeners;
   private final StringBuilder log;
   private final Strategy strategy;
+  private final ROModel model;
 
   /**
    * Constructor for a HumanPlayer. Takes in a color and makes a player who will play that color.
@@ -26,11 +28,12 @@ public class MockPlayer implements IPlayer {
    * @param tokenColor    the color of the player.
    * @param strategy the strategy of the player.
    */
-  public MockPlayer(TokenColor tokenColor, Strategy strategy, StringBuilder log) {
+  public MockPlayer(TokenColor tokenColor, Strategy strategy, StringBuilder log, ROModel model) {
     this.tokenColor = tokenColor;
     this.strategy = strategy;
     this.listeners = new ArrayList<>();
     this.log = log;
+    this.model = model;
   }
 
   @Override
@@ -40,7 +43,8 @@ public class MockPlayer implements IPlayer {
 
   @Override
   public void playMove() {
-
+    log.append("playMove called with moves list of size: " + model.getValidMoves(tokenColor).size()
+            + "\n");
   }
 
 

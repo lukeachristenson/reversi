@@ -1,5 +1,6 @@
 package cs3500.reversi.player;
 
+import cs3500.reversi.controller.IPlayerFeature;
 import cs3500.reversi.controller.PlayerFeatures;
 import cs3500.reversi.model.ROModel;
 import cs3500.reversi.model.TokenColor;
@@ -16,7 +17,7 @@ public interface IPlayer {
    *
    * @param listener the listener to be added.
    */
-  void addListener(PlayerFeatures listener);
+  void addListener(IPlayerFeature listener);
 
   /**
    * Plays a move for the player. This method is called by listenForMove when the player gets
