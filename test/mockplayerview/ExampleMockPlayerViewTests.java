@@ -25,7 +25,9 @@ public class ExampleMockPlayerViewTests {
   private ReversiView view;
   private StringBuilder playerLog;
   private StringBuilder viewLog;
-  private Controller controller;
+
+  public ExampleMockPlayerViewTests() {
+  }
 
   private void init() {
     // Initialize the model, players, and controller
@@ -34,7 +36,7 @@ public class ExampleMockPlayerViewTests {
     this.model = new HexagonReversi(6);
     this.player1 = new MockPlayer(playerLog);
     this.view = new MockView(viewLog);
-    controller = new Controller(model, view, player1, TokenColor.BLACK);
+    Controller controller = new Controller(model, view, player1, TokenColor.BLACK);
   }
 
 
