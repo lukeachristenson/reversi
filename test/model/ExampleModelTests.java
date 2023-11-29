@@ -26,7 +26,7 @@ public class ExampleModelTests {
   IPlayer blackPlayer;
   IPlayer whitePlayer;
 
-
+  // Initialize the model, players, and controller
   private void init() {
     basicModelThree = new HexagonReversi(3);
     basicModelFour = new HexagonReversi(4);

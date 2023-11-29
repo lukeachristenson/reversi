@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import cs3500.reversi.controller.ModelFeatures;
+import cs3500.reversi.controller.IModelFeature;
 import cs3500.reversi.model.HexagonBoard;
 import cs3500.reversi.model.IBoard;
 import cs3500.reversi.model.ICell;
@@ -17,7 +17,7 @@ import cs3500.reversi.model.TokenColor;
  */
 public class MockModel implements IReversiModel {
   private final StringBuilder log;
-  private final List<ModelFeatures> modelFeatures;
+  private final List<IModelFeature> modelFeatures;
 
   /**
    * Constructs a mock model with the given log.
@@ -57,7 +57,7 @@ public class MockModel implements IReversiModel {
   }
 
   @Override
-  public void addListener(ModelFeatures listener) {
+  public void addListener(IModelFeature listener) {
     this.log.append("addListener called to add a ModelFeature\n");
     this.modelFeatures.add(listener);
   }

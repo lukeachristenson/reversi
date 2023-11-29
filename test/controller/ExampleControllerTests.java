@@ -26,7 +26,7 @@ public class ExampleControllerTests {
   private StringBuilder modelLog;
   private Controller controller;
 
-
+  // Initialize the model, players, and controller
   private void init() {
     // Initialize the model, players, and controller
     modelLog = new StringBuilder();

@@ -16,9 +16,7 @@ import cs3500.reversi.view.ReversiView;
  * <p> Model -> Controller -> Player </p>
  */
 public class ExampleMockPlayerViewTests {
-
   private IReversiModel model;
-
   private MockView mockView;
   private MockPlayer mockPlayer;
   private IPlayer player1;
@@ -26,9 +24,7 @@ public class ExampleMockPlayerViewTests {
   private StringBuilder playerLog;
   private StringBuilder viewLog;
 
-  public ExampleMockPlayerViewTests() {
-  }
-
+  // Initialize the model, players, and controller
   private void init() {
     // Initialize the model, players, and controller
     playerLog = new StringBuilder();
@@ -53,6 +49,7 @@ public class ExampleMockPlayerViewTests {
     this.model.startGame();
     Assert.assertTrue(playerLog.toString().contains("Player: listenForMove called"));
   }
+
 
   @Test
   public void testViewAddFeatureListenerCalled() {

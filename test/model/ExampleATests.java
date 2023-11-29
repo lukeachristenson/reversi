@@ -26,6 +26,7 @@ public class ExampleATests {
 
   IReversiModel reversiModel;
 
+  // Initialize the model, players, and controller
   private void init() {
     this.hexagonBoardThree = new HexagonBoard(5);
     {

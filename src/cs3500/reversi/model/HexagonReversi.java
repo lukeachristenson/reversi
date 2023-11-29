@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import cs3500.reversi.controller.ModelFeatures;
+import cs3500.reversi.controller.IModelFeature;
 
 /**
  * This class represents a game of HexagonReversi. It implements the IReversiModel interface.
@@ -17,7 +17,7 @@ public class HexagonReversi implements IReversiModel {
   private TokenColor currentTokenColor;
   private int passCount;
   private boolean gameRunning;
-  private final List<ModelFeatures> modelFeatures;
+  private final List<IModelFeature> modelFeatures;
 
 
   /**
@@ -109,7 +109,7 @@ public class HexagonReversi implements IReversiModel {
   }
 
   @Override
-  public void addListener(ModelFeatures listener) {
+  public void addListener(IModelFeature listener) {
     this.modelFeatures.add(listener);
   }
 
@@ -137,8 +137,8 @@ public class HexagonReversi implements IReversiModel {
   }
 
   private void emitMessage() {
-    for (ModelFeatures listener : this.modelFeatures) {
-      listener.emitMoveColor(this.getCurrentColor());
+    for (IModelFeature listener : this.modelFeatures) {
+      listener.notifyPlayerMove(this.getCurrentColor());
     }
   }
 

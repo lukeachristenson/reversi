@@ -74,10 +74,10 @@ public class ExampleMockModelTests {
   }
 
   @Test
-  public void testEmitColorCalled() {
+  public void testNotifyPlayerMoveCalled() {
     this.init();
     this.model.startGame();
-    Assert.assertTrue(modelLog.toString().contains("emitColor called on single listener"));
+    Assert.assertTrue(modelLog.toString().contains("notifyPlayerMove called on single listener"));
   }
 
   @Test

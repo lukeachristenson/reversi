@@ -19,7 +19,7 @@ public class Controller {
   private final TokenColor color;
   private final ReversiView view;
   private final IPlayer player;
-  private final ModelFeatures modelFeatures;
+  private final IModelFeature modelFeatures;
   private final PlayerFeatures playerFeatures;
 
 

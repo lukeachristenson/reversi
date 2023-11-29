@@ -132,66 +132,76 @@ It has an invariant that limits the coordinates such that their sum is 0.
 ## Source Organization
 
 ```
-.
-├── README.md
-├── cubeCoordinatesSystem.jpg
-├── img.png
-├── img_1.png
-├── img_2.png
-├── reversi.jar
 ├── src
 │   └── cs3500
 │       └── reversi
-│           ├── Archive.zip
 │           ├── META-INF
 │           │   └── MANIFEST.MF
 │           ├── Reversi.java
 │           ├── TestingReversiRunner.java
-│           ├── modelfeatures
-│           │   └── Controller.java
+│           ├── controller
+│           │   ├── Controller.java
+│           │   ├── ModelFeatures.java
+│           │   └── PlayerFeatures.java
 │           ├── model
-│           │   ├── Color.java
 │           │   ├── HexagonBoard.java
 │           │   ├── HexagonCell.java
 │           │   ├── HexagonReversi.java
-│           │   ├── HumanPlayer.java
 │           │   ├── IBoard.java
 │           │   ├── ICell.java
-│           │   ├── IPlayer.java
 │           │   ├── IReversiModel.java
 │           │   ├── ROHexagonModel.java
-│           │   └── ROModel.java
+│           │   ├── ROModel.java
+│           │   └── TokenColor.java
+│           ├── player
+│           │   ├── AIPlayer.java
+│           │   ├── HumanPlayer.java
+│           │   └── IPlayer.java
 │           ├── strategy
-│           │   ├── AvoidEdges.java
-│           │   ├── ChooseCorners.java
+│           │   ├── AvoidEdgesStrat.java
+│           │   ├── ChooseCornersStrat.java
 │           │   ├── GreedyStrat.java
 │           │   ├── MiniMaxStrategy.java
-│           │   ├── OurAlgorithm.java
-│           │   ├── Sandwich.java
+│           │   ├── OurAlgorithmStrat.java
+│           │   ├── RandomStrat.java
+│           │   ├── SandwichStrat.java
 │           │   ├── Strategy.java
 │           │   └── UpperLeftStrat.java
-│           └── mockplayerview
+│           └── view
 │               ├── BasicReversiView.java
 │               ├── CartesianPosn.java
 │               ├── CoordUtilities.java
 │               ├── ReversiPanel.java
 │               ├── ReversiTextView.java
 │               ├── ReversiView.java
-│               ├── TextView.java
-│               └── ViewFeatures.java
+│               └── TextView.java
 ├── strategy-transcript.txt
 └── test
+    ├── controller
+    │   └── ExampleControllerTests.java
+    ├── mockmodel
+    │   ├── ExampleMockModelTests.java
+    │   └── MockModel.java
+    ├── mockplayerview
+    │   ├── ExampleMockPlayerViewTests.java
+    │   ├── MockPlayer.java
+    │   └── MockView.java
+    ├── mockstrategy
+    │   └── ExampleMockStrategyTests.java
     ├── model
     │   ├── ExampleATests.java
     │   ├── ExampleAuxillaryTests.java
     │   ├── ExampleBoardTests.java
-    │   └── ExampleModelTests.java
+    │   ├── ExampleModelTests.java
+    │   └── MockModel.java
+    ├── player
+    │   ├── ExampleMockPlayerTests.java
+    │   └── MockPlayer.java
     └── strategy
         ├── AvoidEdgesTests.java
         ├── ChooseCornersTests.java
         ├── GreedyStrategyTests.java
         ├── MinimaxTests.java
-        ├── MockModel.java
         └── UpperLeftStrategyTests.java
 ```
 
@@ -375,6 +385,47 @@ while doing so.
 - [ ] Update the main method.
 - [ ] Clean up the code.
 - [ ] Update the README file.
+
+
+# Changes for Part 3
+There were some changes that were made to the project from part 2 in order to accomodate the
+implementation of a controller and to accommodate communications between the model, view, and
+controller. These changes include:
+- The model contains a `startGame()` method that initializes the game and starts the game. This was
+  done according to the requirements of the assignment with the intention of stopping the controller
+  from performing any actions before the game has started.
+- The model now contains a list of listeners(Controllers), one for each player in the game. This change
+  was made so that the listener pattern could be implemented and so that the model could communicate with
+  the multiple controllers in the game the color of the current player. To enable adding listeners to the model,
+  the model now contains a method called `addListener(Controller controller)` which adds a controller to the
+  list of controllers.
+- All instances of a `Player` which are equivalent to the current `IPlayer` interface were removed from
+  the model to completely get rid of the notion that a model needs to store the player information. Instead, the model
+  now stores the color of the current player and keeps changing it after every move or pass. This was done since
+  the controller is now responsible for storing the player information and the model only needs to know the color
+  that plays next.
+- Bugs related to the logic of legal moves in edge cases in the model were fixed.
+
+# New Classes with Part 3
+## Controller
+Controller is a class that facilitates communication between the model and the view. Through the
+features interfaces that it uses, when certain events occur in the view, the controller can call
+features that update the models game state and then this change is echoed from the model to the view
+through another features interface. 
+
+## IModelFeature interface and ModelFeatures Class
+The IModelFeatures interface is a single-interface that is implemented by the concrete class ModelFeatures.
+This interface contains all the methods that the model can call through the controller to notify the player
+and views of the current color of the game.
+
+## IPlayerFeature interface and PlayerFeatures interface
+The IPlayerFeature interface is a single-interface implemented by the concrete class PlayerFeatures.
+The interface contains all the methods that the player can call through the controller to notify the model
+of the move that the player wants to play. The class implementation contains all the methods that 
+the player and view can call through the controller. The player
+calls these methods to play its move when the player is an AIPlayer(using the strategy)
+and the view calls the method through the controller when the player is a HumanPlayer(using mouse and keyboard
+inputs).
 
 ## Commmand Line Configurator Commands
 

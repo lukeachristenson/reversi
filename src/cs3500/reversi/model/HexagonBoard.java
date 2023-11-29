@@ -37,12 +37,14 @@ public class HexagonBoard implements IBoard {
     this.boardPositions.put(cell, color);
   }
 
+  // Throws an exception if the cell is null.
   private void checkCellNotNull(ICell cell) {
     if (cell == null) {
       throw new IllegalArgumentException("Null cell passed into this method.");
     }
   }
 
+  // Throws an exception if the cell is out of bounds.
   private void checkCellInBounds(ICell cell) {
     if (Math.abs(cell.getCoordinates().get(0)) >= sideLength
             || Math.abs(cell.getCoordinates().get(1)) >= sideLength
@@ -75,6 +77,7 @@ public class HexagonBoard implements IBoard {
     return !cellsFlip.isEmpty();
   }
 
+  // helper method to calculate the cells that will be flipped
   private List<ICell> calculateFlippableCells(ICell cell, TokenColor colorToAdd) {
     List<ICell> cellsFlip = new ArrayList<>();
     int[] dq = {1, -1, 0, 0, -1, 1};
@@ -91,6 +94,7 @@ public class HexagonBoard implements IBoard {
     return cellsFlip;
   }
 
+  // helper method to check the direction of the cells to be flipped
   private void checkDirectionAddCells(ICell cell, TokenColor colorToAdd,
                                       int qChange, int rChange,
                                       int sChange, List<ICell> cellsFlip) {
@@ -131,6 +135,7 @@ public class HexagonBoard implements IBoard {
     }
   }
 
+  // helper method to check if the target cell is in bounds
   private boolean isInBounds(int targetQ, int targetR, int targetS) {
     return Math.abs(targetQ) < sideLength && Math.abs(targetR)
             < sideLength && Math.abs(targetS) < sideLength;

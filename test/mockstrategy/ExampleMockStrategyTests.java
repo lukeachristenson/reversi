@@ -18,10 +18,14 @@ import cs3500.reversi.strategy.Strategy;
 import cs3500.reversi.view.BasicReversiView;
 import cs3500.reversi.view.ReversiView;
 
+/**
+ * A JUnit 4 test class to test the initialization and functions of the controller.
+ */
 public class ExampleMockStrategyTests {
   private IReversiModel model;
   private StringBuilder strategyLog;
 
+  // Initialize the model, players, and controller
   private void init() {
     this.strategyLog = new StringBuilder();
     Strategy mockStrategy = new MockStrategy(strategyLog);
@@ -40,9 +44,14 @@ public class ExampleMockStrategyTests {
             "list of size: 6"));
   }
 
+  // Mock Strategy class to test whether the chooseMove method is called
   private class MockStrategy implements Strategy {
     private final StringBuilder log;
 
+    /**
+     * Constructor for the mock strategy.
+     * @param log the log to keep track of when methods are called.
+     */
     public MockStrategy(StringBuilder log) {
       this.log = log;
     }

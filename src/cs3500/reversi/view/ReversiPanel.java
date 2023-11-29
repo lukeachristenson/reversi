@@ -26,7 +26,8 @@ import java.util.Optional;
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 
-import cs3500.reversi.controller.PlayerFeatures;
+import cs3500.reversi.controller.IPlayerFeature;
+
 import cs3500.reversi.model.IBoard;
 import cs3500.reversi.model.ICell;
 import cs3500.reversi.model.ROModel;
@@ -37,7 +38,7 @@ import cs3500.reversi.model.TokenColor;
  */
 public class ReversiPanel extends JPanel {
   private final ROModel roModel;
-  private final List<PlayerFeatures> featureListeners;
+  private final List<IPlayerFeature> featureListeners;
   private final IBoard board;
   private final Map<ICell, CartesianPosn> cellToCartesianPosnMap;
   private final double scale;
@@ -146,7 +147,7 @@ public class ReversiPanel extends JPanel {
    *
    * @param features the ViewFeatures listener to be added.
    */
-  public void addFeaturesListener(PlayerFeatures features) {
+  public void addFeaturesListener(IPlayerFeature features) {
     this.featureListeners.add(Objects.requireNonNull(features));
   }
 
@@ -350,7 +351,7 @@ public class ReversiPanel extends JPanel {
       // If the current player is the same as the frame color, then the player can make a move.
       if (ReversiPanel.this.roModel.getCurrentColor().equals(ReversiPanel.this.frameTokenColor)) {
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-          for (PlayerFeatures listener : ReversiPanel.this.featureListeners) {
+          for (IPlayerFeature listener : ReversiPanel.this.featureListeners) {
             ReversiPanel.this.activeCell.ifPresent(cartesianPosn
                 -> listener.playMove(
                     CoordUtilities.getCellFromCartesianPosn(
@@ -359,7 +360,7 @@ public class ReversiPanel extends JPanel {
                                     ReversiPanel.this.cellToCartesianPosnMap)).get()));
           }
         } else if (e.getKeyCode() == KeyEvent.VK_P) {
-          for (PlayerFeatures listener : ReversiPanel.this.featureListeners) {
+          for (IPlayerFeature listener : ReversiPanel.this.featureListeners) {
             listener.pass();
           }
         }

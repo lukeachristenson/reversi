@@ -3,6 +3,7 @@ package cs3500.reversi.player;
 import java.util.ArrayList;
 import java.util.List;
 
+import cs3500.reversi.controller.IPlayerFeature;
 import cs3500.reversi.controller.PlayerFeatures;
 import cs3500.reversi.model.ICell;
 import cs3500.reversi.model.ROModel;
@@ -16,7 +17,7 @@ import cs3500.reversi.strategy.Strategy;
  */
 public class AIPlayer implements IPlayer {
   private final TokenColor tokenColor;
-  private List<PlayerFeatures> listeners;
+  private List<IPlayerFeature> listeners;
   private final Strategy strategy;
   private final ROModel model;
 
@@ -34,7 +35,7 @@ public class AIPlayer implements IPlayer {
   }
 
   @Override
-  public void addListener(PlayerFeatures listener) {
+  public void addListener(IPlayerFeature listener) {
     this.listeners.add(listener);
   }
 
@@ -45,7 +46,7 @@ public class AIPlayer implements IPlayer {
     if (!model.isGameOver()) {
       // If passing is the best move, the strategy returns an empty list.
       if (moves.isEmpty()) {
-        for (PlayerFeatures listener : this.listeners) {
+        for (IPlayerFeature listener : this.listeners) {
           listener.pass();
         }
       } else { // Else, play the first move of the list of moves that the strategy returns.
@@ -55,7 +56,7 @@ public class AIPlayer implements IPlayer {
         } catch (InterruptedException e) {
           Thread.currentThread().interrupt();
         }
-        for (PlayerFeatures listener : this.listeners) {
+        for (IPlayerFeature listener : this.listeners) {
           listener.playMove(moves.get(0));
         }
       }

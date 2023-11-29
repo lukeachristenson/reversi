@@ -12,6 +12,11 @@ import cs3500.reversi.strategy.GreedyStrat;
 import cs3500.reversi.view.BasicReversiView;
 import cs3500.reversi.view.ReversiView;
 
+/**
+ * A JUnit 4 test class that tests communications in the following directions:
+ * <p> Model -> Controller -> View </p>
+ * <p> Model -> Controller -> Player </p>
+ */
 public class ExampleMockPlayerTests {
   private IReversiModel model;
   private Controller controller;
@@ -19,6 +24,7 @@ public class ExampleMockPlayerTests {
   private ReversiView view;
   private StringBuilder log;
 
+  // Initialize the model, players, and controller
   private void init() {
     // Initialize the model, players, and controller
     log = new StringBuilder();
@@ -32,10 +38,18 @@ public class ExampleMockPlayerTests {
   public void testOne() {
     this.init();
     this.model.startGame();
-//    this.controller.controllerGo();
+    System.out.println(this.log.toString());
     Assert.assertTrue(log.toString().contains("listenForMove called with color: B"));
     Assert.assertTrue(log.toString().contains("playMove called with moves list of size: 6"));
     Assert.assertTrue(log.toString().contains("listenForMove called with color: W"));
+  }
+
+  @Test
+  public void testPlayMoveBeingCalled() {
+    this.init();
+    this.model.startGame();
+    System.out.println(this.log.toString());
+    Assert.assertTrue(log.toString().contains("playMove called with moves list of size: 6"));
   }
 
 }

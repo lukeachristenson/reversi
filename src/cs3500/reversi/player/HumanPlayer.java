@@ -3,6 +3,7 @@ package cs3500.reversi.player;
 import java.util.ArrayList;
 import java.util.List;
 
+import cs3500.reversi.controller.IPlayerFeature;
 import cs3500.reversi.controller.PlayerFeatures;
 import cs3500.reversi.model.TokenColor;
 
@@ -14,7 +15,7 @@ import cs3500.reversi.model.TokenColor;
  */
 public class HumanPlayer implements IPlayer {
   private final TokenColor tokenColor;
-  private List<PlayerFeatures> listeners;
+  private List<IPlayerFeature> listeners;
 
   /**
    * Constructor for a HumanPlayer. Takes in a color and makes a player who will play that color.
@@ -28,7 +29,7 @@ public class HumanPlayer implements IPlayer {
 
 
   @Override
-  public void addListener(PlayerFeatures listener) {
+  public void addListener(IPlayerFeature listener) {
     this.listeners.add(listener);
   }
 

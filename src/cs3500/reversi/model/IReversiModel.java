@@ -2,7 +2,7 @@ package cs3500.reversi.model;
 
 import java.util.Optional;
 
-import cs3500.reversi.controller.ModelFeatures;
+import cs3500.reversi.controller.IModelFeature;
 
 /**
  * This interface represents a model for a game of Reversi.
@@ -90,7 +90,7 @@ public interface IReversiModel extends ROModel {
    * Adds the given listener to the list of listeners for this model.
    * @param listener  the listener to add.
    */
-  void addListener(ModelFeatures listener);
+  void addListener(IModelFeature listener);
 
   /**
    * Starts the game. Note: This was added to allow the game to be set up, including adding
