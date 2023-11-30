@@ -376,7 +376,7 @@ for the first player(Black token) and the second argument as the strategy(`'h'`)
       strategies.
 
 For example, to play a game of Reversi with a human player as the first player and a greedy strategy
-as the second, run the following command:
+as the second, run the following command in the project directory:
 ```bash
 java -jar reversi.jar h g
 ```
