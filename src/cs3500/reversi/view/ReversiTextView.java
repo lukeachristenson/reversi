@@ -22,5 +22,4 @@ public class ReversiTextView implements TextView {
   public String toString() {
     return this.model.toString();
   }
-
 }

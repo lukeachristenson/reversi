@@ -2,6 +2,7 @@ package mockplayerview;
 
 import java.awt.*;
 
+import cs3500.reversi.controller.IPlayerFeature;
 import cs3500.reversi.controller.PlayerFeatures;
 import cs3500.reversi.model.TokenColor;
 import cs3500.reversi.model.IReversiModel;
@@ -25,7 +26,7 @@ public class MockView implements ReversiView {
   }
 
   @Override
-  public void addFeatureListener(PlayerFeatures feature) {
+  public void addFeatureListener(IPlayerFeature feature) {
     this.log.append("View: addFeatureListener called\n");
   }
 

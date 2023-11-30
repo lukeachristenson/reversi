@@ -58,7 +58,7 @@ public class ReversiPanel extends JPanel {
     this.roModel = roModel;
     this.frameTokenColor = frameTokenColor;
     this.featureListeners = new ArrayList<>();
-    this.scale = 0.75;
+    this.scale = 0.65;
     this.sideLength = calculateSideLength(roModel.createBoardCopy());
 
 
@@ -156,6 +156,7 @@ public class ReversiPanel extends JPanel {
    */
   public void advance() {
       this.repaint();
+      this.southLabel.setText("Current player: " + roModel.getCurrentColor().toString());
       this.southLabel.repaint();
       if (roModel.isGameOver()) {
         activeCell = Optional.empty();
@@ -226,8 +227,6 @@ public class ReversiPanel extends JPanel {
     highlightActiveCell(g2d, drawMap);
     Optional<ICell> chosenCell = CoordUtilities.getCellFromCartesianPosn(this.activeCell
             , Collections.unmodifiableMap(this.cellToCartesianPosnMap));
-//    chosenCell.ifPresent(iCell -> System.out.println("Highlighted Cell: " +
-//            iCell.getCoordinates()));
   }
 
   // Creates a map of cartesian positions to the color of the token at that position.

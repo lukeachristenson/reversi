@@ -20,7 +20,7 @@ public class Controller {
   private final ReversiView view;
   private final IPlayer player;
   private final IModelFeature modelFeatures;
-  private final PlayerFeatures playerFeatures;
+  private final IPlayerFeature playerFeatures;
 
 
   /**

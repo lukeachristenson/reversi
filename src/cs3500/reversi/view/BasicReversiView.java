@@ -4,6 +4,7 @@ import java.awt.HeadlessException;
 
 import javax.swing.*;
 
+import cs3500.reversi.controller.IPlayerFeature;
 import cs3500.reversi.controller.PlayerFeatures;
 import cs3500.reversi.model.TokenColor;
 import cs3500.reversi.model.IReversiModel;
@@ -37,7 +38,7 @@ public class BasicReversiView extends JFrame implements ReversiView {
   }
 
   @Override
-  public void addFeatureListener(PlayerFeatures feature) {
+  public void addFeatureListener(IPlayerFeature feature) {
     this.panel.addFeaturesListener(feature);
   }
 

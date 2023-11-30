@@ -3,6 +3,7 @@ package cs3500.reversi;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import cs3500.reversi.controller.Controller;
@@ -35,35 +36,17 @@ public final class Reversi {
    * @param args the arguments to run the game with
    */
   public static void main(String[] args) {
-    int size = 6;
-    Optional<Strategy> strategy1 = Optional.empty();
-    Optional<Strategy> strategy2 = Optional.empty();
+    Optional<Strategy> strat1;
+    Optional<Strategy> strat2;
 
-    for (int i = 0; i < args.length; i++) {
-      try{
-        switch (args[i]) {
-          case "-s":
-          case "--size":
-            size = Integer.parseInt(args[i + 1]);
-            break;
-
-          case "-p1":
-          case "--player1":
-            System.out.println(args[i + 1]);
-            strategy1 = getStrategy(args[i + 1], TokenColor.BLACK);
-            break;
-
-          case "-p2":
-          case "--player2":
-            strategy2 = getStrategy(args[i + 1], TokenColor.WHITE);
-            break;
-        }
-      } catch (IllegalArgumentException ignored) {
-        // do nothing
-      }
+    if (args.length != 2) {
+      System.err.println("Invalid number of arguments");
+      System.exit(0);
     }
+    strat1 = getStrategy(args[0], TokenColor.BLACK);
+    strat2 = getStrategy(args[1], TokenColor.WHITE);
 
-    IReversiModel model = initiateModel(size, strategy1, strategy2);
+    IReversiModel model = initiateModel(6, strat1, strat2);
     model.startGame();
   }
 
@@ -85,28 +68,40 @@ public final class Reversi {
     return model;
   }
 
-  private static Optional<Strategy> getStrategy(String arg, TokenColor tokenColor)  {
-    Map<String, Strategy> strategyMap = new HashMap<>();
-    strategyMap.put("g", new GreedyStrat(tokenColor));
-    strategyMap.put("u", new UpperLeftStrat(tokenColor));
-    strategyMap.put("a", new AvoidEdgesStrat(tokenColor));
-    strategyMap.put("cc", new ChooseCornersStrat(tokenColor));
-    strategyMap.put("mm", new MiniMaxStrategy(tokenColor));
-    strategyMap.put("oa", new OurAlgorithmStrat(tokenColor));
-    strategyMap.put("r", new RandomStrat(tokenColor));
-    strategyMap.put("san1", new SandwichStrat(tokenColor, List.of(strategyMap.get("g"),
-            strategyMap.get("a"), strategyMap.get("cc"))));
-    strategyMap.put("san2", new SandwichStrat(tokenColor, List.of(strategyMap.get("mm"),
-            strategyMap.get("g"))));
-    strategyMap.put("san3", new SandwichStrat(tokenColor, List.of(strategyMap.get("mm"),
-            strategyMap.get("g"), strategyMap.get("a"))));
-    strategyMap.put("san4", new SandwichStrat(tokenColor, List.of(strategyMap.get("mm"),
-            strategyMap.get("g"), strategyMap.get("a"), strategyMap.get("cc"))));
+  private static Optional<Strategy> getStrategy(String arg, TokenColor tokenColor) {
+    Map<String, Optional<Strategy>> strategyMap = new HashMap<>();
+    strategyMap.put("g", Optional.of(new GreedyStrat(tokenColor)));
+    strategyMap.put("u", Optional.of(new UpperLeftStrat(tokenColor)));
+    strategyMap.put("a", Optional.of(new AvoidEdgesStrat(tokenColor)));
+    strategyMap.put("cc", Optional.of(new ChooseCornersStrat(tokenColor)));
+    strategyMap.put("mm", Optional.of(new MiniMaxStrategy(tokenColor)));
+    strategyMap.put("oa", Optional.of(new OurAlgorithmStrat(tokenColor)));
+    strategyMap.put("r", Optional.of(new RandomStrat(tokenColor)));
+    strategyMap.put("san1", Optional.of((new SandwichStrat(tokenColor,
+            List.of(strategyMap.get("g").get(),
+                    strategyMap.get("a").get(),
+                    strategyMap.get("cc").get())))));
+    strategyMap.put("san2", Optional.of(new SandwichStrat(tokenColor,
+            List.of(strategyMap.get("mm").get(),
+                    strategyMap.get("g").get()))));
+    strategyMap.put("san3", Optional.of(new SandwichStrat(tokenColor,
+            List.of(strategyMap.get("mm").get(),
+                    strategyMap.get("g").get(), strategyMap.get("a").get()))));
+    strategyMap.put("san4",
+            Optional.of(new SandwichStrat(tokenColor,
+                    List.of(strategyMap.get("mm").get(),
+                            strategyMap.get("g").get(),
+                            strategyMap.get("a").get(),
+                            strategyMap.get("cc").get()))));
 
-    if(strategyMap.containsKey(arg)) {
-      return Optional.of(strategyMap.get(arg));
-    } else {
-      throw new IllegalArgumentException("Invalid strategy: " + arg);
+    if (!strategyMap.containsKey(arg)) {
+      if (arg.equals("h")) {
+        return Optional.empty();
+      } else {
+        System.err.println("Error: Invalid strategy - " + arg);
+        System.exit(0);
+      }
     }
+    return strategyMap.get(arg);
   }
 }

@@ -1,5 +1,6 @@
 package cs3500.reversi.view;
 
+import cs3500.reversi.controller.IPlayerFeature;
 import cs3500.reversi.controller.PlayerFeatures;
 import cs3500.reversi.model.TokenColor;
 import cs3500.reversi.model.IReversiModel;
@@ -13,7 +14,7 @@ public interface ReversiView {
    *
    * @param features the feature listener to be added
    */
-  void addFeatureListener(PlayerFeatures features);
+  void addFeatureListener(IPlayerFeature features);
 
   /**
    * Displays the view.
@@ -34,8 +35,7 @@ public interface ReversiView {
 
   /**
    * Emits the move color.
-   * @param tokenColor
-   * @param model
+   * @param tokenColor the color of the token to be moved.
    */
   void listenToMove(TokenColor tokenColor);
 }

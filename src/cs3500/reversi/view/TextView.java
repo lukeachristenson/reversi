@@ -11,5 +11,4 @@ public interface TextView {
    * @return String  Rendered string for the game state.
    */
   String toString();
-
 }

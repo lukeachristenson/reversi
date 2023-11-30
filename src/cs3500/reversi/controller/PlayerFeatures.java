@@ -32,7 +32,6 @@ public class PlayerFeatures implements IPlayerFeature{
   public void playMove(ICell cell) {
     try {
       this.model.placeCurrentPlayerPiece(cell);
-      System.out.println("*******HERE********");
     } catch (IllegalStateException ex) {
       view.error(ex.getMessage());
     }
