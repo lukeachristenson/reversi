@@ -43,7 +43,8 @@ public class OurAlgorithmStrat implements Strategy {
 
   // gets the move choices of strategy colors player
   private List<ICell> getChoices(ROModel model, List<ICell> filteredMoves) {
-    return filteredMoves.isEmpty() ? model.createBoardCopy().validMovesLeft(tokenColor) : filteredMoves;
+    return filteredMoves.isEmpty() ? model.createBoardCopy().validMovesLeft(tokenColor) :
+            filteredMoves;
   }
 
   // evaluates the moves of the strategy color player, and opponents highest scoring response

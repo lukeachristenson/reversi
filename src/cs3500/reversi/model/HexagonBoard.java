@@ -105,8 +105,9 @@ public class HexagonBoard implements IBoard {
     int targetS = cell.getCoordinates().get(2) + sChange;
     ICell firstCell = new HexagonCell(targetQ, targetR, targetS);
 
-    try{
-      if (getCellOccupant(firstCell).isEmpty() || getCellOccupant(firstCell).equals(Optional.of(colorToAdd))) {
+    try {
+      if (getCellOccupant(firstCell).isEmpty() || getCellOccupant(firstCell).
+              equals(Optional.of(colorToAdd))) {
         return;
       }
     } catch (IllegalArgumentException ignored) {
@@ -122,11 +123,11 @@ public class HexagonBoard implements IBoard {
         break;
       } else if (!cellOccupant.equals(Optional.of(colorToAdd))) {
         // If target cell is white then add it to the list of cells to be flipped
-          cellsFlipTemp.add(targetCell);
-          foundOppositeColor = true;
+        cellsFlipTemp.add(targetCell);
+        foundOppositeColor = true;
       } else if (foundOppositeColor) {
-        cellsFlip.addAll(cellsFlipTemp); // If opposite color is found add all the cells to be flipped
-        // to the list of cells to be flipped
+        cellsFlip.addAll(cellsFlipTemp); // If opposite color is found add all the cells to be
+        // flipped to the list of cells to be flipped
         break;
       }
       targetQ += qChange;

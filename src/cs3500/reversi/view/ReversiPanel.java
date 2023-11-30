@@ -1,20 +1,13 @@
 package cs3500.reversi.view;
 
-import java.awt.BasicStroke;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
+import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -27,7 +20,6 @@ import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 
 import cs3500.reversi.controller.IPlayerFeature;
-
 import cs3500.reversi.model.IBoard;
 import cs3500.reversi.model.ICell;
 import cs3500.reversi.model.ROModel;
@@ -51,7 +43,7 @@ public class ReversiPanel extends JPanel {
   /**
    * Constructs a ReversiPanel with the given model and frameColor.
    *
-   * @param roModel    the read only model to be used.
+   * @param roModel         the read only model to be used.
    * @param frameTokenColor the color of the frame.
    */
   public ReversiPanel(ROModel roModel, TokenColor frameTokenColor) {
@@ -121,7 +113,7 @@ public class ReversiPanel extends JPanel {
    * This size is used to determine the panel's dimensions when displayed on the screen.
    *
    * @return A Dimension object representing the preferred physical size
-   *         (width x height) of the panel.
+   * (width x height) of the panel.
    */
 
   @Override
@@ -135,7 +127,7 @@ public class ReversiPanel extends JPanel {
    * such as cell positioning.
    *
    * @return A Dimension object representing the preferred logical size
-   *         (width x height) of the panel.
+   *      (width x height) of the panel.
    */
 
   private Dimension getPreferredLogicalSize() {
@@ -155,17 +147,17 @@ public class ReversiPanel extends JPanel {
    * Displays the given message on the screen.
    */
   public void advance() {
-      this.repaint();
-      this.southLabel.setText("Current player: " + roModel.getCurrentColor().toString());
-      this.southLabel.repaint();
-      if (roModel.isGameOver()) {
-        activeCell = Optional.empty();
-        String winner = (roModel.getWinner().isPresent())? roModel.getWinner().get().toString().
-                concat(" wins!") : " Stalemate";
-        String message = "Game Over! " + winner;
-        JOptionPane.showMessageDialog(this, message, "Game Over", JOptionPane.INFORMATION_MESSAGE);
-        System.exit(0);
-      }
+    this.repaint();
+    this.southLabel.setText("Current player: " + roModel.getCurrentColor().toString());
+    this.southLabel.repaint();
+    if (roModel.isGameOver()) {
+      activeCell = Optional.empty();
+      String winner = (roModel.getWinner().isPresent()) ? roModel.getWinner().get().toString().
+              concat(" wins!") : " Stalemate";
+      String message = "Game Over! " + winner;
+      JOptionPane.showMessageDialog(this, message, "Game Over", JOptionPane.INFORMATION_MESSAGE);
+      System.exit(0);
+    }
   }
 
   /**
@@ -185,7 +177,7 @@ public class ReversiPanel extends JPanel {
    * This transformation is applied when rendering the game components onto the physical panel.
    *
    * @return An AffineTransform object representing the necessary transformation from logical to
-   *         physical coordinates.
+   *          physical coordinates.
    */
   private AffineTransform transformLogicalToPhysical() {
     AffineTransform ret = new AffineTransform();
@@ -203,7 +195,7 @@ public class ReversiPanel extends JPanel {
    * game's logical layout.
    *
    * @return An AffineTransform object representing the necessary transformation from physical to
-   *         logical coordinates.
+   *          logical coordinates.
    */
   private AffineTransform transformPhysicalToLogical() {
     AffineTransform ret = new AffineTransform();

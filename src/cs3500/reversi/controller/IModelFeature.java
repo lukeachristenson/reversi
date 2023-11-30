@@ -3,8 +3,8 @@ package cs3500.reversi.controller;
 import cs3500.reversi.model.TokenColor;
 
 /**
- * A interface to represent the features of the model. These are the capabilities that the controller
- * will have to affect the model.
+ * An interface to represent the features of the model. These are the capabilities that the
+ * controller will have to affect the model.
  */
 public interface IModelFeature {
 

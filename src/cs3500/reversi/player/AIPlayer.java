@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cs3500.reversi.controller.IPlayerFeature;
-import cs3500.reversi.controller.PlayerFeatures;
 import cs3500.reversi.model.ICell;
 import cs3500.reversi.model.ROModel;
 import cs3500.reversi.model.TokenColor;

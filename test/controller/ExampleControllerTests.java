@@ -23,13 +23,12 @@ public class ExampleControllerTests {
   private MockPlayer mockPlayer;
   private IPlayer player1;
   private ReversiView view;
-  private StringBuilder modelLog;
   private Controller controller;
 
   // Initialize the model, players, and controller
   private void init() {
     // Initialize the model, players, and controller
-    modelLog = new StringBuilder();
+    StringBuilder modelLog = new StringBuilder();
     this.model = new HexagonReversi(6);
     this.player1 = new MockPlayer(new StringBuilder());
     this.view = new BasicReversiView(model, TokenColor.BLACK);

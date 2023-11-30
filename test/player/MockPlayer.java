@@ -4,11 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cs3500.reversi.controller.IPlayerFeature;
-import cs3500.reversi.controller.PlayerFeatures;
 import cs3500.reversi.model.ROModel;
 import cs3500.reversi.model.TokenColor;
-import cs3500.reversi.model.ICell;
-import cs3500.reversi.model.IReversiModel;
 import cs3500.reversi.player.IPlayer;
 import cs3500.reversi.strategy.Strategy;
 
@@ -17,9 +14,8 @@ import cs3500.reversi.strategy.Strategy;
  */
 public class MockPlayer implements IPlayer {
   private final TokenColor tokenColor;
-  private List<IPlayerFeature> listeners;
+  private final List<IPlayerFeature> listeners;
   private final StringBuilder log;
-  private final Strategy strategy;
   private final ROModel model;
 
   /**
@@ -30,7 +26,6 @@ public class MockPlayer implements IPlayer {
    */
   public MockPlayer(TokenColor tokenColor, Strategy strategy, StringBuilder log, ROModel model) {
     this.tokenColor = tokenColor;
-    this.strategy = strategy;
     this.listeners = new ArrayList<>();
     this.log = log;
     this.model = model;

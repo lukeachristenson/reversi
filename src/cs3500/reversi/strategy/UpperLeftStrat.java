@@ -26,14 +26,15 @@ public class UpperLeftStrat implements Strategy {
 
   @Override
   public List<ICell> chooseMove(ROModel model, List<ICell> filteredMoves) {
-    if(!model.isGameOver()) {
+    if (!model.isGameOver()) {
       boolean allValidFilteredMoves =
               filteredMoves.stream().allMatch(c -> model.getValidMoves(tokenColor).contains(c))
                       && !filteredMoves.isEmpty();
 
       ICell returnCell = new HexagonCell(0, -model.getDimensions(), model.getDimensions());
       List<ICell> choices =
-              new ArrayList<>(allValidFilteredMoves ? filteredMoves : model.getValidMoves(tokenColor));
+              new ArrayList<>(allValidFilteredMoves ? filteredMoves :
+                      model.getValidMoves(tokenColor));
 
       // Sort based on (s - r)
       if (model.getCurrentColor().equals(tokenColor)) {

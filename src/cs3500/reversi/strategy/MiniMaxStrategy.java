@@ -42,7 +42,8 @@ public class MiniMaxStrategy implements Strategy {
 
   // Get a list of valid moves, either from filteredMoves or by calculating.
   private List<ICell> getValidChoices(ROModel model, List<ICell> filteredMoves) {
-    return filteredMoves.isEmpty() ? model.createBoardCopy().validMovesLeft(tokenColor) : filteredMoves;
+    return filteredMoves.isEmpty() ? model.createBoardCopy().validMovesLeft(tokenColor) :
+            filteredMoves;
   }
 
   // Evaluate each possible move and calculate the score difference.
@@ -59,7 +60,8 @@ public class MiniMaxStrategy implements Strategy {
   // Calculate the score difference between the player's color and the opponent.
   private int calculateScoreDifference(IReversiModel modelCopy) {
     if (modelCopy.isGameOver()) {
-      return modelCopy.getWinner().map(winner -> winner == tokenColor ? 10000 : -10000).orElse(0);
+      return modelCopy.getWinner().
+              map(winner -> winner == tokenColor ? 10000 : -10000).orElse(0);
     }
     return modelCopy.getScore(tokenColor) - modelCopy.getScore(getOtherColor(tokenColor));
   }

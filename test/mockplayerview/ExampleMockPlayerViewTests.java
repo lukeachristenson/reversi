@@ -11,7 +11,8 @@ import cs3500.reversi.player.IPlayer;
 import cs3500.reversi.view.ReversiView;
 
 /**
- * A JUnit 4 test class that tests communications in the following directions:
+ * A JUnit 4 test class that tests communications. It tests communication in the following
+ * directions:
  * <p> Model -> Controller -> View </p>
  * <p> Model -> Controller -> Player </p>
  */
@@ -19,8 +20,6 @@ public class ExampleMockPlayerViewTests {
   private IReversiModel model;
   private MockView mockView;
   private MockPlayer mockPlayer;
-  private IPlayer player1;
-  private ReversiView view;
   private StringBuilder playerLog;
   private StringBuilder viewLog;
 
@@ -30,8 +29,8 @@ public class ExampleMockPlayerViewTests {
     playerLog = new StringBuilder();
     viewLog = new StringBuilder();
     this.model = new HexagonReversi(6);
-    this.player1 = new MockPlayer(playerLog);
-    this.view = new MockView(viewLog);
+    IPlayer player1 = new MockPlayer(playerLog);
+    ReversiView view = new MockView(viewLog);
     Controller controller = new Controller(model, view, player1, TokenColor.BLACK);
   }
 

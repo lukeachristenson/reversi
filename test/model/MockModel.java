@@ -21,7 +21,6 @@ public class MockModel implements ROModel {
   private final IBoard board;
   private final int sideLength;
   private final StringBuilder log;
-  private IPlayer currentPlayer;
 
   /**
    * Constructor for a HexagonReversi model. Takes in a board, current player, pass count, and
@@ -38,7 +37,7 @@ public class MockModel implements ROModel {
     }
 
     this.log = log;
-    this.currentPlayer = new HumanPlayer(TokenColor.BLACK);
+    IPlayer currentPlayer = new HumanPlayer(TokenColor.BLACK);
     // rings excluding the center cell = sideLength - 1
     this.board = this.initBoard(sideLength - 1);
     this.addStartingMoves();

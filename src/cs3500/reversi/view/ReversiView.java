@@ -1,9 +1,7 @@
 package cs3500.reversi.view;
 
 import cs3500.reversi.controller.IPlayerFeature;
-import cs3500.reversi.controller.PlayerFeatures;
 import cs3500.reversi.model.TokenColor;
-import cs3500.reversi.model.IReversiModel;
 
 /**
  * A view for the Reversi game.

@@ -7,7 +7,7 @@ import cs3500.reversi.view.ReversiView;
 /**
  * A class to represent the features of the model.
  */
-public class ModelFeatures implements IModelFeature{
+public class ModelFeatures implements IModelFeature {
   private final ReversiView view;
   private final IPlayer player;
 

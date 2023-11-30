@@ -1,6 +1,5 @@
 package cs3500.reversi.controller;
 
-import java.awt.*;
 import java.util.Objects;
 
 import cs3500.reversi.model.IReversiModel;
@@ -15,12 +14,6 @@ import cs3500.reversi.view.ReversiView;
  * ModelFeatures and PlayerFeatures to handle AI and Human player inputs.
  */
 public class Controller {
-  private final IReversiModel model;
-  private final TokenColor color;
-  private final ReversiView view;
-  private final IPlayer player;
-  private final IModelFeature modelFeatures;
-  private final IPlayerFeature playerFeatures;
 
 
   /**
@@ -32,19 +25,23 @@ public class Controller {
    * @param color  the color of the player that this controller controls.
    */
   public Controller(IReversiModel model, ReversiView view, IPlayer player, TokenColor color) {
+    IReversiModel model1;
+    TokenColor color1;
+    ReversiView view1;
+    IPlayer player1;
     try {
-      this.color = Objects.requireNonNull(color);
-      this.model = Objects.requireNonNull(model);
-      this.view = Objects.requireNonNull(view);
-      this.player = Objects.requireNonNull(player);
-    } catch(NullPointerException ex) {
+      color1 = Objects.requireNonNull(color);
+      model1 = Objects.requireNonNull(model);
+      view1 = Objects.requireNonNull(view);
+      player1 = Objects.requireNonNull(player);
+    } catch (NullPointerException ex) {
       throw new IllegalArgumentException("Null argument(s) given to controller constructor. " +
               ex.getMessage());
     }
-    this.modelFeatures = new ModelFeatures(this.view, this.player);
-    this.playerFeatures = new PlayerFeatures(this.model, this.view, this.color);
-    view.addFeatureListener(this.playerFeatures);
-    model.addListener(this.modelFeatures);
-    player.addListener(this.playerFeatures);
+    IModelFeature modelFeatures = new ModelFeatures(view1, player1);
+    IPlayerFeature playerFeatures = new PlayerFeatures(model1, view1, color1);
+    view.addFeatureListener(playerFeatures);
+    model.addListener(modelFeatures);
+    player.addListener(playerFeatures);
   }
 }

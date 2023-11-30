@@ -1,10 +1,7 @@
 package cs3500.reversi.player;
 
 import cs3500.reversi.controller.IPlayerFeature;
-import cs3500.reversi.controller.PlayerFeatures;
-import cs3500.reversi.model.ROModel;
 import cs3500.reversi.model.TokenColor;
-import cs3500.reversi.model.IReversiModel;
 
 /**
  * An interface to represent a player.

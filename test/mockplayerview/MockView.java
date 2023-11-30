@@ -1,12 +1,9 @@
 package mockplayerview;
 
-import java.awt.*;
 
+import java.awt.HeadlessException;
 import cs3500.reversi.controller.IPlayerFeature;
-import cs3500.reversi.controller.PlayerFeatures;
 import cs3500.reversi.model.TokenColor;
-import cs3500.reversi.model.IReversiModel;
-import cs3500.reversi.model.ROModel;
 import cs3500.reversi.view.ReversiView;
 
 /**

@@ -72,7 +72,8 @@ public class MockModel implements IReversiModel {
    */
   @Override
   public void placeCurrentPlayerPiece(ICell targetCell) {
-    this.log.append("placeCurrentPlayerPiece called with ICell:" + targetCell.getCoordinates() + "\n");
+    this.log.append("placeCurrentPlayerPiece called with ICell:" + targetCell.getCoordinates()
+            + "\n");
     emitMessage("placeCurrentPlayerPiece");
   }
 

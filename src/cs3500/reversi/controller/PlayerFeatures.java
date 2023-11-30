@@ -9,7 +9,7 @@ import cs3500.reversi.view.ReversiView;
  * A class to give functionalities that a player(Human or AI) can
  * access in the game (playing a move, passing, quitting).
  */
-public class PlayerFeatures implements IPlayerFeature{
+public class PlayerFeatures implements IPlayerFeature {
   private final IReversiModel model;
   private final ReversiView view;
   private final TokenColor color;

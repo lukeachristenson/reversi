@@ -26,7 +26,8 @@ public class ChooseCornersStrat implements Strategy {
   @Override
   public List<ICell> chooseMove(ROModel model, List<ICell> filteredMoves) {
     IBoard board = model.createBoardCopy();
-    List<ICell> choices = (filteredMoves.isEmpty()) ? board.validMovesLeft(tokenColor) : filteredMoves;
+    List<ICell> choices = (filteredMoves.isEmpty()) ? board.validMovesLeft(tokenColor) :
+            filteredMoves;
     List<ICell> retList = new ArrayList<>();
     int sideLength = model.getDimensions();
 

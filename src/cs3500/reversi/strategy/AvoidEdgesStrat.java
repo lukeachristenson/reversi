@@ -30,7 +30,8 @@ public class AvoidEdgesStrat implements Strategy {
     List<ICell> retList = new ArrayList<>(choices);
     List<ICell> entireBoard =
             new ArrayList<>(model.createBoardCopy().getPositionsMapCopy().keySet());
-    List<ICell> corners = new ArrayList<>(new ChooseCornersStrat(tokenColor).chooseMove(model, entireBoard));
+    List<ICell> corners = new ArrayList<>(new ChooseCornersStrat(tokenColor).chooseMove(model,
+            entireBoard));
 
     // difference in q direction
     int[] dq = {1, -1, 0, 0, -1, 1};

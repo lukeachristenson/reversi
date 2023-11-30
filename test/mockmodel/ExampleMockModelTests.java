@@ -27,18 +27,15 @@ public class ExampleMockModelTests {
 
   private MockView mockView;
   private MockPlayer mockPlayer;
-  private IPlayer player1;
-  private ReversiView view;
   private StringBuilder modelLog;
-  private Controller controller;
 
   private void init() {
     // Initialize the model, players, and controller
     modelLog = new StringBuilder();
     this.model = new MockModel(modelLog);
-    this.player1 = new MockPlayer(new StringBuilder());
-    this.view = new BasicReversiView(model, TokenColor.BLACK);
-    controller = new Controller(model, view, player1, TokenColor.BLACK);
+    IPlayer player1 = new MockPlayer(new StringBuilder());
+    ReversiView view = new BasicReversiView(model, TokenColor.BLACK);
+    Controller controller = new Controller(model, view, player1, TokenColor.BLACK);
   }
 
 

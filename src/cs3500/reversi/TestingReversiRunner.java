@@ -3,7 +3,6 @@ package cs3500.reversi;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import cs3500.reversi.controller.Controller;

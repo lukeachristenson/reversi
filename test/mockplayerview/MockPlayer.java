@@ -4,12 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cs3500.reversi.controller.IPlayerFeature;
-import cs3500.reversi.controller.PlayerFeatures;
-import cs3500.reversi.model.HexagonCell;
 import cs3500.reversi.model.TokenColor;
-import cs3500.reversi.model.IReversiModel;
 import cs3500.reversi.player.IPlayer;
-import cs3500.reversi.strategy.Strategy;
 
 /**
  * This class represents a mock player for testing purposes. Keeps a log of when the methods are
@@ -20,7 +16,7 @@ public class MockPlayer implements IPlayer {
   private final StringBuilder log;
 
   /**
-   * Constructor for a mockPlayer
+   * Constructor for a mockPlayer.
    * @param log the log to keep track of when methods are called.
    */
   public MockPlayer(StringBuilder log) {

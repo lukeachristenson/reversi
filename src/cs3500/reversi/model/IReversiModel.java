@@ -82,7 +82,7 @@ public interface IReversiModel extends ROModel {
    * Returns whether the given cell is a valid move for the current player.
    * @param cell the cell to make the move at.
    * @return  whether the given cell is a valid move for the current player.
-   * @throws IllegalArgumentException
+   * @throws IllegalArgumentException if the given cell is null.
    */
   boolean validMove(ICell cell) throws IllegalArgumentException;
 
