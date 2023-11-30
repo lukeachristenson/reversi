@@ -313,7 +313,6 @@ while doing so.
 
 
 # Part 3
-
 ## Changes to the existing project for Part 3
 There were some changes that were made to the project from part 2 in order to accomodate the
 implementation of a controller and to accommodate communications between the model, view, and
@@ -339,7 +338,8 @@ controller. These changes include:
 Controller is a class that facilitates communication between the model and the view. Through the
 features interfaces that it uses, when certain events occur in the view, the controller can call
 features that update the models game state and then this change is echoed from the model to the view
-through another features interface. 
+through another features interface. The controller has the required fields(model, color, view) and in addition to those, 
+a modelFeatures and a playerFeatures field to enable communication between the model and the view. 
 
 ### IModelFeature interface and ModelFeatures Class
 The IModelFeatures interface is a single-interface that is implemented by the concrete class ModelFeatures.
@@ -354,6 +354,14 @@ the player and view can call through the controller. The player
 calls these methods to play its move when the player is an AIPlayer(using the strategy)
 and the view calls the method through the controller when the player is a HumanPlayer(using mouse and keyboard
 inputs).
+
+### HumanPlayer Class
+The HumanPlayer class is a concrete implementation of the IPlayer interface. It represents a human player in the game and the methods
+are just placeholder methods since the human player does not need to call any methods through the controller.
+
+### AIPlayer Class
+The AIPlayer class is a concrete implementation of the IPlayer interface. It represents an AI player in the game and the methods
+have been implemented to call the methods through the controller to play the move that the AI wants to play according to the strategy it has.
 
 ### Commmand Line Configurator Commands
 To play Reversi using the main method, use the command-line arguments to customize your game. Strategies include human 
@@ -384,8 +392,98 @@ java -jar reversi.jar h g
 # Source Organization
 
 ```
+├── README.md
+├── images
+│   ├── cubeCoordinatesSystem.jpg
+│   ├── img.png
+│   ├── img_1.png
+│   └── img_2.png
+├── out
+│   ├── artifacts
+│   │   └── reversi_jar
+│   │       └── reversi.jar
+│   ├── production
+│   │   └── reversi
+│   │       ├── META-INF
+│   │       │   └── MANIFEST.MF
+│   │       └── cs3500
+│   │           └── reversi
+│   │               ├── Reversi.class
+│   │               ├── TestingReversiRunner.class
+│   │               ├── controller
+│   │               │   ├── Controller.class
+│   │               │   ├── IModelFeature.class
+│   │               │   ├── IPlayerFeature.class
+│   │               │   ├── ModelFeatures.class
+│   │               │   └── PlayerFeatures.class
+│   │               ├── model
+│   │               │   ├── HexagonBoard.class
+│   │               │   ├── HexagonCell.class
+│   │               │   ├── HexagonReversi.class
+│   │               │   ├── IBoard.class
+│   │               │   ├── ICell.class
+│   │               │   ├── IReversiModel.class
+│   │               │   ├── ROHexagonModel.class
+│   │               │   ├── ROModel.class
+│   │               │   └── TokenColor.class
+│   │               ├── player
+│   │               │   ├── AIPlayer.class
+│   │               │   ├── HumanPlayer.class
+│   │               │   └── IPlayer.class
+│   │               ├── strategy
+│   │               │   ├── AvoidEdgesStrat.class
+│   │               │   ├── ChooseCornersStrat.class
+│   │               │   ├── GreedyStrat.class
+│   │               │   ├── MiniMaxStrategy.class
+│   │               │   ├── OurAlgorithmStrat.class
+│   │               │   ├── RandomStrat.class
+│   │               │   ├── SandwichStrat.class
+│   │               │   ├── Strategy.class
+│   │               │   ├── UpperLeftStrat$UpperLeftComparator.class
+│   │               │   └── UpperLeftStrat.class
+│   │               └── view
+│   │                   ├── BasicReversiView.class
+│   │                   ├── CartesianPosn.class
+│   │                   ├── CoordUtilities.class
+│   │                   ├── ReversiPanel$KeyboardEventListener.class
+│   │                   ├── ReversiPanel$MouseEventListener.class
+│   │                   ├── ReversiPanel.class
+│   │                   ├── ReversiTextView.class
+│   │                   ├── ReversiView.class
+│   │                   └── TextView.class
+│   └── test
+│       └── reversi
+│           ├── controller
+│           │   └── ExampleControllerTests.class
+│           ├── mockmodel
+│           │   ├── ExampleMockModelTests.class
+│           │   └── MockModel.class
+│           ├── mockplayerview
+│           │   ├── ExampleMockPlayerViewTests.class
+│           │   ├── MockPlayer.class
+│           │   └── MockView.class
+│           ├── mockstrategy
+│           │   ├── ExampleMockStrategyTests$MockStrategy.class
+│           │   └── ExampleMockStrategyTests.class
+│           ├── model
+│           │   ├── ExampleATests.class
+│           │   ├── ExampleAuxillaryTests.class
+│           │   ├── ExampleBoardTests.class
+│           │   ├── ExampleModelTests.class
+│           │   └── MockModel.class
+│           ├── player
+│           │   ├── ExampleMockPlayerTests.class
+│           │   └── MockPlayer.class
+│           └── strategy
+│               ├── AvoidEdgesTests.class
+│               ├── ChooseCornersTests.class
+│               ├── GreedyStrategyTests.class
+│               ├── MinimaxTests.class
+│               └── UpperLeftStrategyTests.class
+├── reversi.iml
+├── reversi.jar
 ├── src
-│   ├── META-INF 
+│   ├── META-INF
 │   │   └── MANIFEST.MF
 │   └── cs3500
 │       └── reversi
@@ -411,7 +509,6 @@ java -jar reversi.jar h g
 │           │   ├── AIPlayer.java
 │           │   ├── HumanPlayer.java
 │           │   └── IPlayer.java
-│           ├── reversi.jar
 │           ├── strategy
 │           │   ├── AvoidEdgesStrat.java
 │           │   ├── ChooseCornersStrat.java

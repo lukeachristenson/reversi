@@ -40,7 +40,7 @@ public final class Reversi {
     Optional<Strategy> strat2;
 
     if (args.length != 2) {
-      System.err.println("Invalid number of arguments");
+      System.err.println("Invalid number of arguments, expected 2 but got: " + args.length);
       System.exit(0);
     }
     strat1 = getStrategy(args[0], TokenColor.BLACK);
