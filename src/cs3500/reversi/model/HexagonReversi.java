@@ -183,13 +183,11 @@ public class HexagonReversi implements IReversiModel {
 
   @Override
   public TokenColor getCurrentColor() throws IllegalStateException {
-//    this.gameStartedChecker();
     return this.currentTokenColor;
   }
 
   @Override
   public boolean isGameOver() throws IllegalStateException {
-//    this.gameStartedChecker();
     if (this.passCount >= TokenColor.values().length) {
       this.gameRunning = false;
       return true;
