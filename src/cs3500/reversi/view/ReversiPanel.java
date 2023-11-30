@@ -349,7 +349,7 @@ public class ReversiPanel extends JPanel {
     public void keyPressed(KeyEvent e) {
       // If the current player is the same as the frame color, then the player can make a move.
       if (ReversiPanel.this.roModel.getCurrentColor().equals(ReversiPanel.this.frameTokenColor)) {
-        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+        if (e.getKeyCode() == KeyEvent.VK_SPACE || e.getKeyCode() == KeyEvent.VK_ENTER) {
           for (IPlayerFeature listener : ReversiPanel.this.featureListeners) {
             ReversiPanel.this.activeCell.ifPresent(cartesianPosn
                 -> listener.playMove(

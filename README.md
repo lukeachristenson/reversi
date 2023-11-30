@@ -1,11 +1,18 @@
 # Hexagonal Reversi Java Implementation
 
+## Table of Major Contents
+- [Overview](#overview)
+- [Part 2](#part-2)
+- [Part 3](#part-3)
+- [Source Organization](#source-organization)
+
 ## Overview
 
 This Java codebase is an implementation of the classic Reversi game played on a hexagonal grid. It
 follows the MVC (Model-View-Controller) architecture and offers a platform for playing Reversi in a
 hexagonal variant. This README serves as a guide for understanding the purpose, structure, and
 components of this codebase.
+
 
 ## Quick Start
 
@@ -129,84 +136,10 @@ a `HexagonBoard`. The class is configured to work with a game of `Hexagon Revers
 coordinates are based on the [cube coordinates system](#coordinate-system) mentioned above.
 It has an invariant that limits the coordinates such that their sum is 0.
 
-## Source Organization
 
-```
-├── src
-│   └── cs3500
-│       └── reversi
-│           ├── META-INF
-│           │   └── MANIFEST.MF
-│           ├── Reversi.java
-│           ├── TestingReversiRunner.java
-│           ├── controller
-│           │   ├── Controller.java
-│           │   ├── ModelFeatures.java
-│           │   └── PlayerFeatures.java
-│           ├── model
-│           │   ├── HexagonBoard.java
-│           │   ├── HexagonCell.java
-│           │   ├── HexagonReversi.java
-│           │   ├── IBoard.java
-│           │   ├── ICell.java
-│           │   ├── IReversiModel.java
-│           │   ├── ROHexagonModel.java
-│           │   ├── ROModel.java
-│           │   └── TokenColor.java
-│           ├── player
-│           │   ├── AIPlayer.java
-│           │   ├── HumanPlayer.java
-│           │   └── IPlayer.java
-│           ├── strategy
-│           │   ├── AvoidEdgesStrat.java
-│           │   ├── ChooseCornersStrat.java
-│           │   ├── GreedyStrat.java
-│           │   ├── MiniMaxStrategy.java
-│           │   ├── OurAlgorithmStrat.java
-│           │   ├── RandomStrat.java
-│           │   ├── SandwichStrat.java
-│           │   ├── Strategy.java
-│           │   └── UpperLeftStrat.java
-│           └── view
-│               ├── BasicReversiView.java
-│               ├── CartesianPosn.java
-│               ├── CoordUtilities.java
-│               ├── ReversiPanel.java
-│               ├── ReversiTextView.java
-│               ├── ReversiView.java
-│               └── TextView.java
-├── strategy-transcript.txt
-└── test
-    ├── controller
-    │   └── ExampleControllerTests.java
-    ├── mockmodel
-    │   ├── ExampleMockModelTests.java
-    │   └── MockModel.java
-    ├── mockplayerview
-    │   ├── ExampleMockPlayerViewTests.java
-    │   ├── MockPlayer.java
-    │   └── MockView.java
-    ├── mockstrategy
-    │   └── ExampleMockStrategyTests.java
-    ├── model
-    │   ├── ExampleATests.java
-    │   ├── ExampleAuxillaryTests.java
-    │   ├── ExampleBoardTests.java
-    │   ├── ExampleModelTests.java
-    │   └── MockModel.java
-    ├── player
-    │   ├── ExampleMockPlayerTests.java
-    │   └── MockPlayer.java
-    └── strategy
-        ├── AvoidEdgesTests.java
-        ├── ChooseCornersTests.java
-        ├── GreedyStrategyTests.java
-        ├── MinimaxTests.java
-        └── UpperLeftStrategyTests.java
-```
+# Part 2
 
-## Changes for Part 2
-
+## Changes to the existing project for Part 2
 - Removed a method called `placePiece(Color tokenColor, ICell cell)` from the model that
   gave excessive control on changing the game state irrespective of the current player,
   going against the rules of the game.
@@ -320,7 +253,7 @@ are printed in the console when a cell is highlighted.
 The `ReversiPanel` class handles keyboard inputs using the `KeyAdapter` interface. The following
 keys are used to control the game:
 
-- `Space`: Places the current player's piece in the highlighted cell if the move is valid.
+- `SPACE` or `ENTER`: Places the current player's piece in the highlighted cell if the move is valid.
 - `P` or `p`: Passes the turn to the next player.
 
 ## Strategy
@@ -371,7 +304,6 @@ the opponents next best move being the lowest. It also ensures that if it can pl
 that it will do so.
 
 ### MiniMaxStrategy
-
 This strategy is inspired by the [minimax algorithm](https://en.wikipedia.org/wiki/Minimax) to
 optimize the player's score gain against the opponent. Additionally, it avoids moves that will lead
 the player to have a chance at winnning in the next move and aims to increase its score gain.
@@ -379,15 +311,10 @@ This strategy analyzes all the possible move combinations starting from the stra
 to the subsequent opponent's moves, assigning a weight to each possible move the strategy player
 while doing so.
 
-# Checklist
 
-- [ ] Make a command line configurator for the game.
-- [ ] Update the main method.
-- [ ] Clean up the code.
-- [ ] Update the README file.
+# Part 3
 
-
-# Changes for Part 3
+## Changes to the existing project for Part 3
 There were some changes that were made to the project from part 2 in order to accomodate the
 implementation of a controller and to accommodate communications between the model, view, and
 controller. These changes include:
@@ -404,21 +331,22 @@ controller. These changes include:
   now stores the color of the current player and keeps changing it after every move or pass. This was done since
   the controller is now responsible for storing the player information and the model only needs to know the color
   that plays next.
+- The `ENTER` key was added as an alternative to the `SPACE` key for placing a piece in the highlighted cell.
 - Bugs related to the logic of legal moves in edge cases in the model were fixed.
 
-# New Classes with Part 3
-## Controller
+## New Classes with Part 3
+### Controller
 Controller is a class that facilitates communication between the model and the view. Through the
 features interfaces that it uses, when certain events occur in the view, the controller can call
 features that update the models game state and then this change is echoed from the model to the view
 through another features interface. 
 
-## IModelFeature interface and ModelFeatures Class
+### IModelFeature interface and ModelFeatures Class
 The IModelFeatures interface is a single-interface that is implemented by the concrete class ModelFeatures.
 This interface contains all the methods that the model can call through the controller to notify the player
 and views of the current color of the game.
 
-## IPlayerFeature interface and PlayerFeatures interface
+### IPlayerFeature interface and PlayerFeatures interface
 The IPlayerFeature interface is a single-interface implemented by the concrete class PlayerFeatures.
 The interface contains all the methods that the player can call through the controller to notify the model
 of the move that the player wants to play. The class implementation contains all the methods that 
@@ -427,18 +355,12 @@ calls these methods to play its move when the player is an AIPlayer(using the st
 and the view calls the method through the controller when the player is a HumanPlayer(using mouse and keyboard
 inputs).
 
-## Commmand Line Configurator Commands
-To play Reversi using the main method, use the command-line arguments to customize your game. 
-Set the board size with --size or -s (default is 6), and choose strategies for player 1 (Black) and 
-player 2 (White) with --player1 or -p1 and --player2 or -p2, respectively. Strategies include human 
+### Commmand Line Configurator Commands
+To play Reversi using the main method, use the command-line arguments to customize your game. Strategies include human 
 (h), various AI strategies like Greedy (g), MiniMax (mm), and several Sandwich combinations 
-(san1, san2, etc.). These arguments allow for a tailored game experience, ranging from human to AI 
-opponents.
+(san1, san2, etc.). The game can be run yby running the jar file with the first argument as the strategy(`'h'` for human)
+for the first player(Black token) and the second argument as the strategy(`'h'`) for the second player(White token).
 
-- `--size` or `-s`: Specifies the size of the board. The default value is 6.
-- `--player1` or `-p1`: Specifies the strategy for player 1(Black). The default value is Human.
-- `--player2` or `-p2`: Specifies the strategy for player 2(White). The default value is Human.
-- The strategies(arguments for `--player1` and `--player2`) are as follows:
     - `h`: Human Player
     - `g`: Greedy Strategy
     - `u`: Upper Left Strategy
@@ -447,8 +369,93 @@ opponents.
     - `mm`: MiniMax Strategy
     - `oa`: Our Algorithm Strategy
     - `r` : Random Strategy
-    - `san1`: Sandwich Strategy comprising Greedy, Avoid Edges, and Choose Corners Strategies
-    - `san2`: Sandwich Strategy comprising Minimax and Greedy strategies.
-    - `san3`: Sandwich Strategy comprising Minimax, Greedy and Avoid Edges strategies.
-    - `san4`: Sandwich Strategy comprising Minimax, Greedy, Avoid Edges and Choose Corners
+    - `san1`: Sandwich Strategy 1 comprising Greedy, Avoid Edges, and Choose Corners Strategies
+    - `san2`: Sandwich Strategy 2 comprising Minimax and Greedy strategies.
+    - `san3`: Sandwich Strategy 3 comprising Minimax, Greedy and Avoid Edges strategies.
+    - `san4`: Sandwich Strategy 4 comprising Minimax, Greedy, Avoid Edges and Choose Corners
       strategies.
+
+For example, to play a game of Reversi with a human player as the first player and a greedy strategy
+as the second, run the following command:
+```bash
+java -jar reversi.jar h g
+```
+
+# Source Organization
+
+```
+├── src
+│   ├── META-INF 
+│   │   └── MANIFEST.MF
+│   └── cs3500
+│       └── reversi
+│           ├── Reversi.java
+│           ├── TestingReversiRunner.java
+│           ├── controller
+│           │   ├── Controller.java
+│           │   ├── IModelFeature.java
+│           │   ├── IPlayerFeature.java
+│           │   ├── ModelFeatures.java
+│           │   └── PlayerFeatures.java
+│           ├── model
+│           │   ├── HexagonBoard.java
+│           │   ├── HexagonCell.java
+│           │   ├── HexagonReversi.java
+│           │   ├── IBoard.java
+│           │   ├── ICell.java
+│           │   ├── IReversiModel.java
+│           │   ├── ROHexagonModel.java
+│           │   ├── ROModel.java
+│           │   └── TokenColor.java
+│           ├── player
+│           │   ├── AIPlayer.java
+│           │   ├── HumanPlayer.java
+│           │   └── IPlayer.java
+│           ├── reversi.jar
+│           ├── strategy
+│           │   ├── AvoidEdgesStrat.java
+│           │   ├── ChooseCornersStrat.java
+│           │   ├── GreedyStrat.java
+│           │   ├── MiniMaxStrategy.java
+│           │   ├── OurAlgorithmStrat.java
+│           │   ├── RandomStrat.java
+│           │   ├── SandwichStrat.java
+│           │   ├── Strategy.java
+│           │   └── UpperLeftStrat.java
+│           └── view
+│               ├── BasicReversiView.java
+│               ├── CartesianPosn.java
+│               ├── CoordUtilities.java
+│               ├── ReversiPanel.java
+│               ├── ReversiTextView.java
+│               ├── ReversiView.java
+│               └── TextView.java
+├── strategy-transcript.txt
+└── test
+    ├── controller
+    │   └── ExampleControllerTests.java
+    ├── mockmodel
+    │   ├── ExampleMockModelTests.java
+    │   └── MockModel.java
+    ├── mockplayerview
+    │   ├── ExampleMockPlayerViewTests.java
+    │   ├── MockPlayer.java
+    │   └── MockView.java
+    ├── mockstrategy
+    │   └── ExampleMockStrategyTests.java
+    ├── model
+    │   ├── ExampleATests.java
+    │   ├── ExampleAuxillaryTests.java
+    │   ├── ExampleBoardTests.java
+    │   ├── ExampleModelTests.java
+    │   └── MockModel.java
+    ├── player
+    │   ├── ExampleMockPlayerTests.java
+    │   └── MockPlayer.java
+    └── strategy
+        ├── AvoidEdgesTests.java
+        ├── ChooseCornersTests.java
+        ├── GreedyStrategyTests.java
+        ├── MinimaxTests.java
+        └── UpperLeftStrategyTests.java
+```
