@@ -1,7 +1,8 @@
-package model;
+package cs3500.provider.model;
 
 
 import controller.ObserverInterface;
+import model.ReadonlyReversiModel;
 
 /**
  * Represents the primary model interface for playing a game of Reversi.

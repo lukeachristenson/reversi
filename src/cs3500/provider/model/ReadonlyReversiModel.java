@@ -1,4 +1,4 @@
-package model;
+package cs3500.provider.model;
 
 import java.util.LinkedHashMap;
 import java.util.List;

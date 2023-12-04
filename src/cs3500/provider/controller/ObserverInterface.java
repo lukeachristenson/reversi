@@ -1,4 +1,4 @@
-package controller;
+package cs3500.provider.controller;
 
 /**
  * This is the interface for an observer of the Reversi model.

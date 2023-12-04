@@ -1,5 +1,6 @@
-package model;
+package cs3500.provider.model;
 
+import model.ReadonlyReversiModel;
 import strategy.ReversiStrategy;
 
 /**

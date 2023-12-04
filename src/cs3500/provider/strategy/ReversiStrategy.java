@@ -1,4 +1,4 @@
-package strategy;
+package cs3500.provider.strategy;
 
 import model.CubicCoordinate;
 import model.ReadonlyReversiModel;

@@ -1,4 +1,4 @@
-package view;
+package cs3500.provider.view;
 
 import controller.ControllerFeatures;
 import model.CubicCoordinate;

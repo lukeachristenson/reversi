@@ -1,4 +1,4 @@
-package model;
+package cs3500.provider.model;
 
 /**
  * An interface for a cell in reversi.
