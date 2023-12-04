@@ -1,13 +1,20 @@
 package cs3500.reversi.view;
 
-import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
+import java.awt.BasicStroke;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -16,7 +23,10 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
-import javax.swing.*;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.event.MouseInputAdapter;
 
 import cs3500.reversi.controller.IPlayerFeature;
@@ -113,7 +123,7 @@ public class ReversiPanel extends JPanel {
    * This size is used to determine the panel's dimensions when displayed on the screen.
    *
    * @return A Dimension object representing the preferred physical size
-   * (width x height) of the panel.
+   *          (width x height) of the panel.
    */
 
   @Override
