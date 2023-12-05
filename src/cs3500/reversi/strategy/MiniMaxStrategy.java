@@ -3,10 +3,10 @@ package cs3500.reversi.strategy;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
-import cs3500.reversi.model.HexagonReversi;
+import cs3500.reversi.model.IBoard;
 import cs3500.reversi.model.ICell;
-import cs3500.reversi.model.IReversiModel;
 import cs3500.reversi.model.ROModel;
 import cs3500.reversi.model.TokenColor;
 
@@ -50,20 +50,32 @@ public class MiniMaxStrategy implements Strategy {
   private Map<ICell, Integer> evaluateMovesAndGetScores(ROModel model, List<ICell> choices) {
     Map<ICell, Integer> moveScores = new HashMap<>();
     for (ICell cell : choices) {
-      IReversiModel modelCopy = new HexagonReversi(model.createBoardCopy(), model.getDimensions());
-      modelCopy.validMove(cell);
-      moveScores.put(cell, calculateScoreDifference(modelCopy));
+      // Put the score difference for each move into a map using the model copy.
+
+
+      // **** NEW IMPLEMENTAION: USES ROMODEL ****
+       moveScores.put(cell, calculateScoreDifference(model, Optional.of(cell)));
+
     }
     return moveScores;
   }
 
+
+
   // Calculate the score difference between the player's color and the opponent.
-  private int calculateScoreDifference(IReversiModel modelCopy) {
-    if (modelCopy.isGameOver()) {
-      return modelCopy.getWinner().
+  private int calculateScoreDifference(ROModel model, Optional<ICell> cell) {
+    // If the game is over, skew the score difference to indicate a win or loss.
+    if (model.isGameOver()) {
+      return model.getWinner().
               map(winner -> winner == tokenColor ? 10000 : -10000).orElse(0);
     }
-    return modelCopy.getScore(tokenColor) - modelCopy.getScore(getOtherColor(tokenColor));
+
+    // If the game isn't over, return the score difference after the move(or pass if the parameter
+    // is empty) is made.
+    IBoard boardCopy = model.createBoardCopy();
+    cell.ifPresent(c -> boardCopy.validMove(c, tokenColor, true));
+
+    return boardCopy.getColorCount(tokenColor) - boardCopy.getColorCount(getOtherColor(tokenColor));
   }
 
   // Determine the best move based on score differences and check if passing is a better option.
@@ -87,9 +99,10 @@ public class MiniMaxStrategy implements Strategy {
 
   // Determine if passing the turn results in a better outcome than the current best move.
   private boolean shouldPass(ROModel model, int maxScoreDifference) {
-    IReversiModel modelCopy = new HexagonReversi(model.createBoardCopy(), model.getDimensions());
-    modelCopy.passTurn(false);
-    int passingScoreDifference = calculateScoreDifference(modelCopy);
+    // Calculate the score difference for passing the turn.
+
+    // **** NEW IMPLEMENTAION: USES ROMODEL ****
+    int passingScoreDifference = calculateScoreDifference(model, Optional.empty());
     return passingScoreDifference > maxScoreDifference;
   }
 
