@@ -11,5 +11,4 @@ public interface ObserverInterface {
    * For Reversi, this could mean the model notifies the controller when it is their turn.
    */
   void getNotifiedItsYourPlayersMove();
-
 }

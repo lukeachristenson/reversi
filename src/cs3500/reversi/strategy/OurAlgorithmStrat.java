@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import cs3500.reversi.model.HexagonReversi;
+//import cs3500.reversi.model.HexagonReversi;
 import cs3500.reversi.model.IBoard;
 import cs3500.reversi.model.ICell;
 import cs3500.reversi.model.IReversiModel;
@@ -51,10 +51,13 @@ public class OurAlgorithmStrat implements Strategy {
   private HashMap<ICell, Integer> evaluateMoves(ROModel model, List<ICell> choices) {
     HashMap<ICell, Integer> moveScores = new HashMap<>();
     for (ICell cell : choices) {
+      // USES MODEL
       IReversiModel modelCopy = createModelCopyWithMove(model, cell);
       if (playerWonGame(modelCopy)) {
         return new HashMap<>(Collections.singletonMap(cell, 0));
       }
+
+      // USES BOARD NOW
       moveScores.put(cell, getOpponentHighestScore(modelCopy));
     }
     return moveScores;
@@ -68,9 +71,27 @@ public class OurAlgorithmStrat implements Strategy {
     return modelCopy;
   }
 
+  // creates a model copy with the move of the strategy color player
+  private IReversiModel createBoardCopyWithMove(ROModel model, ICell cell) {
+    IBoard board = model.createBoardCopy();
+    IReversiModel modelCopy = new HexagonReversi(board, model.getDimensions());
+    modelCopy.placeCurrentPlayerPiece(cell);
+    return modelCopy;
+  }
+
   // gets the highest score of the opponent color player for a given
   // move of the strategy color player
   private int getOpponentHighestScore(IReversiModel modelCopy) {
+    List<ICell> opponentResponses = opponentMoves(modelCopy);
+    return opponentResponses.stream()
+            .mapToInt(response -> evaluateOpponentMove(modelCopy, response))
+            .max()
+            .orElse(0);
+  }
+
+  // gets the highest score of the opponent color player for a given
+  // move of the strategy color player
+  private int getOpponentHighestScore(IBoard boardCopy) {
     List<ICell> opponentResponses = opponentMoves(modelCopy);
     return opponentResponses.stream()
             .mapToInt(response -> evaluateOpponentMove(modelCopy, response))
@@ -101,12 +122,31 @@ public class OurAlgorithmStrat implements Strategy {
             .chooseMove(modelCopy, modelCopy.getValidMoves(otherTokenColor));
   }
 
+  // gets the moves of the opponent color player
+  private List<ICell> opponentMoves(IBoard boardCopy) {
+    TokenColor otherTokenColor = getOtherColor(tokenColor);
+    List<Strategy> opponentStrats = Arrays.asList(
+            new AvoidEdgesStrat(otherTokenColor),
+            new ChooseCornersStrat(otherTokenColor),
+            new GreedyStrat(otherTokenColor)
+    );
+    // Changed to pass in otherColor instead of color
+    return List.of();
+  }
+
   // returns whether strategy player has won the game
   private boolean playerWonGame(IReversiModel modelCopy) {
     return modelCopy.isGameOver() && modelCopy.getWinner()
             .filter(winner -> winner.equals(tokenColor))
             .isPresent();
   }
+
+  // returns whether strategy player has won the game
+  private boolean playerWonGame(IBoard boardCopy) {
+    return boardCopy.validMovesLeft(tokenColor).isEmpty()
+            && boardCopy.validMovesLeft(getOtherColor(tokenColor)).isEmpty()
+            && boardCopy.getColorCount(tokenColor) > boardCopy.getColorCount(getOtherColor(tokenColor));
+}
 
   // selects the move for strategy player to make that leaves opponent with the worst best move.
   private List<ICell> getOptimalMove(HashMap<ICell, Integer> moveScores, List<ICell> choices) {

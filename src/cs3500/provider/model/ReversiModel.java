@@ -1,8 +1,7 @@
 package cs3500.provider.model;
 
 
-import controller.ObserverInterface;
-import model.ReadonlyReversiModel;
+import cs3500.provider.controller.ObserverInterface;
 
 /**
  * Represents the primary model interface for playing a game of Reversi.
@@ -19,7 +18,6 @@ public interface ReversiModel extends ReadonlyReversiModel {
    * @throws IllegalArgumentException if the list of players is empty.
    */
   void startGame(int sideLength, int p);
-
 
   /**
    * Flips the cell and (maybe) other cells at the given coordinate.

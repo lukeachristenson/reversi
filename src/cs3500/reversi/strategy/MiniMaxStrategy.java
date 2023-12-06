@@ -60,8 +60,6 @@ public class MiniMaxStrategy implements Strategy {
     return moveScores;
   }
 
-
-
   // Calculate the score difference between the player's color and the opponent.
   private int calculateScoreDifference(ROModel model, Optional<ICell> cell) {
     // If the game is over, skew the score difference to indicate a win or loss.

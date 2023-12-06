@@ -1,28 +1,20 @@
 package cs3500.provider.view;
 
-import javax.swing.*;
 
-import javax.swing.event.MouseInputAdapter;
-
-
-import java.awt.Graphics2D;
-import java.awt.Graphics;
-import java.awt.Color;
-import java.awt.Rectangle;
-import java.awt.Polygon;
-
-
+import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-
 import java.util.Map;
 import java.util.Objects;
 
-import controller.ControllerFeatures;
-import model.Cell;
-import model.CubicCoordinate;
-import model.ReadonlyReversiModel;
+import javax.swing.*;
+import javax.swing.event.MouseInputAdapter;
+
+import cs3500.provider.controller.ControllerFeatures;
+import cs3500.provider.model.Cell;
+import cs3500.provider.model.CubicCoordinate;
+import cs3500.provider.model.ReadonlyReversiModel;
 
 /**
  * A GUI view for the game of Reversi, allowing users to click to play the game.

@@ -1,7 +1,8 @@
 package cs3500.provider.strategy;
 
-import model.CubicCoordinate;
-import model.ReadonlyReversiModel;
+
+import cs3500.provider.model.CubicCoordinate;
+import cs3500.provider.model.ReadonlyReversiModel;
 
 /**
  * A Strategy interface for choosing where to play next for the given player for Reversi.

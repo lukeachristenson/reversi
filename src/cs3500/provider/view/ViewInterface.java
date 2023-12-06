@@ -1,7 +1,8 @@
 package cs3500.provider.view;
 
-import controller.ControllerFeatures;
-import model.CubicCoordinate;
+
+import cs3500.provider.controller.ControllerFeatures;
+import cs3500.provider.model.CubicCoordinate;
 
 /**
  * The interface for the view of a game of reversi.

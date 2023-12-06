@@ -1,6 +1,7 @@
 package cs3500.provider.controller;
 
-import model.CubicCoordinate;
+
+import cs3500.provider.model.CubicCoordinate;
 
 /**
  * The actions (features) guaranteed for a controller in the game of Reversi.
