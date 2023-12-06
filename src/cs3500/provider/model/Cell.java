@@ -10,6 +10,4 @@ public interface Cell {
    * @return the integer that represents the owner
    */
   int getOwner();
-
-
 }
