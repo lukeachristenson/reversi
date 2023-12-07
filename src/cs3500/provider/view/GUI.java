@@ -75,7 +75,6 @@ public class GUI extends JPanel implements ViewInterface {
 
     //drawHexagon(g2d, screenCenterX, screenCenterY, hexRadius);
     drawHexagonBoard(g2d, screenCenterX, screenCenterY);
-
   }
 
   @Override
@@ -85,11 +84,9 @@ public class GUI extends JPanel implements ViewInterface {
 
   @Override
   public void display() {
-    System.out.println(this.model.getBoard().size());
-    System.out.println("Displaying board...");
+    this.setVisible(true);
     super.repaint();
   }
-
 
   private void drawHexagonBoard(Graphics g, int centerX, int centerY) {
     for (CubicCoordinate cubicCoord : model.getBoard().keySet()) {
@@ -136,7 +133,6 @@ public class GUI extends JPanel implements ViewInterface {
     g.drawPolygon(xPoints, yPoints, 6);
   }
 
-
   // Helper function to check if a point is inside a hexagon
   private boolean isPointInHexagon(int x, int y, int hexCenterX, int hexCenterY, int hexRadius) {
     int[] xPoints = new int[6];
@@ -152,7 +148,6 @@ public class GUI extends JPanel implements ViewInterface {
 
     return hexagon.contains(x, y);
   }
-
 
   /**
    * Finds the cubic coordinate of the hexagon that was clicked.
@@ -260,8 +255,5 @@ public class GUI extends JPanel implements ViewInterface {
         }
       }
     }
-
-
   }
-
 }

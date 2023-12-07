@@ -1,19 +1,9 @@
 package cs3500.provider.controller;
 
 import cs3500.provider.model.CubicCoordinate;
-import cs3500.provider.model.ModelAdapter;
 import cs3500.provider.model.ReversiModel;
 import cs3500.provider.view.ViewInterface;
-import cs3500.reversi.controller.IModelFeature;
-import cs3500.reversi.controller.IPlayerFeature;
-import cs3500.reversi.controller.ModelFeatures;
-import cs3500.reversi.controller.PlayerFeatures;
-import cs3500.reversi.model.HexagonCell;
-import cs3500.reversi.model.IReversiModel;
 import cs3500.reversi.model.TokenColor;
-import cs3500.reversi.player.IPlayer;
-import cs3500.reversi.view.BasicReversiView;
-import cs3500.reversi.view.ReversiView;
 
 public class ControllerAdapter implements ObserverInterface, ControllerFeatures {
   /**
@@ -30,12 +20,13 @@ public class ControllerAdapter implements ObserverInterface, ControllerFeatures 
   private final ViewInterface view;
 
   public ControllerAdapter(ReversiModel model, TokenColor color, ViewInterface view) {
-    System.out.println("ControllerAdapter constructor");
+//    System.out.println("ControllerAdapter constructor");
     this.color = color;
     this.model = model;
-    this.model.subscribe(this);
     this.view = view;
+    this.model.subscribe(this);
     this.view.addFeatures(this);
+    this.view.display();
   }
 
   @Override
@@ -48,13 +39,18 @@ public class ControllerAdapter implements ObserverInterface, ControllerFeatures 
   @Override
   public void move(CubicCoordinate c) {
     int token = (this.color == TokenColor.BLACK) ? 1 : 2;
-    model.flipCell(c, token);
-    this.view.display();
+    try{
+      model.flipCell(c, token);
+    } catch (IllegalStateException ex) {
+      System.err.println("ERROR");
+      this.view.display();
+    }
   }
 
   @Override
   public void getNotifiedItsYourPlayersMove() {
     System.out.println("ControllerAdapter getNotifiedItsYourPlayersMove");
+    System.out.println("Current Move: " + this.model.getCurrentTurn());
     this.view.display();
   }
 }

@@ -21,9 +21,10 @@ import cs3500.reversi.model.TokenColor;
 public class ModelAdapter implements ReversiModel {
   private IReversiModel model;
   private List<ObserverInterface> observers;
+  private int currentPlayer;
 
   public ModelAdapter(IReversiModel model) {
-    System.out.println("ModelAdapter constructor");
+//    System.out.println("ModelAdapter constructor");
     this.model = model;
     this.observers = new ArrayList<>();
   }
@@ -32,9 +33,8 @@ public class ModelAdapter implements ReversiModel {
   public void startGame(int sideLength, int p) {
     this.model = new HexagonReversi(sideLength);
     this.model.startGame();
-    System.out.println("ModelAdapter startGame");
+//    System.out.println("ModelAdapter startGame");
     this.notifyObserverTurn();
-    System.out.println("ModelAdapter startGame 2");
   }
 
   @Override
@@ -52,7 +52,7 @@ public class ModelAdapter implements ReversiModel {
     } catch (IllegalArgumentException e) {
       throw new IllegalArgumentException("Coordinate is not on the board");
     }
-
+    this.notifyObserverTurn();
   }
 
   @Override
@@ -62,12 +62,13 @@ public class ModelAdapter implements ReversiModel {
     } catch (IllegalStateException e) {
       throw new IllegalStateException("Game has not started yet");
     }
+    this.notifyObserverTurn();
   }
 
   @Override
   public void notifyObserverTurn() {
+    System.out.println("ModelAdapter notifyObserverTurn: " + this.getCurrentTurn());
     for(ObserverInterface observer : this.observers) {
-      System.out.println("ModelAdapter notifyObserverTurn");
       observer.getNotifiedItsYourPlayersMove();
     }
   }
@@ -76,7 +77,7 @@ public class ModelAdapter implements ReversiModel {
   public void subscribe(ObserverInterface observer) {
     Objects.nonNull(observer);
     this.observers.add(observer);
-    System.out.println("ModelAdapter subscribe");
+//    System.out.println("ModelAdapter subscribe");
   }
 
   @Override
@@ -182,6 +183,6 @@ public class ModelAdapter implements ReversiModel {
 
   @Override
   public int getCurrentTurn() {
-    return 0;
+    return (this.model.getCurrentColor().equals(TokenColor.BLACK))? 1 : 2;
   }
 }
