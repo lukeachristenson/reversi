@@ -16,7 +16,6 @@ import cs3500.reversi.strategy.AvoidEdgesStrat;
 import cs3500.reversi.strategy.ChooseCornersStrat;
 import cs3500.reversi.strategy.GreedyStrat;
 import cs3500.reversi.strategy.MiniMaxStrategy;
-import cs3500.reversi.strategy.OurAlgorithmStrat;
 import cs3500.reversi.strategy.RandomStrat;
 import cs3500.reversi.strategy.SandwichStrat;
 import cs3500.reversi.strategy.Strategy;
@@ -74,7 +73,7 @@ public final class Reversi {
     strategyMap.put("a", Optional.of(new AvoidEdgesStrat(tokenColor)));
     strategyMap.put("cc", Optional.of(new ChooseCornersStrat(tokenColor)));
     strategyMap.put("mm", Optional.of(new MiniMaxStrategy(tokenColor)));
-    strategyMap.put("oa", Optional.of(new OurAlgorithmStrat(tokenColor)));
+//    strategyMap.put("oa", Optional.of(new OurAlgorithmStrat(tokenColor)));
     strategyMap.put("r", Optional.of(new RandomStrat(tokenColor)));
     strategyMap.put("san1", Optional.of((new SandwichStrat(tokenColor,
             List.of(strategyMap.get("g").get(),

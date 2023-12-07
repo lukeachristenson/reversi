@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-//import cs3500.reversi.model.HexagonReversi;
+import cs3500.reversi.model.HexagonReversi;
 import cs3500.reversi.model.IBoard;
 import cs3500.reversi.model.ICell;
 import cs3500.reversi.model.IReversiModel;
@@ -89,15 +89,7 @@ public class OurAlgorithmStrat implements Strategy {
             .orElse(0);
   }
 
-  // gets the highest score of the opponent color player for a given
-  // move of the strategy color player
-  private int getOpponentHighestScore(IBoard boardCopy) {
-    List<ICell> opponentResponses = opponentMoves(modelCopy);
-    return opponentResponses.stream()
-            .mapToInt(response -> evaluateOpponentMove(modelCopy, response))
-            .max()
-            .orElse(0);
-  }
+
 
   // evaluates the score of the opponent color player for a given move of the strategy color player
   private int evaluateOpponentMove(IReversiModel modelCopy, ICell opponentMove) {

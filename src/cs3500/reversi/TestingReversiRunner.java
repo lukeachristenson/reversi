@@ -1,28 +1,16 @@
 package cs3500.reversi;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
-import cs3500.reversi.controller.Controller;
+import cs3500.provider.controller.ControllerAdapter;
+import cs3500.provider.controller.ControllerFeatures;
+import cs3500.provider.model.ModelAdapter;
+import cs3500.provider.model.ReversiModel;
+import cs3500.provider.view.GUI;
+import cs3500.provider.view.ViewInterface;
 import cs3500.reversi.model.HexagonReversi;
 import cs3500.reversi.model.IReversiModel;
 import cs3500.reversi.model.TokenColor;
-import cs3500.reversi.player.AIPlayer;
 import cs3500.reversi.player.HumanPlayer;
 import cs3500.reversi.player.IPlayer;
-import cs3500.reversi.strategy.AvoidEdgesStrat;
-import cs3500.reversi.strategy.ChooseCornersStrat;
-import cs3500.reversi.strategy.GreedyStrat;
-import cs3500.reversi.strategy.MiniMaxStrategy;
-import cs3500.reversi.strategy.OurAlgorithmStrat;
-import cs3500.reversi.strategy.RandomStrat;
-import cs3500.reversi.strategy.SandwichStrat;
-import cs3500.reversi.strategy.Strategy;
-import cs3500.reversi.strategy.UpperLeftStrat;
-import cs3500.reversi.view.BasicReversiView;
-import cs3500.reversi.view.ReversiView;
 
 /**
  * A class to run the Reversi game. Calls a standard game of reversi with a hexagonal board of
@@ -35,59 +23,12 @@ public final class TestingReversiRunner {
    * @param args the arguments to run the game with
    */
   public static void main(String[] args) {
-    Strategy strat1;
-    Strategy strat2;
+    IReversiModel ourModel = new HexagonReversi(6);
+    ReversiModel theirModel = new ModelAdapter(ourModel);
+    ViewInterface view = new GUI(theirModel);
 
-    if (args.length != 2) {
-      throw new IllegalArgumentException("Invalid number of arguments");
-    }
-    strat1 = getStrategy(args[0], TokenColor.BLACK).get();
-    strat2 = getStrategy(args[1], TokenColor.WHITE).get();
-
-    IReversiModel model = initiateModel(6, Optional.of(strat1), Optional.of(strat2));
-    model.startGame();
+    ControllerFeatures controller = new ControllerAdapter(theirModel, TokenColor.BLACK, view);
+    theirModel.startGame(6, 2);
   }
 
-  private static IReversiModel initiateModel(int size,
-                                             Optional<Strategy> strategy1,
-                                             Optional<Strategy> strategy2) {
-    IReversiModel model = new HexagonReversi(size);
-    ReversiView black_view = new BasicReversiView(model, TokenColor.BLACK);
-    ReversiView white_view = new BasicReversiView(model, TokenColor.WHITE);
-
-    IPlayer player1 = (strategy1.isPresent()) ? new AIPlayer(TokenColor.BLACK, strategy1.get(),
-            model) : new HumanPlayer(TokenColor.BLACK);
-    IPlayer player2 = (strategy2.isPresent()) ? new AIPlayer(TokenColor.WHITE, strategy2.get(),
-            model) : new HumanPlayer(TokenColor.WHITE);
-
-
-    Controller controller1 = new Controller(model, black_view, player1, TokenColor.BLACK);
-    Controller controller2 = new Controller(model, white_view, player2, TokenColor.WHITE);
-    return model;
-  }
-
-  private static Optional<Strategy> getStrategy(String arg, TokenColor tokenColor) {
-    Map<String, Strategy> strategyMap = new HashMap<>();
-    strategyMap.put("g", new GreedyStrat(tokenColor));
-    strategyMap.put("u", new UpperLeftStrat(tokenColor));
-    strategyMap.put("a", new AvoidEdgesStrat(tokenColor));
-    strategyMap.put("cc", new ChooseCornersStrat(tokenColor));
-    strategyMap.put("mm", new MiniMaxStrategy(tokenColor));
-    strategyMap.put("oa", new OurAlgorithmStrat(tokenColor));
-    strategyMap.put("r", new RandomStrat(tokenColor));
-    strategyMap.put("san1", new SandwichStrat(tokenColor, List.of(strategyMap.get("g"),
-            strategyMap.get("a"), strategyMap.get("cc"))));
-    strategyMap.put("san2", new SandwichStrat(tokenColor, List.of(strategyMap.get("mm"),
-            strategyMap.get("g"))));
-    strategyMap.put("san3", new SandwichStrat(tokenColor, List.of(strategyMap.get("mm"),
-            strategyMap.get("g"), strategyMap.get("a"))));
-    strategyMap.put("san4", new SandwichStrat(tokenColor, List.of(strategyMap.get("mm"),
-            strategyMap.get("g"), strategyMap.get("a"), strategyMap.get("cc"))));
-
-    if (strategyMap.containsKey(arg)) {
-      return Optional.of(strategyMap.get(arg));
-    } else {
-      throw new IllegalArgumentException("Invalid strategy: " + arg);
-    }
-  }
 }

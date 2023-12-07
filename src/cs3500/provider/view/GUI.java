@@ -85,7 +85,9 @@ public class GUI extends JPanel implements ViewInterface {
 
   @Override
   public void display() {
-    repaint();
+    System.out.println(this.model.getBoard().size());
+    System.out.println("Displaying board...");
+    super.repaint();
   }
 
 

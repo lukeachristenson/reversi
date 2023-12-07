@@ -18,7 +18,6 @@ public interface ViewInterface {
   CubicCoordinate findCoordClicked(int mouseX, int mouseY);
 
 
-
   //add public methods that controller would call
 
   /**

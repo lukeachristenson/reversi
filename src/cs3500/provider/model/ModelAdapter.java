@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 import cs3500.provider.controller.ObserverInterface;
@@ -19,15 +20,21 @@ import cs3500.reversi.model.TokenColor;
 
 public class ModelAdapter implements ReversiModel {
   private IReversiModel model;
+  private List<ObserverInterface> observers;
 
   public ModelAdapter(IReversiModel model) {
+    System.out.println("ModelAdapter constructor");
     this.model = model;
+    this.observers = new ArrayList<>();
   }
 
   @Override
   public void startGame(int sideLength, int p) {
     this.model = new HexagonReversi(sideLength);
     this.model.startGame();
+    System.out.println("ModelAdapter startGame");
+    this.notifyObserverTurn();
+    System.out.println("ModelAdapter startGame 2");
   }
 
   @Override
@@ -59,12 +66,17 @@ public class ModelAdapter implements ReversiModel {
 
   @Override
   public void notifyObserverTurn() {
-
+    for(ObserverInterface observer : this.observers) {
+      System.out.println("ModelAdapter notifyObserverTurn");
+      observer.getNotifiedItsYourPlayersMove();
+    }
   }
 
   @Override
   public void subscribe(ObserverInterface observer) {
-
+    Objects.nonNull(observer);
+    this.observers.add(observer);
+    System.out.println("ModelAdapter subscribe");
   }
 
   @Override
