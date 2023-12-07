@@ -82,17 +82,48 @@ public class ModelAdapter implements ReversiModel {
   @Override
   public LinkedHashMap<CubicCoordinate, Cell> getBoard() {
     Map<ICell, Optional<TokenColor>> board = this.model.createBoardCopy().getPositionsMapCopy();
+    LinkedHashMap<CubicCoordinate, Cell> convertedBoard = new LinkedHashMap<>();
 
-    int player = 0;
-    Cell cell = new Cell(int);
-    return null;
+    for (Map.Entry<ICell, Optional<TokenColor>> entry : board.entrySet()) {
+      ICell iCell = entry.getKey();
+      Optional<TokenColor> optionalTokenColor = entry.getValue();
+
+      // Convert ICell to CubicCoordinate
+      CubicCoordinate cubicCoordinate = ICellToCubicCoordinate(iCell);
+
+      // Determine the color and create the corresponding BasicCell
+      int colorCode;
+      if (optionalTokenColor.isPresent()) {
+        colorCode = tokenColorToInt(optionalTokenColor.get());
+      } else {
+        colorCode = 0; // Assuming 0 represents an empty cell
+      }
+      Cell cell = new BasicCell(colorCode);
+
+      // Add to the converted board
+      convertedBoard.put(cubicCoordinate, cell);
+    }
+
+    return convertedBoard;
   }
+
 
   private CubicCoordinate ICellToCubicCoordinate(ICell icell) {
     List<Integer> intList = icell.getCoordinates();
     return new CubicCoordinate(intList.get(0),
             intList.get(1),
             intList.get(2));
+  }
+
+  //converts a tokenColor into an int that represents a player color
+  private int tokenColorToInt(TokenColor tokenColor) {
+    if (tokenColor == TokenColor.BLACK) {
+      return 1;
+    } else if (tokenColor == TokenColor.WHITE) {
+      return 2;
+    } else {
+      return 0;
+    }
   }
 
   @Override
@@ -109,16 +140,6 @@ public class ModelAdapter implements ReversiModel {
   @Override
   public int getSideLength() {
     return this.model.getDimensions();
-  }
-
-  private int tokenColorToInt(TokenColor tokenColor) {
-    if (tokenColor == TokenColor.BLACK) {
-      return 1;
-    } else if (tokenColor == TokenColor.WHITE) {
-      return 2;
-    } else {
-      return 0;
-    }
   }
 
   //converts players stored as int values to a player stored as a tokenColor.
