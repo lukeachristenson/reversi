@@ -33,9 +33,7 @@ public final class TestingReversiRunner {
     JFrame frame1 = new JFrame("Reversi Game - Player 1");
     frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame1.add(view1);
-    frame1.pack();
     frame1.setSize(500, 500);
-    frame1.setLocationRelativeTo(null);
     frame1.setVisible(true);
 
     // Create the second view and controller

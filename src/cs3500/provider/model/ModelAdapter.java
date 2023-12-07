@@ -24,7 +24,6 @@ public class ModelAdapter implements ReversiModel {
   private int currentPlayer;
 
   public ModelAdapter(IReversiModel model) {
-//    System.out.println("ModelAdapter constructor");
     this.model = model;
     this.observers = new ArrayList<>();
   }
@@ -33,7 +32,6 @@ public class ModelAdapter implements ReversiModel {
   public void startGame(int sideLength, int p) {
     this.model = new HexagonReversi(sideLength);
     this.model.startGame();
-//    System.out.println("ModelAdapter startGame");
     this.notifyObserverTurn();
   }
 
@@ -67,7 +65,6 @@ public class ModelAdapter implements ReversiModel {
 
   @Override
   public void notifyObserverTurn() {
-    System.out.println("ModelAdapter notifyObserverTurn: " + this.getCurrentTurn());
     for(ObserverInterface observer : this.observers) {
       observer.getNotifiedItsYourPlayersMove();
     }

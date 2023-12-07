@@ -49,8 +49,6 @@ public class ControllerAdapter implements ObserverInterface, ControllerFeatures 
 
   @Override
   public void getNotifiedItsYourPlayersMove() {
-    System.out.println("ControllerAdapter getNotifiedItsYourPlayersMove");
-    System.out.println("Current Move: " + this.model.getCurrentTurn());
     this.view.display();
   }
 }
