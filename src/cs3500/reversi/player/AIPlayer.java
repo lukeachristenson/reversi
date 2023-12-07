@@ -35,6 +35,7 @@ public class AIPlayer implements IPlayer {
 
   @Override
   public void addListener(IPlayerFeature listener) {
+    System.out.println("AIPlayer: " + listener);
     this.listeners.add(listener);
   }
 

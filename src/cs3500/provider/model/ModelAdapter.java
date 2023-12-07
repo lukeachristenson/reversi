@@ -8,6 +8,8 @@ import java.util.Objects;
 import java.util.Optional;
 
 import cs3500.provider.controller.ObserverInterface;
+import cs3500.reversi.controller.IModelFeature;
+import cs3500.reversi.controller.ModelFeatures;
 import cs3500.reversi.model.HexagonCell;
 import cs3500.reversi.model.HexagonReversi;
 import cs3500.reversi.model.ICell;
@@ -18,7 +20,7 @@ import cs3500.reversi.model.TokenColor;
  * A class that adapts a reversi.model to a provider.model.
  */
 
-public class ModelAdapter implements ReversiModel {
+public class ModelAdapter implements ReversiModel, IModelFeature {
   private IReversiModel model;
   private List<ObserverInterface> observers;
   private int currentPlayer;
@@ -26,27 +28,31 @@ public class ModelAdapter implements ReversiModel {
   public ModelAdapter(IReversiModel model) {
     this.model = model;
     this.observers = new ArrayList<>();
+    this.model.addListener(this);
   }
 
   @Override
   public void startGame(int sideLength, int p) {
-    this.model = new HexagonReversi(sideLength);
     this.model.startGame();
     this.notifyObserverTurn();
   }
+
+
 
   @Override
   public void flipCell(CubicCoordinate c, int p) {
     TokenColor moveColor = playerConverter(p);
     TokenColor currentPlayer = this.model.getCurrentColor();
     //checks that it is the players turn to move
+
     if (!moveColor.equals(currentPlayer)) {
       throw new IllegalStateException("not player " + p + "'s turn");
     }
+
     try {
-      this.model.placeCurrentPlayerPiece(new HexagonCell(c.getX(), c.getY(), c.getZ()));
+      this.model.placeCurrentPlayerPiece(new HexagonCell(c.getX(), c.getZ(), c.getY()));
     } catch (IllegalStateException e) {
-      throw new IllegalStateException("Game has not started yet");
+      throw new IllegalStateException(e.getMessage());
     } catch (IllegalArgumentException e) {
       throw new IllegalArgumentException("Coordinate is not on the board");
     }
@@ -65,7 +71,7 @@ public class ModelAdapter implements ReversiModel {
 
   @Override
   public void notifyObserverTurn() {
-    for(ObserverInterface observer : this.observers) {
+    for (ObserverInterface observer : this.observers) {
       observer.getNotifiedItsYourPlayersMove();
     }
   }
@@ -74,7 +80,6 @@ public class ModelAdapter implements ReversiModel {
   public void subscribe(ObserverInterface observer) {
     Objects.nonNull(observer);
     this.observers.add(observer);
-//    System.out.println("ModelAdapter subscribe");
   }
 
   @Override
@@ -91,11 +96,8 @@ public class ModelAdapter implements ReversiModel {
 
       // Determine the color and create the corresponding BasicCell
       int colorCode;
-      if (optionalTokenColor.isPresent()) {
-        colorCode = tokenColorToInt(optionalTokenColor.get());
-      } else {
-        colorCode = 0; // Assuming 0 represents an empty cell
-      }
+      // Assuming 0 represents an empty cell
+      colorCode = optionalTokenColor.map(this::tokenColorToInt).orElse(0);
       Cell cell = new BasicCell(colorCode);
 
       // Add to the converted board
@@ -109,8 +111,8 @@ public class ModelAdapter implements ReversiModel {
   private CubicCoordinate ICellToCubicCoordinate(ICell icell) {
     List<Integer> intList = icell.getCoordinates();
     return new CubicCoordinate(intList.get(0),
-            intList.get(1),
-            intList.get(2));
+            intList.get(2),
+            intList.get(1));
   }
 
   //converts a tokenColor into an int that represents a player color
@@ -154,7 +156,7 @@ public class ModelAdapter implements ReversiModel {
   @Override
   public boolean isMoveValid(CubicCoordinate c, int playerTurn) {
     TokenColor moveColor = playerConverter(playerTurn);
-    ICell cell = new HexagonCell(c.getX(),c.getY(),c.getZ());
+    ICell cell = new HexagonCell(c.getX(), c.getY(), c.getZ());
     List<ICell> validMoves = this.model.getValidMoves(moveColor);
     return validMoves.contains(cell);
   }
@@ -172,14 +174,24 @@ public class ModelAdapter implements ReversiModel {
     List<CubicCoordinate> ret = new ArrayList<>();
     for (ICell cell : this.model.getValidMoves(color)) {
       ret.add(new CubicCoordinate(cell.getCoordinates().get(0),
-              cell.getCoordinates().get(1),
-              cell.getCoordinates().get(2)));
+              cell.getCoordinates().get(2),
+              cell.getCoordinates().get(1)));
     }
     return ret;
   }
 
   @Override
   public int getCurrentTurn() {
-    return (this.model.getCurrentColor().equals(TokenColor.BLACK))? 1 : 2;
+    return (this.model.getCurrentColor().equals(TokenColor.BLACK)) ? 1 : 2;
+  }
+
+  @Override
+  public void notifyPlayerMove(TokenColor tokenColor) {
+    this.notifyObserverTurn();
+  }
+
+  @Override
+  public void advanceFrame() {
+// Do nothing
   }
 }

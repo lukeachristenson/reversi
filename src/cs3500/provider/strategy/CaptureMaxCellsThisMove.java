@@ -15,7 +15,7 @@ public class CaptureMaxCellsThisMove implements ReversiStrategy {
   @Override
   public CubicCoordinate chooseCoord(ReadonlyReversiModel model, int player) {
 
-    CubicCoordinate maxCoord = new CubicCoordinate(0,0,0);
+    CubicCoordinate maxCoord = new CubicCoordinate(0, 0, 0);
     int maxScore = 0;
 
     List<CubicCoordinate> keysList = new ArrayList<>(model.getBoard().keySet());
@@ -29,6 +29,7 @@ public class CaptureMaxCellsThisMove implements ReversiStrategy {
 
         //try?
         clonedModelToTestMove.flipCell(coord, player);
+
         if (clonedModelToTestMove.getScore(player) > maxScore) {
           maxScore = clonedModelToTestMove.getScore(player);
           maxCoord = coord;

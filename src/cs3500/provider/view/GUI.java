@@ -84,7 +84,6 @@ public class GUI extends JPanel implements ViewInterface {
 
   @Override
   public void display() {
-    this.setVisible(true);
     super.repaint();
   }
 

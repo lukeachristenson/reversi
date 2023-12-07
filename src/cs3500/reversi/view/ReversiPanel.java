@@ -177,7 +177,7 @@ public class ReversiPanel extends JPanel {
     JOptionPane.showMessageDialog(this, error
             , "Error!", JOptionPane.INFORMATION_MESSAGE);
     activeCell = Optional.empty();
-    System.err.println("Error");
+    System.err.println("Error in ReversiPanel:");
     this.advance();
   }
 

@@ -30,10 +30,14 @@ public class PlayerFeatures implements IPlayerFeature {
 
   @Override
   public void playMove(ICell cell) {
-    try {
-      this.model.placeCurrentPlayerPiece(cell);
-    } catch (IllegalStateException ex) {
-      view.error(ex.getMessage());
+    if(this.color.equals(this.model.getCurrentColor())) {
+      try {
+        this.model.placeCurrentPlayerPiece(cell);
+      } catch (IllegalStateException ex) {
+        view.error(ex.getMessage());
+      }
+    } else {
+      view.error("It is not your turn!");
     }
   }
 

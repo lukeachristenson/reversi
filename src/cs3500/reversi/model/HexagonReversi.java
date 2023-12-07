@@ -136,9 +136,13 @@ public class HexagonReversi implements IReversiModel {
     emitMessage();
   }
 
-  private void emitMessage() {
-    for (IModelFeature listener : this.modelFeatures) {
-      listener.notifyPlayerMove(this.getCurrentColor());
+  protected void emitMessage() {
+    try {
+      for (IModelFeature listener : this.modelFeatures) {
+        listener.notifyPlayerMove(this.getCurrentColor());
+      }
+    } catch (Exception ignored) {
+
     }
   }
 
