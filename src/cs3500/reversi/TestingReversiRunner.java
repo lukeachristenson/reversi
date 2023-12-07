@@ -23,14 +23,7 @@ public final class TestingReversiRunner {
    * @param args the arguments to run the game with
    */
   public static void main(String[] args) {
-//    ReversiModel theirModel = new ModelAdapter(new HexagonReversi(6));
-//    ViewInterface view1 = new GUI(theirModel);
-//    ViewInterface view2 = new GUI(theirModel);
-//    ControllerFeatures controller1 = new ControllerAdapter(theirModel, TokenColor.BLACK, view1);
-//    ControllerFeatures controller2 = new ControllerAdapter(theirModel, TokenColor.WHITE, view2);
-//    theirModel.startGame(6, 2);
 
-    SwingUtilities.invokeLater(() -> {
       IReversiModel ourModel = new HexagonReversi(6);
 
       // Create the first view and controller
@@ -59,7 +52,6 @@ public final class TestingReversiRunner {
       frame2.setSize(1000, 1000);
       frame2.setLocationRelativeTo(null);
       frame2.setVisible(true);
-    });
 
   }
 }
