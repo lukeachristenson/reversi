@@ -9,12 +9,15 @@ import cs3500.reversi.controller.Controller;
 import cs3500.reversi.model.HexagonReversi;
 import cs3500.reversi.model.IReversiModel;
 import cs3500.reversi.model.TokenColor;
-import cs3500.reversi.player.AIPlayer;
 import cs3500.reversi.player.HumanPlayer;
-import cs3500.reversi.player.IPlayer;
 import cs3500.reversi.view.BasicReversiView;
-import cs3500.reversi.view.ReversiView;
 
+/**
+ * Adapter class that adapts the existing Reversi game controller to a new model and view interface.
+ * This class acts as a bridge between the provided ReversiModel and the IReversiModel, allowing
+ * the integration of different implementations of the model and view components in the game.
+ * Implements ObserverInterface and ControllerFeatures to provide required functionalities.
+ */
 public class ControllerAdapter extends Controller implements ObserverInterface, ControllerFeatures {
   /**
    * 1. Controller stores the model and color of the player for which the controller is made.
@@ -31,6 +34,15 @@ public class ControllerAdapter extends Controller implements ObserverInterface, 
   private final IReversiModel ourModel;
   private Player player;
 
+  /**
+   * Constructs a new ControllerAdapter.
+   *
+   * @param model the ReversiModel instance representing the game model to be adapted.
+   * @param ourModel the IReversiModel instance representing the game model.
+   * @param color the TokenColor for the player using this controller.
+   * @param view the ViewInterface instance representing the game view.
+   * @param player the Player instance representing the player using this controller.
+   */
   public ControllerAdapter(ReversiModel model, IReversiModel ourModel,
                            TokenColor color, ViewInterface view, Player player) {
     super(ourModel, new BasicReversiView(new HexagonReversi(6),

@@ -45,8 +45,12 @@ public class UpperLeftStrat implements Strategy {
     return new ArrayList<>();
   }
 
+  /**
+   * A private static comparator class used by UpperLeftStrat to sort cells in a specific order.
+   * This comparator defines the order based on the s-r values of the cell coordinates, prioritizing
+   * cells that are more upper-left in the game board.
+   */
   private static class UpperLeftComparator implements Comparator<ICell> {
-
     @Override
     public int compare(ICell cell1, ICell cell2) {
       int sMinusR1 = cell1.getCoordinates().get(2) - cell1.getCoordinates().get(1);

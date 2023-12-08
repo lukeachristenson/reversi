@@ -38,14 +38,20 @@ import cs3500.reversi.view.BasicReversiView;
 import cs3500.reversi.view.ReversiView;
 
 /**
- * A class to run the Reversi game. Calls a standard game of reversi with a hexagonal board of
- * side length 6 and a basic view for the black player.
+ * The main class for running the Reversi game.
+ * It sets up the game with a hexagonal board of side length 6 and initializes the views and
+ * controllers for players. The players can be either human or AI, depending on the specified
+ * strategies.
  */
+
 public final class Reversi {
   /**
-   * The main method to run the game.
+   * The main method to run the Reversi game.
+   * It expects two arguments representing the strategies for two players.
+   * It initializes the models, views, and controllers for both players and starts the game.
    *
-   * @param args the arguments to run the game with
+   * @param args the arguments to run the game with. Expected to contain strategy identifiers
+   *             for the black and white players.
    */
   public static void main(String[] args) {
     if(args.length != 2) {

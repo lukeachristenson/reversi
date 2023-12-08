@@ -9,7 +9,6 @@ import java.util.Optional;
 
 import cs3500.provider.controller.ObserverInterface;
 import cs3500.reversi.controller.IModelFeature;
-import cs3500.reversi.controller.ModelFeatures;
 import cs3500.reversi.model.HexagonCell;
 import cs3500.reversi.model.HexagonReversi;
 import cs3500.reversi.model.ICell;
@@ -17,14 +16,19 @@ import cs3500.reversi.model.IReversiModel;
 import cs3500.reversi.model.TokenColor;
 
 /**
- * A class that adapts a reversi.model to a provider.model.
+ * A class that adapts a reversi.model to use the interface of a provider.model.
  */
-
 public class ModelAdapter implements ReversiModel, IModelFeature {
   private IReversiModel model;
   private List<ObserverInterface> observers;
   private int currentPlayer;
 
+  /**
+   * Constructor for a Model adaptor that will take in a model from us and adapt it to
+   * the providers model interface.
+   * @param model the model of our creation that will be used with actions from the provider
+   *              interface.
+   */
   public ModelAdapter(IReversiModel model) {
     this.model = model;
     this.model.addListener(this);
@@ -192,6 +196,6 @@ public class ModelAdapter implements ReversiModel, IModelFeature {
 
   @Override
   public void advanceFrame() {
-// Do nothing
+    // do nothing
   }
 }
