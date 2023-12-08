@@ -96,7 +96,7 @@ public class OurAlgorithmStrat implements Strategy {
     IReversiModel newModelCopy =
             new HexagonReversi(modelCopy.createBoardCopy(), modelCopy.getDimensions());
     newModelCopy.passTurn(false);
-    System.out.println("This color: " + tokenColor);
+
     newModelCopy.placeCurrentPlayerPiece(opponentMove);
     return newModelCopy.getScore(getOtherColor(tokenColor)) - newModelCopy.getScore(tokenColor);
   }

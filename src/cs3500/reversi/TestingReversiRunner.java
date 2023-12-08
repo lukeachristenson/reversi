@@ -70,8 +70,8 @@ public final class TestingReversiRunner {
     frame2.add(view2);
     frame2.setSize(1000, 1000);
     frame2.setVisible(true);
-    model.startGame();
     theirModel.startGame(6, 2);
+    model.startGame();
   }
 
   private static void initiateOurModel(String[] args, IReversiModel model) {

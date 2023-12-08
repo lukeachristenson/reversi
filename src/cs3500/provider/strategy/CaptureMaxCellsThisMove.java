@@ -33,7 +33,6 @@ public class CaptureMaxCellsThisMove implements ReversiStrategy {
         if (clonedModelToTestMove.getScore(player) > maxScore) {
           maxScore = clonedModelToTestMove.getScore(player);
           maxCoord = coord;
-          //System.out.println("Max score: " + maxScore);
         }
       }
     }

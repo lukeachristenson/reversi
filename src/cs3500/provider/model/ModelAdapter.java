@@ -27,8 +27,8 @@ public class ModelAdapter implements ReversiModel, IModelFeature {
 
   public ModelAdapter(IReversiModel model) {
     this.model = model;
-    this.observers = new ArrayList<>();
     this.model.addListener(this);
+    this.observers = new ArrayList<>();
   }
 
   @Override
@@ -50,7 +50,7 @@ public class ModelAdapter implements ReversiModel, IModelFeature {
     }
 
     try {
-      this.model.placeCurrentPlayerPiece(new HexagonCell(c.getX(), c.getZ(), c.getY()));
+      this.model.placeCurrentPlayerPiece(new HexagonCell(c.getX(), c.getY(), c.getZ()));
     } catch (IllegalStateException e) {
       throw new IllegalStateException(e.getMessage());
     } catch (IllegalArgumentException e) {

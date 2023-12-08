@@ -19,7 +19,6 @@ public class AIPlayerAdapter implements Player {
   public AIPlayerAdapter
           (TokenColor tokenColor, ReversiStrategy strategy,
            IReversiModel model) {
-
     this.playerNumber = (tokenColor == TokenColor.BLACK) ? 1 : 2;
     this.model = new ModelAdapter(model);
     this.strategy = strategy;
@@ -27,6 +26,17 @@ public class AIPlayerAdapter implements Player {
 
   @Override
   public CubicCoordinate play(ReadonlyReversiModel model) {
+    if(model.isGameOver()) {
+      System.err.println("Game over");
+      System.exit(0);
+    }
+
+    try {
+      // Delay before move is made.
+      Thread.sleep(500);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+    }
     return this.getPlayerStrategy().chooseCoord(model, this.getPlayerNumber());
   }
 

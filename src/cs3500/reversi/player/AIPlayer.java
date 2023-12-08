@@ -35,7 +35,6 @@ public class AIPlayer implements IPlayer {
 
   @Override
   public void addListener(IPlayerFeature listener) {
-    System.out.println("AIPlayer: " + listener);
     this.listeners.add(listener);
   }
 
@@ -52,7 +51,7 @@ public class AIPlayer implements IPlayer {
       } else { // Else, play the first move of the list of moves that the strategy returns.
         try {
           // Delay before move is made.
-          Thread.sleep(50);
+          Thread.sleep(500);
         } catch (InterruptedException e) {
           Thread.currentThread().interrupt();
         }

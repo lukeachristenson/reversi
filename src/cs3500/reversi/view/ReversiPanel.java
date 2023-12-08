@@ -349,6 +349,13 @@ public class ReversiPanel extends JPanel {
   private class KeyboardEventListener extends KeyAdapter {
     @Override
     public void keyPressed(KeyEvent e) {
+      if(!ReversiPanel.this.frameTokenColor.equals(ReversiPanel.this.roModel.getCurrentColor())) {
+        JOptionPane.showMessageDialog(ReversiPanel.this,
+                "Playing out of turn", "Not your turn",
+                JOptionPane.INFORMATION_MESSAGE);
+      }
+
+      ReversiPanel.this.southLabel.setText("Current player: " + TokenColor.WHITE.toString());
       // If the current player is the same as the frame color, then the player can make a move.
       if (ReversiPanel.this.roModel.getCurrentColor().equals(ReversiPanel.this.frameTokenColor)) {
         if (e.getKeyCode() == KeyEvent.VK_SPACE || e.getKeyCode() == KeyEvent.VK_ENTER) {

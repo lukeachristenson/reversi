@@ -47,7 +47,6 @@ public class ControllerAdapter extends Controller implements ObserverInterface, 
   }
 
 
-
   @Override
   public void pass() {
     int token = (this.color == TokenColor.BLACK) ? 1 : 2;
@@ -58,12 +57,12 @@ public class ControllerAdapter extends Controller implements ObserverInterface, 
   @Override
   public void move(CubicCoordinate c) {
     int token = (this.color == TokenColor.BLACK) ? 1 : 2;
-    try{
-      model.flipCell(c, token);
-    } catch (IllegalStateException ex) {
-      System.err.println("Exception: " + ex.getMessage());
-      this.view.display();
-    }
+
+      try {
+        model.flipCell(c, token);
+      } catch (IllegalStateException ex) {
+        this.view.display();
+      }
   }
 
   @Override
@@ -71,7 +70,6 @@ public class ControllerAdapter extends Controller implements ObserverInterface, 
     int token = (this.color == TokenColor.BLACK) ? 1 : 2;
     if(this.player.getPlayerNumber() == token) {
       if (this.player.play(new ModelAdapter(this.ourModel)) != null) {
-        System.out.println("AI playing move");
         this.move(this.player.play(new ModelAdapter(this.ourModel)));
       }
     }

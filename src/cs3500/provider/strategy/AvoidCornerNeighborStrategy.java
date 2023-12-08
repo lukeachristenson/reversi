@@ -15,7 +15,6 @@ public class AvoidCornerNeighborStrategy implements ReversiStrategy {
 
   @Override
   public CubicCoordinate chooseCoord(ReadonlyReversiModel model, int player) {
-
     List<CubicCoordinate> allNeighborsOfCorners = getAllNeighborsOfCorners(model);
 
     // if there is a valid move that is not a neighbor of a corner, play that
