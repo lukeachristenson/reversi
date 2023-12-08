@@ -5,6 +5,7 @@
 - [Part 2](#part-2)
 - [Part 3](#part-3)
 - [Source Organization](#source-organization)
+- [Part 4](#part-4)
 
 ## Overview
 
@@ -388,6 +389,23 @@ as the second, run the following command in the project directory:
 ```bash
 java -jar reversi.jar h g
 ```
+
+# Part 4
+## Changes Made for Part 4
+- Some of the strategies(MiniMax and OurAlgorithm) were dependent on the concrete implementation of
+the IReversiModel interface. This was changed to make the strategies use the IBoard interface methods
+to quantify the moves and evaluate the best move(s).
+- Apart from this one change, rest everything in our implementation of the 
+reversi game was kept the same.
+
+## Updated Command Line Configurator Commands
+The first argument after calling reversi.jar is the strategy for the first player(using 
+our implementation of strategies, and the view) and the second argument is the strategy for the second
+player that uses the providers'(Troy Caron and Joshua Kung) strategy and view implementation. To accommodate the
+new strategies and views, changes had to be made 
+
+
+
 
 # Source Organization
 
