@@ -50,12 +50,9 @@ public class MiniMaxStrategy implements Strategy {
   private Map<ICell, Integer> evaluateMovesAndGetScores(ROModel model, List<ICell> choices) {
     Map<ICell, Integer> moveScores = new HashMap<>();
     for (ICell cell : choices) {
-       // Put the score difference for each move into a map using the model copy.
-
-
-       // **** NEW IMPLEMENTAION: USES ROMODEL ****
-       moveScores.put(cell, calculateScoreDifference(model, Optional.of(cell)));
-
+      // Put the score difference for each move into a map using the model copy.
+      // **** NEW IMPLEMENTAION: USES ROMODEL ****
+      moveScores.put(cell, calculateScoreDifference(model, Optional.of(cell)));
     }
     return moveScores;
   }

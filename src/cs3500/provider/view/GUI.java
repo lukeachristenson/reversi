@@ -238,7 +238,7 @@ public class GUI extends JPanel implements ViewInterface {
     public void keyTyped(KeyEvent e) {
       if (e.getKeyChar() == 'p') {
         System.out.println("Pass attempted.");
-        if (controller != null){
+        if (controller != null) {
           controller.pass();
           selectedHexagon = null;
           repaint();
@@ -251,7 +251,7 @@ public class GUI extends JPanel implements ViewInterface {
           return;
         }
         System.out.println("Move attempted at " + selectedHexagon + ".");
-        if (controller != null){
+        if (controller != null) {
           controller.move(selectedHexagon);
           selectedHexagon = null;
           repaint();
