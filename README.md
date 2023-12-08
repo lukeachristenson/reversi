@@ -403,9 +403,35 @@ The first argument after calling reversi.jar is the strategy for the first playe
 our implementation of strategies, and the view) and the second argument is the strategy for the second
 player that uses the providers'(Troy Caron and Joshua Kung) strategy and view implementation. To accommodate the
 new strategies and views, new classes and adapters were made to implement the adapter pattern. The following section
-highlights these new classes and their functions.
+highlights these new classes and their functions. The new command line arguments are as follows:
 
-## New Classes with Part 4
+**OurStrategies:**
+
+        - `h`: Human Player
+        - `g`: Greedy Strategy
+        - `u`: Upper Left Strategy
+        - `a`: Avoid Edges Strategy
+        - `cc`: Choose Corners Strategy
+        - `mm`: MiniMax Strategy
+        - `oa`: Our Algorithm Strategy
+        - `r` : Random Strategy
+        - `san1`: Sandwich Strategy 1 comprising Greedy, Avoid Edges, and Choose Corners Strategies
+        - `san2`: Sandwich Strategy 2 comprising Minimax and Greedy strategies.
+        - `san3`: Sandwich Strategy 3 comprising Minimax, Greedy and Avoid Edges strategies.
+        - `san4`: Sandwich Strategy 4 comprising Minimax, Greedy, Avoid Edges and Choose Corners
+        strategies.
+
+**Provider Strategies:**
+
+        - `provider1`: Provider's Avoid Corner Neighbor Strategy
+        - `provider2`: Provider's Random Move Strategy
+        - `provider3`: Provider's Go For Corner Strategy
+        - `provider4`: Provider's Check Corners First Strategy
+        - `h`: Human Player
+
+## New Classes with Part 4  
+**Note that all the code pertaining to the provider's implementation, including the adapters are
+present in the ```cs3500.provider``` package.**
 ### ControllerAdapter
 The ```ControllerAdapter``` class is a concrete implementation of the ```ObserverInterface``` and 
 ```ControllerInterface``` interfaces. The main purpose of this class is to make the existing controller work with the
@@ -427,6 +453,7 @@ The main purpose of these classes is to make the provider's strategies work with
 player functions was thought thoroughly and it was decided that the player functions should be implemented in the player adapter classes 
 which implement the given player interface itself. This was done so that the player functions could be called directly from their classes instead
 of having their strategies call them.
+
 
 # Source Organization
 
