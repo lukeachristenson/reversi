@@ -402,10 +402,31 @@ reversi game was kept the same.
 The first argument after calling reversi.jar is the strategy for the first player(using 
 our implementation of strategies, and the view) and the second argument is the strategy for the second
 player that uses the providers'(Troy Caron and Joshua Kung) strategy and view implementation. To accommodate the
-new strategies and views, changes had to be made 
+new strategies and views, new classes and adapters were made to implement the adapter pattern. The following section
+highlights these new classes and their functions.
 
+## New Classes with Part 4
+### ControllerAdapter
+The ```ControllerAdapter``` class is a concrete implementation of the ```ObserverInterface``` and 
+```ControllerInterface``` interfaces. The main purpose of this class is to make the existing controller work with the
+provider's Controller. One of the main features that distinguishes this class from the existing controller that we had
+is the fact that our controller strictly acted as a bridge between the model and the view and all the connections(Model &rarr; Player and View and
+Player and View &rarr; Model) that it made were distinguished into two interfaces, namely, ```IModelFeature``` and ```IPlayerFeature``` respectively.
 
+### ModelAdapter
+The ```ModelAdapter``` class is a concrete implementation of the ```ReversiModel``` and ```IModelFeature``` interfaces.
+Since the ```ModelAdapter``` class was deemed to be a essential observer for our model, it was made to implement the
+```IModelFeature``` interface. This way, the ```ModelAdapter``` class could be added to the list of observers in our model.
+The main purpose of this class is to make the existing model work with the provider's model. 
+All the player moves that are made on this model are emulated on our model as well and the observer methods 
+of this class are adapted to work in order to translate the observations of our model to those of the provider's model.
 
+### HumanPlayerAdapter and AIPlayerAdapter
+The ```HumanPlayerAdapter``` and ```AIPlayerAdapter``` classes are concrete implementations of the ```IPlayer``` interface.
+The main purpose of these classes is to make the provider's strategies work with the new model. A question pertaining to the design of
+player functions was thought thoroughly and it was decided that the player functions should be implemented in the player adapter classes 
+which implement the given player interface itself. This was done so that the player functions could be called directly from their classes instead
+of having their strategies call them.
 
 # Source Organization
 
