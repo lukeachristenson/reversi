@@ -5,8 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import javax.swing.*;
-
+import javax.swing.JFrame;
 import cs3500.provider.controller.ControllerAdapter;
 import cs3500.provider.model.AIPlayerAdapter;
 import cs3500.provider.model.HumanPlayerAdapter;
@@ -54,7 +53,7 @@ public final class Reversi {
    *             for the black and white players.
    */
   public static void main(String[] args) {
-    if(args.length != 2) {
+    if (args.length != 2) {
       System.err.println("Error: Invalid number of arguments, expected 2 but got: " + args.length);
       System.exit(0);
     }
@@ -69,7 +68,7 @@ public final class Reversi {
     Optional<ReversiStrategy> strategy2 = getProviderStrategy(args[1], TokenColor.WHITE);
     ReversiModel theirModel = new ModelAdapter(model);
     GUI view2 = new GUI(theirModel);
-    Player player2 = (strategy2.isPresent())?
+    Player player2 = (strategy2.isPresent()) ?
             new AIPlayerAdapter(TokenColor.WHITE, strategy2.get(), model) :
             new HumanPlayerAdapter(TokenColor.WHITE);
     ControllerAdapter controller2 = new ControllerAdapter(theirModel, model,
@@ -107,7 +106,8 @@ public final class Reversi {
    *
    * @param arg the strategy identifier for the provider's player.
    * @param tokenColor the token color for the player.
-   * @return an Optional containing the strategy if it exists, or an empty Optional for a human player.
+   * @return an Optional containing the strategy if it exists, or an
+   *          empty Optional for a human player.
    */
   private static Optional<ReversiStrategy> getProviderStrategy(String arg, TokenColor tokenColor) {
     Map<String, ReversiStrategy> strategyMap = new HashMap<>();
@@ -133,7 +133,8 @@ public final class Reversi {
    *
    * @param arg the strategy identifier for our player.
    * @param tokenColor the token color for the player.
-   * @return an Optional containing the strategy if it exists, or an empty Optional for a human player.
+   * @return an Optional containing the strategy if it exists, or an empty Optional
+   *            for a human player.
    */
   private static Optional<Strategy> getOurStrategy(String arg, TokenColor tokenColor) {
     Map<String, Optional<Strategy>> strategyMap = new HashMap<>();

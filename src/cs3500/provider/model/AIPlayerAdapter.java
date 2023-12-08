@@ -13,7 +13,6 @@ import cs3500.reversi.model.TokenColor;
  * interaction with other player types.
  */
 public class AIPlayerAdapter implements Player {
-  private final ReadonlyReversiModel model;
 
   private final int playerNumber;
   private final ReversiStrategy strategy;
@@ -24,20 +23,19 @@ public class AIPlayerAdapter implements Player {
    * The player number is determined based on the TokenColor.
    *
    * @param tokenColor the TokenColor representing the AI player's token color.
-   * @param strategy the ReversiStrategy defining the AI player's playing strategy.
-   * @param model the IReversiModel representing the game model.
+   * @param strategy   the ReversiStrategy defining the AI player's playing strategy.
+   * @param model      the IReversiModel representing the game model.
    */
-  public AIPlayerAdapter
-          (TokenColor tokenColor, ReversiStrategy strategy,
-           IReversiModel model) {
+  public AIPlayerAdapter(TokenColor tokenColor, ReversiStrategy strategy,
+                         IReversiModel model) {
     this.playerNumber = (tokenColor == TokenColor.BLACK) ? 1 : 2;
-    this.model = new ModelAdapter(model);
+    ReadonlyReversiModel model1 = new ModelAdapter(model);
     this.strategy = strategy;
   }
 
   @Override
   public CubicCoordinate play(ReadonlyReversiModel model) {
-    if(model.isGameOver()) {
+    if (model.isGameOver()) {
       System.err.println("Game over");
       System.exit(0);
     }

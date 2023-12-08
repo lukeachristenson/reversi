@@ -30,7 +30,7 @@ public class PlayerFeatures implements IPlayerFeature {
 
   @Override
   public void playMove(ICell cell) {
-    if(this.color.equals(this.model.getCurrentColor())) {
+    if (this.color.equals(this.model.getCurrentColor())) {
       try {
         this.model.placeCurrentPlayerPiece(cell);
       } catch (IllegalStateException ex) {

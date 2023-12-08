@@ -96,7 +96,7 @@ public class ModelAdapter implements ReversiModel, IModelFeature {
       Optional<TokenColor> optionalTokenColor = entry.getValue();
 
       // Convert ICell to CubicCoordinate
-      CubicCoordinate cubicCoordinate = ICellToCubicCoordinate(iCell);
+      CubicCoordinate cubicCoordinate = iCellToCubicCoordinate(iCell);
 
       // Determine the color and create the corresponding BasicCell
       int colorCode;
@@ -111,8 +111,7 @@ public class ModelAdapter implements ReversiModel, IModelFeature {
     return convertedBoard;
   }
 
-
-  private CubicCoordinate ICellToCubicCoordinate(ICell icell) {
+  private CubicCoordinate iCellToCubicCoordinate(ICell icell) {
     List<Integer> intList = icell.getCoordinates();
     return new CubicCoordinate(intList.get(0),
             intList.get(2),

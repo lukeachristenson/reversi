@@ -139,7 +139,7 @@ public class OurAlgorithmStrat implements Strategy {
             && boardCopy.validMovesLeft(getOtherColor(tokenColor)).isEmpty()
             && boardCopy.getColorCount(tokenColor)
             > boardCopy.getColorCount(getOtherColor(tokenColor));
-}
+  }
 
   // selects the move for strategy player to make that leaves opponent with the worst best move.
   private List<ICell> getOptimalMove(HashMap<ICell, Integer> moveScores, List<ICell> choices) {

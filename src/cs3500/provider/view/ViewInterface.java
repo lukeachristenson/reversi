@@ -27,7 +27,7 @@ public interface ViewInterface {
   void addFeatures(ControllerFeatures features);
 
   /**
-   * Displays the up-to-date board in the view
+   * Displays the up-to-date board in the view.
    */
   void display();
 }

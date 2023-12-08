@@ -37,11 +37,11 @@ public class ControllerAdapter extends Controller implements ObserverInterface, 
   /**
    * Constructs a new ControllerAdapter.
    *
-   * @param model the ReversiModel instance representing the game model to be adapted.
+   * @param model    the ReversiModel instance representing the game model to be adapted.
    * @param ourModel the IReversiModel instance representing the game model.
-   * @param color the TokenColor for the player using this controller.
-   * @param view the ViewInterface instance representing the game view.
-   * @param player the Player instance representing the player using this controller.
+   * @param color    the TokenColor for the player using this controller.
+   * @param view     the ViewInterface instance representing the game view.
+   * @param player   the Player instance representing the player using this controller.
    */
   public ControllerAdapter(ReversiModel model, IReversiModel ourModel,
                            TokenColor color, ViewInterface view, Player player) {
@@ -69,18 +69,17 @@ public class ControllerAdapter extends Controller implements ObserverInterface, 
   @Override
   public void move(CubicCoordinate c) {
     int token = (this.color == TokenColor.BLACK) ? 1 : 2;
-
-      try {
-        model.flipCell(c, token);
-      } catch (IllegalStateException ex) {
-        this.view.display();
-      }
+    try {
+      model.flipCell(c, token);
+    } catch (IllegalStateException ex) {
+      this.view.display();
+    }
   }
 
   @Override
   public void getNotifiedItsYourPlayersMove() {
     int token = (this.color == TokenColor.BLACK) ? 1 : 2;
-    if(this.player.getPlayerNumber() == token) {
+    if (this.player.getPlayerNumber() == token) {
       if (this.player.play(new ModelAdapter(this.ourModel)) != null) {
         this.move(this.player.play(new ModelAdapter(this.ourModel)));
       }

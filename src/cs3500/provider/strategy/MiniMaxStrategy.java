@@ -77,7 +77,8 @@
 //      // return pair of move and score after that move, clone before u mutate model
 //      else if (player == this.player) {
 //        ReversiModel possibleGame = model.clone();
-//        CubicCoordinate move = new AvoidCornerNeighborStrategy().chooseCoord(possibleGame, player);
+//        CubicCoordinate move = new AvoidCornerNeighborStrategy()
+//        .chooseCoord(possibleGame, player);
 //        possibleGame.flipCell(move, player);
 //        return new Pair<>(move, miniMaxScore(possibleGame, player));
 //      }

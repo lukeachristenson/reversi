@@ -42,7 +42,7 @@ public interface ReversiModel extends ReadonlyReversiModel {
   void passMove(int p);
 
   /**
-   * Notifies the observer of the game model that it's their turn
+   * Notifies the observer of the game model that it's their turn.
    */
   void notifyObserverTurn();
 

@@ -5,8 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import javax.swing.*;
-
+import javax.swing.JFrame;
 import cs3500.provider.controller.ControllerAdapter;
 import cs3500.provider.model.AIPlayerAdapter;
 import cs3500.provider.model.HumanPlayerAdapter;
@@ -58,7 +57,7 @@ public final class TestingReversiRunner {
     Optional<ReversiStrategy> strategy2 = getProviderStrategy(args[1], TokenColor.WHITE);
     ReversiModel theirModel = new ModelAdapter(model);
     GUI view2 = new GUI(theirModel);
-    Player player2 = (strategy2.isPresent())?
+    Player player2 = (strategy2.isPresent()) ?
             new AIPlayerAdapter(TokenColor.WHITE, strategy2.get(), model) :
             new HumanPlayerAdapter(TokenColor.WHITE);
     ControllerAdapter controller2 = new ControllerAdapter(theirModel, model,
