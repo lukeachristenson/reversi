@@ -95,12 +95,12 @@ public class HexagonReversi implements IReversiModel {
 
   //helper to add the starting moves of each player
   private void addStartingMoves() {
-    this.board.newCellOwner(new HexagonCell(-1, 1, 0), Optional.of(TokenColor.BLACK));
-    this.board.newCellOwner(new HexagonCell(-1, 0, 1), Optional.of(TokenColor.WHITE));
-    this.board.newCellOwner(new HexagonCell(1, 0, -1), Optional.of(TokenColor.BLACK));
-    this.board.newCellOwner(new HexagonCell(1, -1, 0), Optional.of(TokenColor.WHITE));
-    this.board.newCellOwner(new HexagonCell(0, -1, 1), Optional.of(TokenColor.BLACK));
-    this.board.newCellOwner(new HexagonCell(0, 1, -1), Optional.of(TokenColor.WHITE));
+    this.board.newCellOwner(new HexagonCell(-1, 1, 0), Optional.of(TokenColor.WHITE));
+    this.board.newCellOwner(new HexagonCell(-1, 0, 1), Optional.of(TokenColor.BLACK));
+    this.board.newCellOwner(new HexagonCell(1, 0, -1), Optional.of(TokenColor.WHITE));
+    this.board.newCellOwner(new HexagonCell(1, -1, 0), Optional.of(TokenColor.BLACK));
+    this.board.newCellOwner(new HexagonCell(0, -1, 1), Optional.of(TokenColor.WHITE));
+    this.board.newCellOwner(new HexagonCell(0, 1, -1), Optional.of(TokenColor.BLACK ));
   }
 
   @Override

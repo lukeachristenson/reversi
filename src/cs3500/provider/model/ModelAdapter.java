@@ -54,7 +54,7 @@ public class ModelAdapter implements ReversiModel, IModelFeature {
     }
 
     try {
-      this.model.placeCurrentPlayerPiece(new HexagonCell(c.getX(), c.getY(), c.getZ()));
+      this.model.placeCurrentPlayerPiece(new HexagonCell(c.getX(), c.getZ(), c.getY()));
     } catch (IllegalStateException e) {
       throw new IllegalStateException(e.getMessage());
     } catch (IllegalArgumentException e) {
@@ -159,7 +159,7 @@ public class ModelAdapter implements ReversiModel, IModelFeature {
   @Override
   public boolean isMoveValid(CubicCoordinate c, int playerTurn) {
     TokenColor moveColor = playerConverter(playerTurn);
-    ICell cell = new HexagonCell(c.getX(), c.getY(), c.getZ());
+    ICell cell = new HexagonCell(c.getX(), c.getZ(), c.getY());
     List<ICell> validMoves = this.model.getValidMoves(moveColor);
     return validMoves.contains(cell);
   }

@@ -395,10 +395,12 @@ java -jar reversi.jar h g
 - Some of the strategies(MiniMax and OurAlgorithm) were dependent on the concrete implementation of
 the IReversiModel interface. This was changed to make the strategies use the IBoard interface methods
 to quantify the moves and evaluate the best move(s).
-- Apart from this one change, rest everything in our implementation of the 
+- The existing view showed an error dialog box when a player attempted to make a move when it isn't 
+their turn.
+- Apart from these changes, rest everything in our implementation of the 
 reversi game was kept the same.
 - The existing view showed an error dialog box when a player attempted to make a move when it isn't
-    their turn.
+their turn.
 - Apart from these changes, rest everything in our implementation of the
   reversi game was kept the same.
 
