@@ -397,6 +397,10 @@ the IReversiModel interface. This was changed to make the strategies use the IBo
 to quantify the moves and evaluate the best move(s).
 - Apart from this one change, rest everything in our implementation of the 
 reversi game was kept the same.
+- The existing view showed an error dialog box when a player attempted to make a move when it isn't
+    their turn.
+- Apart from these changes, rest everything in our implementation of the
+  reversi game was kept the same.
 
 ## Updated Command Line Configurator Commands
 The first argument after calling reversi.jar is the strategy for the first player(using 
