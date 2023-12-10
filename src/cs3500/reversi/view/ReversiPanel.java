@@ -1,13 +1,6 @@
 package cs3500.reversi.view;
 
-import java.awt.BasicStroke;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Path2D;
@@ -30,10 +23,14 @@ import javax.swing.SwingConstants;
 import javax.swing.event.MouseInputAdapter;
 
 import cs3500.reversi.controller.IPlayerFeature;
+import cs3500.reversi.model.HexagonReversi;
 import cs3500.reversi.model.IBoard;
 import cs3500.reversi.model.ICell;
+import cs3500.reversi.model.IReversiModel;
 import cs3500.reversi.model.ROModel;
 import cs3500.reversi.model.TokenColor;
+
+import static java.awt.SystemColor.text;
 
 /**
  * This class represents a panel for the Reversi game.
@@ -226,6 +223,7 @@ public class ReversiPanel extends JPanel {
     Map<CartesianPosn, Optional<TokenColor>> drawMap = createDrawMap();
     drawHexagons(g2d, drawMap);
     placeTokensOnBoard(g2d, drawMap);
+
     highlightActiveCell(g2d, drawMap);
     Optional<ICell> chosenCell = CoordUtilities.getCellFromCartesianPosn(this.activeCell
             , Collections.unmodifiableMap(this.cellToCartesianPosnMap));
@@ -271,12 +269,40 @@ public class ReversiPanel extends JPanel {
   }
 
   // Highlights the active cell.
-  private void highlightActiveCell(Graphics2D g2d, Map<CartesianPosn
-          , Optional<TokenColor>> drawMap) {
+  private void highlightActiveCell(Graphics2D g2d, Map<CartesianPosn, Optional<TokenColor>> drawMap) {
     if (activeCell.isPresent() && drawMap.get(activeCell.get()).isEmpty()) {
       g2d.setColor(Color.CYAN);
       CartesianPosn activePosn = activeCell.get();
       drawHexagon(g2d, activePosn.getX(), activePosn.getY(), sideLength);
+
+      int x = (int) activePosn.getX();
+      int y = (int) activePosn.getY();
+
+      // Draw centered text
+      g2d.setColor(Color.BLACK); // Change text color as needed
+
+      // Flip the text
+      g2d.setFont(new Font(g2d.getFont().getName(), Font.BOLD, 3)); // Change font and size as needed
+
+      // Calculate the position for centered text
+      FontMetrics fontMetrics = g2d.getFontMetrics();
+
+      ICell cell = CoordUtilities.getCellFromCartesianPosn(this.activeCell
+              , Collections.unmodifiableMap(this.cellToCartesianPosnMap)).get();
+
+      int numFlipped = Math.max(roModel.cellsFlipped(cell, roModel.getCurrentColor()), 0);
+      String text = Integer.toString(numFlipped);
+      int textWidth = fontMetrics.stringWidth(text);
+      int textHeight = fontMetrics.getAscent();
+      int centerX = x + textWidth / 2;
+      int centerY = - y + textHeight / 2;
+
+      // Apply the transformation and draw the text.
+      AffineTransform affineTransform = new AffineTransform();
+      affineTransform.scale(1, -1);
+      g2d.transform(affineTransform);
+      g2d.drawString(text, centerX, centerY);
+      g2d.setTransform(new AffineTransform());
     }
   }
 
@@ -323,14 +349,16 @@ public class ReversiPanel extends JPanel {
       CartesianPosn nearestPosn = CoordUtilities.nearestCartPosn(ReversiPanel.this.mousePosn,
               new ArrayList<>(ReversiPanel.this.cellToCartesianPosnMap.values()));
 
-      if (nearestPosn.isWithinCell(ReversiPanel.this.mousePosn)) {
-        // If cell was clicked twice, removes the highlight, else, highlights the cell.
-        ReversiPanel.this.activeCell
-                = ReversiPanel.this.activeCell
-                .equals(Optional.of(nearestPosn)) ? Optional.empty() : Optional.of(nearestPosn);
+      if (ReversiPanel.this.roModel.getCurrentColor().equals(ReversiPanel.this.frameTokenColor)) {
+        if (nearestPosn.isWithinCell(ReversiPanel.this.mousePosn)) {
+          // If cell was clicked twice, removes the highlight, else, highlights the cell.
+          ReversiPanel.this.activeCell
+                  = ReversiPanel.this.activeCell
+                  .equals(Optional.of(nearestPosn)) ? Optional.empty() : Optional.of(nearestPosn);
 
-      } else {
-        ReversiPanel.this.activeCell = Optional.empty();
+        } else {
+          ReversiPanel.this.activeCell = Optional.empty();
+        }
       }
       ReversiPanel.this.repaint();
     }
