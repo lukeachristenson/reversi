@@ -6,7 +6,6 @@ import java.util.Optional;
 
 import cs3500.reversi.controller.IModelFeature;
 
-
 /**
  * This class represents a game of HexagonReversi. It implements the IReversiModel interface.
  * HexReversi is a hexagonal version of the game Reversi.
