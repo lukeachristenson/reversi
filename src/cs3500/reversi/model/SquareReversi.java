@@ -1,6 +1,7 @@
 package cs3500.reversi.model;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -28,6 +29,7 @@ public class SquareReversi extends AbstractReversi{
     this.currentTokenColor = TokenColor.BLACK;
     this.passCount = 0;
     this.initBoard(sideLength); // rings excluding the center cell = sideLength - 1
+    this.board = new SquareBoard(sideLength);
     this.addStartingMoves();
     this.modelFeatures = new ArrayList<>();
   }
@@ -70,4 +72,15 @@ public class SquareReversi extends AbstractReversi{
     board.newCellOwner(new SquareCell(mid, mid), Optional.of(TokenColor.BLACK));
     board.newCellOwner(new SquareCell(mid - 1, mid), Optional.of(TokenColor.WHITE));
     board.newCellOwner(new SquareCell(mid, mid - 1), Optional.of(TokenColor.WHITE));  }
+
+  @Override
+  public IBoard createBoardCopy() {
+    Map<ICell, Optional<TokenColor>> mapCopy = this.board.getPositionsMapCopy();
+    IBoard copyBoard = new SquareBoard(this.sideLength);
+
+    for (ICell cell : mapCopy.keySet()) {
+      copyBoard.newCellOwner(cell, mapCopy.get(cell));
+    }
+    return copyBoard;
+  }
 }

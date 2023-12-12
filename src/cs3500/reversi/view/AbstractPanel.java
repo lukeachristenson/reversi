@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -23,25 +22,21 @@ import javax.swing.SwingConstants;
 import javax.swing.event.MouseInputAdapter;
 
 import cs3500.reversi.controller.IPlayerFeature;
-import cs3500.reversi.model.HexagonReversi;
 import cs3500.reversi.model.IBoard;
 import cs3500.reversi.model.ICell;
-import cs3500.reversi.model.IReversiModel;
 import cs3500.reversi.model.ROModel;
 import cs3500.reversi.model.TokenColor;
-
-import static java.awt.SystemColor.text;
 
 /**
  * This class represents a panel for the Reversi game.
  */
-public class ReversiPanel extends JPanel {
-  private final ROModel roModel;
+public class AbstractPanel extends JPanel {
+  final ROModel roModel;
   private final List<IPlayerFeature> featureListeners;
   private final IBoard board;
   private final Map<ICell, CartesianPosn> cellToCartesianPosnMap;
-  private final double scale;
-  private final double sideLength;
+  double scale;
+  final double sideLength;
   private final JLabel southLabel;
   private final TokenColor frameTokenColor;
   private CartesianPosn mousePosn;
@@ -53,16 +48,15 @@ public class ReversiPanel extends JPanel {
    * @param roModel         the read only model to be used.
    * @param frameTokenColor the color of the frame.
    */
-  public ReversiPanel(ROModel roModel, TokenColor frameTokenColor) {
+  public AbstractPanel(ROModel roModel, TokenColor frameTokenColor) {
     this.roModel = roModel;
     this.frameTokenColor = frameTokenColor;
     this.featureListeners = new ArrayList<>();
     this.scale = 0.65;
-    this.sideLength = calculateSideLength(roModel.createBoardCopy());
-
+    this.sideLength = calculateSideLength(this.roModel.createBoardCopy());
 
     // Initialize listeners
-    initializeListeners();
+    this.initializeListeners();
 
     // Initialize board and map
     this.board = roModel.createBoardCopy();
@@ -78,7 +72,7 @@ public class ReversiPanel extends JPanel {
   }
 
   // Initializes the mouse and keyboard listeners.
-  private void initializeListeners() {
+  protected void initializeListeners() {
     MouseEventListener mouseEventListener = new MouseEventListener();
     this.addMouseListener(mouseEventListener);
     this.addMouseMotionListener(mouseEventListener);
@@ -89,24 +83,24 @@ public class ReversiPanel extends JPanel {
   }
 
   // Initializes the map of ICells to cartesian positions.
-  private Map<ICell, CartesianPosn> initializeCellToCartesianMap() {
+  protected Map<ICell, CartesianPosn> initializeCellToCartesianMap() {
     Map<ICell, CartesianPosn> map = new HashMap<>();
     IBoard boardCopy = roModel.createBoardCopy();
 
     for (ICell icell : boardCopy.getPositionsMapCopy().keySet()) {
-      CartesianPosn cartesianPosn = new CartesianPosn(0, 0, sideLength).getFromICell(icell);
+      CartesianPosn cartesianPosn = new CartesianPosn(0, 0, sideLength).getFromHexCell(icell);
       map.put(icell, cartesianPosn);
     }
     return map;
   }
 
   // Calculates the side length of the hexagons.
-  private double calculateSideLength(IBoard boardCopy) {
+  protected double calculateSideLength(IBoard boardCopy) {
     return scale * getPreferredLogicalSize().width / (2 * (boardCopy.getNumRings() + 1));
   }
 
   // Creates a label.
-  private JLabel createLabel() {
+  protected JLabel createLabel() {
     JLabel label = new JLabel("");
     label.setForeground(Color.white);
     label.setPreferredSize(new Dimension(100, 100));
@@ -137,7 +131,7 @@ public class ReversiPanel extends JPanel {
    *      (width x height) of the panel.
    */
 
-  private Dimension getPreferredLogicalSize() {
+  protected Dimension getPreferredLogicalSize() {
     return new Dimension(100, 100);
   }
 
@@ -158,6 +152,7 @@ public class ReversiPanel extends JPanel {
     this.southLabel.setText("Current player: " + roModel.getCurrentColor().toString());
     this.southLabel.repaint();
     if (roModel.isGameOver()) {
+
       activeCell = Optional.empty();
       String winner = (roModel.getWinner().isPresent()) ? roModel.getWinner().get().toString().
               concat(" wins!") : " Stalemate";
@@ -186,7 +181,7 @@ public class ReversiPanel extends JPanel {
    * @return An AffineTransform object representing the necessary transformation from logical to
    *          physical coordinates.
    */
-  private AffineTransform transformLogicalToPhysical() {
+  protected AffineTransform transformLogicalToPhysical() {
     AffineTransform ret = new AffineTransform();
     Dimension preferred = getPreferredLogicalSize();
     ret.translate(getWidth() / 2., super.getHeight() / 2.);
@@ -204,7 +199,7 @@ public class ReversiPanel extends JPanel {
    * @return An AffineTransform object representing the necessary transformation from physical to
    *          logical coordinates.
    */
-  private AffineTransform transformPhysicalToLogical() {
+  protected AffineTransform transformPhysicalToLogical() {
     AffineTransform ret = new AffineTransform();
     Dimension preferred = getPreferredLogicalSize();
     ret.scale(1, -1);
@@ -221,7 +216,7 @@ public class ReversiPanel extends JPanel {
     g2d.transform(transformLogicalToPhysical());
 
     Map<CartesianPosn, Optional<TokenColor>> drawMap = createDrawMap();
-    drawHexagons(g2d, drawMap);
+    this.drawTiles(g2d, drawMap);
     placeTokensOnBoard(g2d, drawMap);
 
     highlightActiveCell(g2d, drawMap);
@@ -230,7 +225,7 @@ public class ReversiPanel extends JPanel {
   }
 
   // Creates a map of cartesian positions to the color of the token at that position.
-  private Map<CartesianPosn, Optional<TokenColor>> createDrawMap() {
+  protected Map<CartesianPosn, Optional<TokenColor>> createDrawMap() {
     Map<CartesianPosn, Optional<TokenColor>> drawMap = new HashMap<>();
     IBoard boardCopy = this.roModel.createBoardCopy();
     for (ICell cell : this.cellToCartesianPosnMap.keySet()) {
@@ -239,17 +234,17 @@ public class ReversiPanel extends JPanel {
     return drawMap;
   }
 
-  // Draws the hexagons on the board.
-  private void drawHexagons(Graphics2D g2d, Map<CartesianPosn
+  // Draws the hexagon tiles on the board.
+  protected void drawTiles(Graphics2D g2d, Map<CartesianPosn
           , Optional<TokenColor>> drawMap) {
     for (CartesianPosn posn : drawMap.keySet()) {
       g2d.setColor(Color.GRAY);
-      drawHexagon(g2d, posn.getX(), posn.getY(), sideLength);
+      drawTile(g2d, posn.getX(), posn.getY(), sideLength);
     }
   }
 
   // Places the tokens on the board.
-  private void placeTokensOnBoard(Graphics2D g2d, Map<CartesianPosn
+  protected void placeTokensOnBoard(Graphics2D g2d, Map<CartesianPosn
           , Optional<TokenColor>> drawMap) {
     for (CartesianPosn posn : drawMap.keySet()) {
       if (drawMap.get(posn).isPresent()) {
@@ -261,7 +256,7 @@ public class ReversiPanel extends JPanel {
   }
 
   // Places a token at the given cartesian position.
-  private void placeToken(Graphics2D g2d, CartesianPosn posn, Color color) {
+  protected void placeToken(Graphics2D g2d, CartesianPosn posn, Color color) {
     g2d.setColor(color);
     double radius = sideLength * Math.sqrt(3) / 2 * 0.5;
     g2d.fill(new Ellipse2D.Double(
@@ -269,11 +264,11 @@ public class ReversiPanel extends JPanel {
   }
 
   // Highlights the active cell.
-  private void highlightActiveCell(Graphics2D g2d, Map<CartesianPosn, Optional<TokenColor>> drawMap) {
+  protected void highlightActiveCell(Graphics2D g2d, Map<CartesianPosn, Optional<TokenColor>> drawMap) {
     if (activeCell.isPresent() && drawMap.get(activeCell.get()).isEmpty()) {
       g2d.setColor(Color.CYAN);
       CartesianPosn activePosn = activeCell.get();
-      drawHexagon(g2d, activePosn.getX(), activePosn.getY(), sideLength);
+      drawTile(g2d, activePosn.getX(), activePosn.getY(), sideLength);
 
       int x = (int) activePosn.getX();
       int y = (int) activePosn.getY();
@@ -306,8 +301,8 @@ public class ReversiPanel extends JPanel {
     }
   }
 
-  // Draws a hexagon at the given cartesian position.
-  private void drawHexagon(Graphics2D g, double centerX, double centerY, double sideLength) {
+  // Draws a hexagon tile at the given cartesian position.
+  protected void drawTile(Graphics2D g, double centerX, double centerY, double sideLength) {
     Path2D mainPath = new Path2D.Double();
 
     double leftX = centerX - sideLength * Math.sin(Math.PI / 3);
@@ -346,21 +341,21 @@ public class ReversiPanel extends JPanel {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-      CartesianPosn nearestPosn = CoordUtilities.nearestCartPosn(ReversiPanel.this.mousePosn,
-              new ArrayList<>(ReversiPanel.this.cellToCartesianPosnMap.values()));
+      CartesianPosn nearestPosn = CoordUtilities.nearestCartPosn(AbstractPanel.this.mousePosn,
+              new ArrayList<>(AbstractPanel.this.cellToCartesianPosnMap.values()));
 
-      if (ReversiPanel.this.roModel.getCurrentColor().equals(ReversiPanel.this.frameTokenColor)) {
-        if (nearestPosn.isWithinCell(ReversiPanel.this.mousePosn)) {
+      if (AbstractPanel.this.roModel.getCurrentColor().equals(AbstractPanel.this.frameTokenColor)) {
+        if (nearestPosn.isWithinCell(AbstractPanel.this.mousePosn)) {
           // If cell was clicked twice, removes the highlight, else, highlights the cell.
-          ReversiPanel.this.activeCell
-                  = ReversiPanel.this.activeCell
+          AbstractPanel.this.activeCell
+                  = AbstractPanel.this.activeCell
                   .equals(Optional.of(nearestPosn)) ? Optional.empty() : Optional.of(nearestPosn);
 
         } else {
-          ReversiPanel.this.activeCell = Optional.empty();
+          AbstractPanel.this.activeCell = Optional.empty();
         }
       }
-      ReversiPanel.this.repaint();
+      AbstractPanel.this.repaint();
     }
 
 
@@ -368,7 +363,7 @@ public class ReversiPanel extends JPanel {
     public void mouseDragged(MouseEvent e) {
       Point physicalPoint = e.getPoint();
       Point2D logicalPoint = transformPhysicalToLogical().transform(physicalPoint, null);
-      ReversiPanel.this.mousePosn = new CartesianPosn(logicalPoint.getX(), logicalPoint.getY(),
+      AbstractPanel.this.mousePosn = new CartesianPosn(logicalPoint.getX(), logicalPoint.getY(),
               scale * getPreferredLogicalSize().width / (2 * (board.getNumRings() + 1)));
     }
   }
@@ -377,32 +372,32 @@ public class ReversiPanel extends JPanel {
   private class KeyboardEventListener extends KeyAdapter {
     @Override
     public void keyPressed(KeyEvent e) {
-      if (!ReversiPanel.this.frameTokenColor.equals(ReversiPanel.this.roModel.getCurrentColor())) {
-        JOptionPane.showMessageDialog(ReversiPanel.this,
+      if (!AbstractPanel.this.frameTokenColor.equals(AbstractPanel.this.roModel.getCurrentColor())) {
+        JOptionPane.showMessageDialog(AbstractPanel.this,
                 "Playing out of turn", "Not your turn",
                 JOptionPane.INFORMATION_MESSAGE);
       }
 
-      ReversiPanel.this.southLabel.setText("Current player: " + TokenColor.WHITE.toString());
+      AbstractPanel.this.southLabel.setText("Current player: " + TokenColor.WHITE.toString());
       // If the current player is the same as the frame color, then the player can make a move.
-      if (ReversiPanel.this.roModel.getCurrentColor().equals(ReversiPanel.this.frameTokenColor)) {
+      if (AbstractPanel.this.roModel.getCurrentColor().equals(AbstractPanel.this.frameTokenColor)) {
         if (e.getKeyCode() == KeyEvent.VK_SPACE || e.getKeyCode() == KeyEvent.VK_ENTER) {
-          for (IPlayerFeature listener : ReversiPanel.this.featureListeners) {
-            ReversiPanel.this.activeCell.ifPresent(cartesianPosn
-                -> listener.playMove(
+          for (IPlayerFeature listener : AbstractPanel.this.featureListeners) {
+            AbstractPanel.this.activeCell.ifPresent(cartesianPosn
+                    -> listener.playMove(
                     CoordUtilities.getCellFromCartesianPosn(
-                            ReversiPanel.this.activeCell,
+                            AbstractPanel.this.activeCell,
                             Collections.unmodifiableMap(
-                                    ReversiPanel.this.cellToCartesianPosnMap)).get()));
+                                    AbstractPanel.this.cellToCartesianPosnMap)).get()));
           }
         } else if (e.getKeyCode() == KeyEvent.VK_P) {
-          for (IPlayerFeature listener : ReversiPanel.this.featureListeners) {
+          for (IPlayerFeature listener : AbstractPanel.this.featureListeners) {
             listener.pass();
           }
         }
       }
-      ReversiPanel.this.activeCell = Optional.empty();
-      ReversiPanel.this.repaint();
+      AbstractPanel.this.activeCell = Optional.empty();
+      AbstractPanel.this.repaint();
     }
   }
 }

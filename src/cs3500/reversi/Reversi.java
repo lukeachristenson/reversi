@@ -21,7 +21,7 @@ import cs3500.reversi.strategy.RandomStrat;
 import cs3500.reversi.strategy.SandwichStrat;
 import cs3500.reversi.strategy.Strategy;
 import cs3500.reversi.strategy.UpperLeftStrat;
-import cs3500.reversi.view.BasicReversiView;
+import cs3500.reversi.view.HexagonReversiView;
 import cs3500.reversi.view.ReversiView;
 
 /**
@@ -53,8 +53,8 @@ public final class Reversi {
                                              Optional<Strategy> strategy1,
                                              Optional<Strategy> strategy2) {
     IReversiModel model = new HexagonReversi(size);
-    ReversiView black_view = new BasicReversiView(model, TokenColor.BLACK);
-    ReversiView white_view = new BasicReversiView(model, TokenColor.WHITE);
+    ReversiView black_view = new HexagonReversiView(model, TokenColor.BLACK);
+    ReversiView white_view = new HexagonReversiView(model, TokenColor.WHITE);
 
     IPlayer player1 = (strategy1.isPresent()) ? new AIPlayer(TokenColor.BLACK, strategy1.get(),
             model) : new HumanPlayer(TokenColor.BLACK);

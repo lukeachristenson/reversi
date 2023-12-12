@@ -10,7 +10,7 @@ import cs3500.reversi.model.HexagonReversi;
 import cs3500.reversi.model.IReversiModel;
 import cs3500.reversi.model.TokenColor;
 import cs3500.reversi.player.HumanPlayer;
-import cs3500.reversi.view.BasicReversiView;
+import cs3500.reversi.view.HexagonReversiView;
 
 /**
  * Adapter class that adapts the existing Reversi game controller to a new model and view interface.
@@ -45,7 +45,7 @@ public class ControllerAdapter extends Controller implements ObserverInterface, 
    */
   public ControllerAdapter(ReversiModel model, IReversiModel ourModel,
                            TokenColor color, ViewInterface view, Player player) {
-    super(ourModel, new BasicReversiView(new HexagonReversi(6),
+    super(ourModel, new HexagonReversiView(new HexagonReversi(6),
             TokenColor.BLACK), new HumanPlayer(TokenColor.BLACK), TokenColor.BLACK);
 
     this.color = color;

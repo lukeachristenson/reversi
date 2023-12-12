@@ -15,7 +15,7 @@ import cs3500.reversi.model.TokenColor;
 import cs3500.reversi.player.AIPlayer;
 import cs3500.reversi.player.IPlayer;
 import cs3500.reversi.strategy.Strategy;
-import cs3500.reversi.view.BasicReversiView;
+import cs3500.reversi.view.HexagonReversiView;
 import cs3500.reversi.view.ReversiView;
 
 /**
@@ -31,7 +31,7 @@ public class ExampleMockStrategyTests {
     Strategy mockStrategy = new MockStrategy(strategyLog);
     this.model = new HexagonReversi(6);
     IPlayer player1 = new AIPlayer(TokenColor.BLACK, mockStrategy, model);
-    ReversiView view = new BasicReversiView(model, TokenColor.BLACK);
+    ReversiView view = new HexagonReversiView(model, TokenColor.BLACK);
     Controller controller = new Controller(model, view, player1, TokenColor.BLACK);
   }
 

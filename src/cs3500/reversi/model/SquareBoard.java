@@ -26,8 +26,10 @@ public class SquareBoard implements IBoard {
   public boolean validMove(ICell cell, TokenColor colorToAdd, boolean flip) {
     checkCellNotNull(cell);
     checkCellInBounds(cell);
+    System.out.println(this.toString());
 
     if (this.boardPositions.get(cell).isPresent()) {
+      System.out.println("valid move called in square board");
       throw new IllegalStateException("Cell is already occupied.");
     }
 
@@ -66,9 +68,11 @@ public class SquareBoard implements IBoard {
 
   @Override
   public List<ICell> validMovesLeft(TokenColor colorToAdd) {
+    System.out.println("valid moves left called in square board");
     List<ICell> validMoves = new ArrayList<>();
     for (ICell cell : boardPositions.keySet()) {
-      if (!boardPositions.get(cell).isPresent() && validMove(cell, colorToAdd, false)) {
+      System.out.println("cell: " + cell);
+      if (boardPositions.get(cell).isPresent() && validMove(cell, colorToAdd, false)) {
         validMoves.add(cell);
       }
     }
@@ -78,7 +82,7 @@ public class SquareBoard implements IBoard {
   @Override
   public void newCellOwner(ICell cell, Optional<TokenColor> color) {
     checkCellNotNull(cell);
-    checkCellInBounds(cell);
+    this.checkCellInBounds(cell);
     boardPositions.put(cell, color);
   }
 
@@ -159,6 +163,6 @@ public class SquareBoard implements IBoard {
 
   @Override
   public int getNumRings() {
-    return sideLength;
+    return sideLength/2;
   }
 }

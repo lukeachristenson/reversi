@@ -7,7 +7,7 @@ import cs3500.reversi.controller.Controller;
 import cs3500.reversi.model.IReversiModel;
 import cs3500.reversi.model.TokenColor;
 import cs3500.reversi.player.IPlayer;
-import cs3500.reversi.view.BasicReversiView;
+import cs3500.reversi.view.HexagonReversiView;
 import cs3500.reversi.view.ReversiView;
 import mockplayerview.MockPlayer;
 import mockplayerview.MockView;
@@ -34,7 +34,7 @@ public class ExampleMockModelTests {
     modelLog = new StringBuilder();
     this.model = new MockModel(modelLog);
     IPlayer player1 = new MockPlayer(new StringBuilder());
-    ReversiView view = new BasicReversiView(model, TokenColor.BLACK);
+    ReversiView view = new HexagonReversiView(model, TokenColor.BLACK);
     Controller controller = new Controller(model, view, player1, TokenColor.BLACK);
   }
 

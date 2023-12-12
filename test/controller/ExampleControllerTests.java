@@ -7,7 +7,7 @@ import cs3500.reversi.model.HexagonReversi;
 import cs3500.reversi.model.IReversiModel;
 import cs3500.reversi.model.TokenColor;
 import cs3500.reversi.player.IPlayer;
-import cs3500.reversi.view.BasicReversiView;
+import cs3500.reversi.view.HexagonReversiView;
 import cs3500.reversi.view.ReversiView;
 import mockplayerview.MockPlayer;
 import mockplayerview.MockView;
@@ -31,7 +31,7 @@ public class ExampleControllerTests {
     StringBuilder modelLog = new StringBuilder();
     this.model = new HexagonReversi(6);
     this.player1 = new MockPlayer(new StringBuilder());
-    this.view = new BasicReversiView(model, TokenColor.BLACK);
+    this.view = new HexagonReversiView(model, TokenColor.BLACK);
   }
 
   @Test(expected = IllegalArgumentException.class)

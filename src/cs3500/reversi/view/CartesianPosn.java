@@ -26,16 +26,30 @@ public class CartesianPosn {
   }
 
   /**
-   * Gets the CartesianPosn from the given ICell.
+   * Gets the CartesianPosn from the given HexagonCell.
    *
    * @param cell the ICell to get the CartesianPosn from
    * @return the CartesianPosn
    */
-  public CartesianPosn getFromICell(ICell cell) {
+  public CartesianPosn getFromHexCell(ICell cell) {
     double sideLength = this.sideLength;
     double x = sideLength * (Math.sqrt(3) * cell.getCoordinates().get(0)
             + Math.sqrt(3) / 2 * cell.getCoordinates().get(1));
     double y = -sideLength * (3.) / 2 * cell.getCoordinates().get(1);
+
+    return new CartesianPosn(x, y, sideLength);
+  }
+
+  /**
+   * Gets the CartesianPosn from the given HexagonCell.
+   *
+   * @param cell the ICell to get the CartesianPosn from
+   * @return the CartesianPosn
+   */
+  public CartesianPosn getFromSquareCell(ICell cell) {
+    double sideLength = this.sideLength;
+    double x = sideLength*Math.sqrt(2) + sideLength * cell.getCoordinates().get(0);
+    double y = sideLength*Math.sqrt(2) + sideLength * cell.getCoordinates().get(1);
 
     return new CartesianPosn(x, y, sideLength);
   }
