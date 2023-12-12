@@ -68,11 +68,9 @@ public class SquareBoard implements IBoard {
 
   @Override
   public List<ICell> validMovesLeft(TokenColor colorToAdd) {
-    System.out.println("valid moves left called in square board");
     List<ICell> validMoves = new ArrayList<>();
     for (ICell cell : boardPositions.keySet()) {
-      System.out.println("cell: " + cell);
-      if (boardPositions.get(cell).isPresent() && validMove(cell, colorToAdd, false)) {
+      if (!boardPositions.get(cell).isPresent() && validMove(cell, colorToAdd, false)) {
         validMoves.add(cell);
       }
     }
@@ -115,33 +113,34 @@ public class SquareBoard implements IBoard {
 
   private void checkDirectionAddCells(ICell cell, TokenColor colorToAdd, int dRow, int dCol, List<ICell> cellsToFlip) {
     List<Integer> coordinates = cell.getCoordinates();
-    int row = coordinates.get(0);
-    int col = coordinates.get(1);
+    int row = coordinates.get(0) + dRow;
+    int col = coordinates.get(1) + dCol;
     List<ICell> tempCells = new ArrayList<>();
     boolean foundOppositeColor = false;
+    boolean continueSearch = true;
 
-    row += dRow;
-    col += dCol;
-    while (row >= 0 && row < sideLength && col >= 0 && col < sideLength) {
+    while (continueSearch && row >= 0 && row < sideLength && col >= 0 && col < sideLength) {
       SquareCell nextCell = new SquareCell(row, col);
       Optional<TokenColor> cellOccupant = boardPositions.get(nextCell);
 
-      if (cellOccupant.isEmpty() || cellOccupant.equals(Optional.of(colorToAdd))) {
-        break;
-      }
-
-      tempCells.add(nextCell);
-      foundOppositeColor = true;
-
-      if (foundOppositeColor && cellOccupant.equals(Optional.of(colorToAdd))) {
-        cellsToFlip.addAll(tempCells);
-        break;
+      if (cellOccupant.isEmpty()) {
+        continueSearch = false;
+      } else if (cellOccupant.equals(Optional.of(colorToAdd))) {
+        if (foundOppositeColor) {
+          cellsToFlip.addAll(tempCells);
+        }
+        continueSearch = false;
+      } else {
+        tempCells.add(nextCell);
+        foundOppositeColor = true;
       }
 
       row += dRow;
       col += dCol;
     }
+
   }
+
 
   private void flipMechanism(List<ICell> cellsToBeFlipped, TokenColor colorToAdd) {
     for (ICell cell : cellsToBeFlipped) {
