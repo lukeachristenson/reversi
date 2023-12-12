@@ -158,8 +158,10 @@ public class SquareBoard implements IBoard {
       SquareCell nextCell = new SquareCell(row, col);
       Optional<TokenColor> cellOccupant = boardPositions.get(nextCell);
 
-      if(row == 0 || col == 0){
+      if (row == 0) {
         row += dRow;
+        continue;
+      } else if (col == 0) {
         col += dCol;
         continue;
       }

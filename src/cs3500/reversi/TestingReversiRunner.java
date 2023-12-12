@@ -46,7 +46,7 @@ public final class TestingReversiRunner {
     strat1 = getStrategy(args[0], TokenColor.BLACK).get();
     strat2 = getStrategy(args[1], TokenColor.WHITE).get();
 
-    IReversiModel model = initiateModel(6, Optional.of(strat1), Optional.of(strat2));
+    IReversiModel model = initiateModel(8, Optional.of(strat1), Optional.of(strat2));
     model.startGame();
   }
 
