@@ -77,4 +77,8 @@ public interface ROModel {
    * @return whether the given move is valid.
    */
   boolean validMove(ICell cell) throws IllegalArgumentException;
+
+  List<ICell> getCornerCells();
+
+  List<ICell> getEdgeCells();
 }

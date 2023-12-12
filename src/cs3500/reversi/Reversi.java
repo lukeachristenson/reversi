@@ -27,8 +27,8 @@ import cs3500.reversi.view.ReversiView;
 import cs3500.reversi.view.SquareReversiView;
 
 /**
- * A class to run the Reversi game. Calls a standard game of reversi with a hexagonal board of
- * side length 6 and a basic view for the black player.
+ * A class to run the Reversi game. Calls a standard game of reversi with a hexagonal or square
+ * board and a basic view for the black player.
  */
 public final class Reversi {
   /**
@@ -37,43 +37,52 @@ public final class Reversi {
    * @param args the arguments to run the game with
    */
   public static void main(String[] args) {
-    Strategy strat1;
-    Strategy strat2;
-
-    if (args.length != 2) {
-      throw new IllegalArgumentException("Invalid number of arguments");
+    if (args.length != 3) {
+      System.err.println("Invalid number of arguments, expected 3 but got: " + args.length);
+      System.exit(0);
     }
-    strat1 = getStrategy(args[0], TokenColor.BLACK).get();
-    strat2 = getStrategy(args[1], TokenColor.WHITE).get();
 
-    IReversiModel model = initiateModel(8, Optional.of(strat1), Optional.of(strat2));
+    String gameType = args[0].toLowerCase();
+    String blackStrategyArg = args[1];
+    String whiteStrategyArg = args[2];
+
+    Optional<Strategy> strat1 = getStrategy(blackStrategyArg, TokenColor.BLACK);
+    Optional<Strategy> strat2 = getStrategy(whiteStrategyArg, TokenColor.WHITE);
+
+    IReversiModel model;
+    ReversiView blackView;
+    ReversiView whiteView;
+    if (gameType.equals("h")) {
+      model = new HexagonReversi(6); // You can adjust the size as needed
+      blackView = new HexagonReversiView(model, TokenColor.BLACK);
+      whiteView = new HexagonReversiView(model, TokenColor.WHITE);
+    } else if (gameType.equals("s")) {
+      model = new SquareReversi(8); // You can adjust the size as needed
+      blackView = new SquareReversiView(model, TokenColor.BLACK);
+      whiteView = new SquareReversiView(model, TokenColor.WHITE);
+    } else {
+      System.err.println("Invalid game type. Use 's' for square or 'h' for hexagonal.");
+      System.exit(0);
+      return; // Added return to exit the program
+    }
+
+
+    IPlayer player1 = (strat1.isPresent()) ? new AIPlayer(TokenColor.BLACK, strat1.get(), model)
+            : new HumanPlayer(TokenColor.BLACK);
+    IPlayer player2 = (strat2.isPresent()) ? new AIPlayer(TokenColor.WHITE, strat2.get(), model)
+            : new HumanPlayer(TokenColor.WHITE);
+
+    Controller controller1 = new Controller(model, blackView, player1, TokenColor.BLACK);
+    Controller controller2 = new Controller(model, whiteView, player2, TokenColor.WHITE);
+
     model.startGame();
   }
 
-  private static IReversiModel initiateModel(int size,
-                                             Optional<Strategy> strategy1,
-                                             Optional<Strategy> strategy2) {
-//    IReversiModel model = new HexagonReversi(size);
-    IReversiModel model = new HexagonReversi(6);
-    ReversiView black_view = new HexagonReversiView(model, TokenColor.BLACK);
-    ReversiView white_view = new HexagonReversiView(model, TokenColor.WHITE);
-
-//    IPlayer player1 = (strategy1.isPresent()) ? new AIPlayer(TokenColor.BLACK, strategy1.get(),
-//            model) : new HumanPlayer(TokenColor.BLACK);
-//    IPlayer player2 = (strategy2.isPresent()) ? new AIPlayer(TokenColor.WHITE, strategy2.get(),
-//            model) : new HumanPlayer(TokenColor.WHITE);
-
-    IPlayer player1 = new HumanPlayer(TokenColor.BLACK);
-    IPlayer player2 = new HumanPlayer(TokenColor.WHITE);
-
-
-    Controller controller1 = new Controller(model, black_view, player1, TokenColor.BLACK);
-    Controller controller2 = new Controller(model, white_view, player2, TokenColor.WHITE);
-    model.toString();
-    return model;
-  }
-
   private static Optional<Strategy> getStrategy(String arg, TokenColor tokenColor) {
+    if (arg.equals("h")) {
+      return Optional.empty();
+    }
+
     Map<String, Strategy> strategyMap = new HashMap<>();
     strategyMap.put("g", new GreedyStrat(tokenColor));
     strategyMap.put("u", new UpperLeftStrat(tokenColor));

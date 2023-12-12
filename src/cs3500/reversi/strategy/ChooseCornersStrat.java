@@ -31,19 +31,14 @@ public class ChooseCornersStrat implements Strategy {
     List<ICell> retList = new ArrayList<>();
     int sideLength = model.getDimensions();
 
-    for (ICell cell : choices) {
-      // If the cell is on the outer ring of the board, check if it is a corner cell and add
-      // it to the return list.
-      if ((Math.abs(cell.getCoordinates().get(0)) == sideLength - 1
-              || Math.abs(cell.getCoordinates().get(1)) == sideLength - 1
-              || Math.abs(cell.getCoordinates().get(2)) == sideLength - 1)) {
-        if (cell.getCoordinates().get(0) + cell.getCoordinates().get(1) == 0 ||
-                cell.getCoordinates().get(1) + cell.getCoordinates().get(2) == 0 ||
-                cell.getCoordinates().get(2) + cell.getCoordinates().get(0) == 0) {
-          retList.add(cell);
-        }
+
+    // Adds all corner cells to the list of available moves.
+    for(ICell cell : model.getCornerCells()) {
+      if(choices.contains(cell)) {
+        retList.add(cell);
       }
     }
+
     if (retList.isEmpty()) {
       return choices;
     }

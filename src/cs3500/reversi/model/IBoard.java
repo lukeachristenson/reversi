@@ -74,4 +74,6 @@ public interface IBoard {
   Map<ICell, Optional<TokenColor>> getPositionsMapCopy();
 
   int getNumRings();
+
+  int[][] getBoardDirections();
 }

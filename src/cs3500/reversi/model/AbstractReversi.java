@@ -1,5 +1,6 @@
 package cs3500.reversi.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -11,7 +12,6 @@ import cs3500.reversi.controller.IModelFeature;
  * HexReversi is a hexagonal version of the game Reversi.
  */
 public class AbstractReversi implements IReversiModel{
-  //fixme are these supposed to be final?
   protected  IBoard board;
   protected int sideLength;
   protected TokenColor currentTokenColor;
@@ -35,6 +35,45 @@ public class AbstractReversi implements IReversiModel{
   @Override
   public boolean validMove(ICell cell) throws IllegalArgumentException {
     return this.board.validMove(cell, getCurrentColor(), false);
+  }
+
+  @Override
+  public List<ICell> getCornerCells() {
+    List<ICell> cornerCells = new ArrayList<>();
+    for(ICell cell : this.board.getPositionsMapCopy().keySet()) {
+      if (cell.getCoordinates().get(0) == this.sideLength - 1
+              || cell.getCoordinates().get(1) == this.sideLength - 1
+              || cell.getCoordinates().get(2) == this.sideLength - 1) {
+        cornerCells.add(cell);
+      }
+    }
+    return cornerCells;
+  }
+
+  @Override
+  public List<ICell> getEdgeCells() {
+    List<ICell> edgeCells = new ArrayList<>();
+    List<ICell> cornerCells = this.getCornerCells();
+
+    // difference in q direction
+    int[] dq = this.board.getBoardDirections()[0];
+    // difference in r direction
+    int[] dr = this.board.getBoardDirections()[1];
+    // difference in s direction
+    int[] ds = this.board.getBoardDirections()[2];
+
+    for (ICell corner : cornerCells) {
+      //six directions from every cell
+      for (int i = 0; i < 6; i++) {
+        int q = corner.getCoordinates().get(0) + dq[i];
+        int r = corner.getCoordinates().get(1) + dr[i];
+        int s = corner.getCoordinates().get(2) + ds[i];
+        ICell cell = new HexagonCell(q, r, s);
+        edgeCells.add(cell);
+      }
+    }
+
+    return edgeCells;
   }
 
   @Override

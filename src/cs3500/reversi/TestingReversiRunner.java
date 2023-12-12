@@ -63,8 +63,10 @@ public final class TestingReversiRunner {
 //    IPlayer player2 = (strategy2.isPresent()) ? new AIPlayer(TokenColor.WHITE, strategy2.get(),
 //            model) : new HumanPlayer(TokenColor.WHITE);
 
-    IPlayer player1 = new HumanPlayer(TokenColor.BLACK);
-    IPlayer player2 = new HumanPlayer(TokenColor.WHITE);
+//    IPlayer player1 = new HumanPlayer(TokenColor.BLACK);
+//    IPlayer player2 = new HumanPlayer(TokenColor.WHITE);
+    IPlayer player1 = new AIPlayer(TokenColor.BLACK, new AvoidEdgesStrat(TokenColor.BLACK), model);
+    IPlayer player2 = new AIPlayer(TokenColor.WHITE, new RandomStrat(TokenColor.WHITE), model);
 
 
     Controller controller1 = new Controller(model, black_view, player1, TokenColor.BLACK);

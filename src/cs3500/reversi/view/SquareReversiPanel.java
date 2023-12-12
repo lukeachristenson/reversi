@@ -153,6 +153,4 @@ public class SquareReversiPanel extends AbstractPanel{
       SquareReversiPanel.this.repaint();
     }
   }
-
-
 }

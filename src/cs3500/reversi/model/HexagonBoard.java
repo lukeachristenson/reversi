@@ -80,9 +80,9 @@ public class HexagonBoard implements IBoard {
   // helper method to calculate the cells that will be flipped
   private List<ICell> calculateFlippableCells(ICell cell, TokenColor colorToAdd) {
     List<ICell> cellsFlip = new ArrayList<>();
-    int[] dq = {1, -1, 0, 0, -1, 1};
-    int[] dr = {-1, 1, -1, 1, 0, 0};
-    int[] ds = {0, 0, 1, -1, 1, -1};
+    int[] dq = this.getBoardDirections()[0];
+    int[] dr = this.getBoardDirections()[1];
+    int[] ds = this.getBoardDirections()[2];
 
     for (int direction = 0; direction < 6; direction++) {
       int qChange = dq[direction];
@@ -238,6 +238,17 @@ public class HexagonBoard implements IBoard {
   @Override
   public int getNumRings() {
     return sideLength;
+  }
+
+  @Override
+  public int[][] getBoardDirections() {
+    int[][] ret = {
+            {1, -1, 0, 0, -1, 1},
+            {-1, 1, -1, 1, 0, 0},
+            {0, 0, 1, -1, 1, -1}
+    };
+
+    return ret;
   }
 
 }

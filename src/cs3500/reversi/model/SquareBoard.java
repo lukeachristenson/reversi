@@ -134,7 +134,7 @@ public class SquareBoard implements IBoard {
 
   private List<ICell> calculateFlippableCells(ICell cell, TokenColor colorToAdd) {
     List<ICell> cellsToFlip = new ArrayList<>();
-    int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}, {-1, -1}, {-1, 1}, {1, -1}, {1, 1}};
+    int[][] directions = this.getBoardDirections();
 
     for (int[] dir : directions) {
       int dRow = dir[0];
@@ -152,7 +152,6 @@ public class SquareBoard implements IBoard {
     boolean foundOppositeColor = false;
     boolean continueSearch = true;
 
-    int count = 0;
 
     while (continueSearch && Math.abs(row) <= sideLength / 2 && Math.abs(col) <= sideLength / 2) {
       SquareCell nextCell = new SquareCell(row, col);
@@ -206,5 +205,13 @@ public class SquareBoard implements IBoard {
   @Override
   public int getNumRings() {
     return sideLength/2;
+  }
+
+  @Override
+  public int[][] getBoardDirections() {
+    int[][] ret = {{-1, 0}, {1, 0}, {0, -1}, {0, 1},
+            {-1, -1}, {-1, 1}, {1, -1}, {1, 1}};
+
+    return ret;
   }
 }
