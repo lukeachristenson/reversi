@@ -51,5 +51,23 @@ public class CoordUtilities {
     }
     return Optional.empty();
   }
+
+  /**
+   * Converts a cartesian position to a hexagonal position.
+   * @param posn  the cartesian position
+   * @param cellToCartesianPosnMap  the map of cells to cartesian positions
+   * @return  the hexagonal position
+   */
+  public static Optional<ICell> getSquareCellFromCartesianPosn(Optional<CartesianPosn> posn, Map<ICell,
+          CartesianPosn> cellToCartesianPosnMap) {
+    if (posn.isPresent()) {
+      for (ICell cell : cellToCartesianPosnMap.keySet()) {
+        if (cellToCartesianPosnMap.get(cell).equals(posn.get())) {
+          return Optional.of(cell);
+        }
+      }
+    }
+    return Optional.empty();
+  }
 }
 

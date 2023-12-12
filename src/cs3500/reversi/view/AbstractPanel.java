@@ -32,15 +32,15 @@ import cs3500.reversi.model.TokenColor;
  */
 public class AbstractPanel extends JPanel {
   final ROModel roModel;
-  private final List<IPlayerFeature> featureListeners;
+  final List<IPlayerFeature> featureListeners;
   private final IBoard board;
-  private final Map<ICell, CartesianPosn> cellToCartesianPosnMap;
+  final Map<ICell, CartesianPosn> cellToCartesianPosnMap;
   double scale;
   final double sideLength;
-  private final JLabel southLabel;
-  private final TokenColor frameTokenColor;
-  private CartesianPosn mousePosn;
-  private Optional<CartesianPosn> activeCell = Optional.empty();
+  final JLabel southLabel;
+  final TokenColor frameTokenColor;
+  CartesianPosn mousePosn;
+  Optional<CartesianPosn> activeCell = Optional.empty();
 
   /**
    * Constructs a ReversiPanel with the given model and frameColor.
@@ -220,8 +220,6 @@ public class AbstractPanel extends JPanel {
     placeTokensOnBoard(g2d, drawMap);
 
     highlightActiveCell(g2d, drawMap);
-    Optional<ICell> chosenCell = CoordUtilities.getHexCellFromCartesianPosn(this.activeCell
-            , Collections.unmodifiableMap(this.cellToCartesianPosnMap));
   }
 
   // Creates a map of cartesian positions to the color of the token at that position.
@@ -333,7 +331,7 @@ public class AbstractPanel extends JPanel {
   }
 
   // Returns the cartesian position of the given ICell.
-  private class MouseEventListener extends MouseInputAdapter {
+  protected class MouseEventListener extends MouseInputAdapter {
     @Override
     public void mousePressed(MouseEvent e) {
       this.mouseDragged(e);
@@ -364,7 +362,7 @@ public class AbstractPanel extends JPanel {
       Point physicalPoint = e.getPoint();
       Point2D logicalPoint = transformPhysicalToLogical().transform(physicalPoint, null);
       AbstractPanel.this.mousePosn = new CartesianPosn(logicalPoint.getX(), logicalPoint.getY(),
-              scale * getPreferredLogicalSize().width / (2 * (board.getNumRings() + 1)));
+              AbstractPanel.this.sideLength);
     }
   }
 

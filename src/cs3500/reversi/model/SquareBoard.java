@@ -103,7 +103,7 @@ public class SquareBoard implements IBoard {
   public List<ICell> validMovesLeft(TokenColor colorToAdd) {
     List<ICell> validMoves = new ArrayList<>();
     for (ICell cell : boardPositions.keySet()) {
-      if (boardPositions.get(cell).isPresent() && validMove(cell, colorToAdd, false)) {
+      if (boardPositions.get(cell).isEmpty() && validMove(cell, colorToAdd, false)) {
         validMoves.add(cell);
       }
     }
@@ -152,9 +152,17 @@ public class SquareBoard implements IBoard {
     boolean foundOppositeColor = false;
     boolean continueSearch = true;
 
-    while (continueSearch && row >= 0 && row < sideLength && col >= 0 && col < sideLength) {
+    int count = 0;
+
+    while (continueSearch && Math.abs(row) <= sideLength / 2 && Math.abs(col) <= sideLength / 2) {
       SquareCell nextCell = new SquareCell(row, col);
       Optional<TokenColor> cellOccupant = boardPositions.get(nextCell);
+
+      if(row == 0 || col == 0){
+        row += dRow;
+        col += dCol;
+        continue;
+      }
 
       if (cellOccupant.isEmpty()) {
         continueSearch = false;

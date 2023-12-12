@@ -35,6 +35,7 @@ public class AbstractReversiView extends JFrame implements ReversiView {
   public void setPanel(AbstractPanel panel) {
     this.panel = panel;
     this.add(panel); // Add the panel to the frame
+    this.pack(); // Resize the frame to fit the panel
   }
 
   @Override
