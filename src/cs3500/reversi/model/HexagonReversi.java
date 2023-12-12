@@ -57,7 +57,7 @@ public class HexagonReversi extends AbstractReversi {
   }
 
   //helper to initialize a board based on sideLength
-  private IBoard initBoard(int sideLength) throws IllegalStateException {
+  protected IBoard initBoard(int sideLength) throws IllegalStateException {
     IBoard hexReturn = new HexagonBoard(sideLength);
     int rings = sideLength - 1;
     for (int q = -rings; q <= rings; q++) {

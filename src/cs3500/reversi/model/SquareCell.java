@@ -27,7 +27,10 @@ public class SquareCell implements ICell{
 
   @Override
   public boolean equals(Object other) {
-    if (!(other instanceof SquareCell)) {
+    if (this == other) {
+      return true;
+    }
+    if (other == null || getClass() != other.getClass()) {
       return false;
     }
     SquareCell that = (SquareCell) other;

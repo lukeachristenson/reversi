@@ -220,7 +220,7 @@ public class AbstractPanel extends JPanel {
     placeTokensOnBoard(g2d, drawMap);
 
     highlightActiveCell(g2d, drawMap);
-    Optional<ICell> chosenCell = CoordUtilities.getCellFromCartesianPosn(this.activeCell
+    Optional<ICell> chosenCell = CoordUtilities.getHexCellFromCartesianPosn(this.activeCell
             , Collections.unmodifiableMap(this.cellToCartesianPosnMap));
   }
 
@@ -282,7 +282,7 @@ public class AbstractPanel extends JPanel {
       // Calculate the position for centered text
       FontMetrics fontMetrics = g2d.getFontMetrics();
 
-      ICell cell = CoordUtilities.getCellFromCartesianPosn(this.activeCell
+      ICell cell = CoordUtilities.getHexCellFromCartesianPosn(this.activeCell
               , Collections.unmodifiableMap(this.cellToCartesianPosnMap)).get();
 
       int numFlipped = Math.max(roModel.cellsFlipped(cell, roModel.getCurrentColor()), 0);
@@ -385,7 +385,7 @@ public class AbstractPanel extends JPanel {
           for (IPlayerFeature listener : AbstractPanel.this.featureListeners) {
             AbstractPanel.this.activeCell.ifPresent(cartesianPosn
                     -> listener.playMove(
-                    CoordUtilities.getCellFromCartesianPosn(
+                    CoordUtilities.getHexCellFromCartesianPosn(
                             AbstractPanel.this.activeCell,
                             Collections.unmodifiableMap(
                                     AbstractPanel.this.cellToCartesianPosnMap)).get()));

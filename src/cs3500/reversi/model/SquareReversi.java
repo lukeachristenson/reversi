@@ -28,8 +28,8 @@ public class SquareReversi extends AbstractReversi{
 
     this.currentTokenColor = TokenColor.BLACK;
     this.passCount = 0;
-    this.initBoard(sideLength); // rings excluding the center cell = sideLength - 1
     this.board = new SquareBoard(sideLength);
+    this.initBoard(sideLength); // rings excluding the center cell = sideLength - 1
     this.addStartingMoves();
     this.modelFeatures = new ArrayList<>();
   }
@@ -57,21 +57,26 @@ public class SquareReversi extends AbstractReversi{
 
   //helper to initialize a board based on sideLength
   private void initBoard(int sideLength) {
-    IBoard squareBoard = new SquareBoard(sideLength);
-    for (int row = 0; row < sideLength; row++) {
-      for (int col = 0; col < sideLength; col++) {
-        squareBoard.newCellOwner(new SquareCell(row, col), Optional.empty());
+    for (int row = -sideLength/2; row < sideLength/2 + 1; row++) {
+      if(row==0) {
+        continue;
+      }
+      for (int col = -sideLength/2; col < sideLength/2 + 1; col++) {
+        if(col==0) {
+          continue;
+        }
+        this.board.newCellOwner(new SquareCell(row, col), Optional.empty());
       }
     }
   }
 
   //helper to add the starting moves of each player
   private void addStartingMoves() {
-    int mid = sideLength / 2;
-    board.newCellOwner(new SquareCell(mid - 1, mid - 1), Optional.of(TokenColor.BLACK));
-    board.newCellOwner(new SquareCell(mid, mid), Optional.of(TokenColor.BLACK));
-    board.newCellOwner(new SquareCell(mid - 1, mid), Optional.of(TokenColor.WHITE));
-    board.newCellOwner(new SquareCell(mid, mid - 1), Optional.of(TokenColor.WHITE));  }
+    board.newCellOwner(new SquareCell(1, 1), Optional.of(TokenColor.BLACK));
+    board.newCellOwner(new SquareCell(- 1,  1), Optional.of(TokenColor.WHITE));
+    board.newCellOwner(new SquareCell(1, - 1), Optional.of(TokenColor.WHITE));
+    board.newCellOwner(new SquareCell(- 1, -1), Optional.of(TokenColor.BLACK));
+  }
 
   @Override
   public IBoard createBoardCopy() {

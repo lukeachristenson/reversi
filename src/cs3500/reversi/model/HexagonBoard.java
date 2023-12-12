@@ -164,6 +164,7 @@ public class HexagonBoard implements IBoard {
       }
     }
 
+    System.out.println(getPositionsMapCopy().keySet().size());
     // Populate the board with player symbols or "X" based on the cell state
     for (ICell cell : boardPositions.keySet()) {
       Optional<TokenColor> occupant = boardPositions.get(cell);

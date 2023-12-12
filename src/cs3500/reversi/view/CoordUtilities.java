@@ -40,7 +40,7 @@ public class CoordUtilities {
    * @param cellToCartesianPosnMap  the map of cells to cartesian positions
    * @return  the hexagonal position
    */
-  public static Optional<ICell> getCellFromCartesianPosn(Optional<CartesianPosn> posn, Map<ICell,
+  public static Optional<ICell> getHexCellFromCartesianPosn(Optional<CartesianPosn> posn, Map<ICell,
           CartesianPosn> cellToCartesianPosnMap) {
     if (posn.isPresent()) {
       for (ICell cell : cellToCartesianPosnMap.keySet()) {

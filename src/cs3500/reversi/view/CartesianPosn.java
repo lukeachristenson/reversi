@@ -48,10 +48,15 @@ public class CartesianPosn {
    */
   public CartesianPosn getFromSquareCell(ICell cell) {
     double sideLength = this.sideLength;
-    double x = sideLength*Math.sqrt(2) + sideLength * cell.getCoordinates().get(0);
-    double y = sideLength*Math.sqrt(2) + sideLength * cell.getCoordinates().get(1);
+    double x = + sideLength * cell.getCoordinates().get(0);
+    double y = + sideLength * cell.getCoordinates().get(1);
 
-    return new CartesianPosn(x, y, sideLength);
+    int xScale = (x < 0) ? -1 : 1;
+    int yScale = (y < 0) ? -1 : 1;
+    x = Math.abs(x) - sideLength/2;
+    y = Math.abs(y) -  sideLength/2;
+
+    return new CartesianPosn(x * xScale , y * yScale, sideLength);
   }
 
   public double getX() {

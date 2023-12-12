@@ -26,10 +26,8 @@ public class SquareBoard implements IBoard {
   public boolean validMove(ICell cell, TokenColor colorToAdd, boolean flip) {
     checkCellNotNull(cell);
     checkCellInBounds(cell);
-    System.out.println(this.toString());
 
     if (this.boardPositions.get(cell).isPresent()) {
-      System.out.println("valid move called in square board");
       throw new IllegalStateException("Cell is already occupied.");
     }
 
@@ -40,18 +38,53 @@ public class SquareBoard implements IBoard {
     return !cellsToFlip.isEmpty();
   }
 
-
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    for (int row = 0; row < sideLength; row++) {
-      for (int col = 0; col < sideLength; col++) {
-        Optional<TokenColor> occupant = boardPositions.get(new SquareCell(row, col));
-        sb.append(occupant.map(TokenColor::toString).orElse("-")).append(" ");
+
+    // Create a 2D array to represent the board
+    String[][] boardArray = new String[sideLength][sideLength];
+    int add = sideLength/2;
+
+    // Initialize the array with " " for empty cells
+    for (int i = 0; i < sideLength; i++) {
+      for (int j = 0; j < sideLength; j++) {
+        boardArray[i][j] = "_";
+      }
+    }
+    System.out.println(this.boardPositions.keySet().size());
+
+    // Populate the board with player symbols or "X" based on the cell state
+    for (ICell cell : boardPositions.keySet()) {
+      Optional<TokenColor> occupant = boardPositions.get(cell);
+      List<Integer> coordinates = cell.getCoordinates();
+      int x = Integer.min(coordinates.get(0) + add, sideLength - 1); //q
+      int y = Integer.min(coordinates.get(1) + add, sideLength - 1); //r
+      boardArray[x][y] = occupant.map(TokenColor::toString).orElse("-");
+    }
+
+
+    for (int i = 0; i < sideLength; i++) {
+      for (int j = 0; j < sideLength; j++) {
+        sb.append(boardArray[i][j]).append(" ");
       }
       sb.append("\n");
     }
+
+//    for (int row = -sideLength / 2; row < sideLength/2 + 1; row++) {
+//      if(row == 0 ){
+//        continue;
+//      }
+//      for (int col = -sideLength / 2; col < sideLength/2 + 1; col++) {
+//        if(col == 0){
+//          continue;
+//        }
+//        Optional<TokenColor> occupant = boardPositions.get(new SquareCell(row, col));
+//        System.out.println("Coordinates: " + row + ", " + col);
+//        sb.append(occupant.map(TokenColor::toString).orElse("-")).append(" ");
+//      }
+//      sb.append("\n");
+//    }
     return sb.toString();
   }
 
@@ -70,7 +103,7 @@ public class SquareBoard implements IBoard {
   public List<ICell> validMovesLeft(TokenColor colorToAdd) {
     List<ICell> validMoves = new ArrayList<>();
     for (ICell cell : boardPositions.keySet()) {
-      if (!boardPositions.get(cell).isPresent() && validMove(cell, colorToAdd, false)) {
+      if (boardPositions.get(cell).isPresent() && validMove(cell, colorToAdd, false)) {
         validMoves.add(cell);
       }
     }
@@ -94,7 +127,7 @@ public class SquareBoard implements IBoard {
     List<Integer> coordinates = cell.getCoordinates();
     int row = coordinates.get(0);
     int col = coordinates.get(1);
-    if (row < 0 || row >= sideLength || col < 0 || col >= sideLength) {
+    if (Math.abs(row) > sideLength|| Math.abs(col) > sideLength) {
       throw new IllegalArgumentException("Cell coordinates out of bounds");
     }
   }
