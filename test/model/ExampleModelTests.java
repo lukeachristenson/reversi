@@ -210,4 +210,7 @@ public class ExampleModelTests {
     Assert.assertEquals(basicModelFour.getCellState(new HexagonCell(-1, -1, 2)),
             Optional.of(TokenColor.BLACK));
   }
+
+
+
 }
